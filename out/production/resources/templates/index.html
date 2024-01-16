@@ -1,13 +1,25 @@
 <!doctype html>
-<html lang="en">
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        @import url("/css/main.css");
+    </style>
     <title>A startrip 시작화면</title>
 </head>
-<body>
 
+<body>
+<div th:replace="~{/fragment/nav :: nav}"></div>
+<main>
+    <div class="grid">
+        <div class="grid-item"><a href="/article">나의 활동</a></div>
+        <div class="grid-item">다른이의 활동</div>
+    </div>
+</main>
 </body>
+
 </html>

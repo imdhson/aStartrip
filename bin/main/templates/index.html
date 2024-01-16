@@ -13,18 +13,13 @@
 </head>
 
 <body>
-    <header>
+    <div th:replace="html/nav :: nav"></div>
+    <main>
         <div class="grid">
-            <div class="grid-item">A startrip</div>
-            <div class="grid-item">2</div>
-            <div class="grid-item">3</div>
-            <div class="grid-item">4</div>
-            <div class="grid-item">5</div>
-            <div class="grid-item">6</div>
-            <div class="grid-item" th:if="${name == null}">이메일로 로그인</div>
-            <div class="grid-item" th:unless="${name == null}">로그아웃</div>
+            <div class="grid-item"><a href="/article">나의 활동</a></div>
+            <div class="grid-item">다른이의 활동</div>
         </div>
-    </header>
+    </main>
 </body>
 
 </html>
