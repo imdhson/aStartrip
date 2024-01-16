@@ -1,13 +1,30 @@
 <!doctype html>
-<html lang="en">
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        @import url("/css/main.css");
+    </style>
     <title>A startrip 시작화면</title>
 </head>
-<body>
 
+<body>
+    <header>
+        <div class="grid">
+            <div class="grid-item">A startrip</div>
+            <div class="grid-item">2</div>
+            <div class="grid-item">3</div>
+            <div class="grid-item">4</div>
+            <div class="grid-item">5</div>
+            <div class="grid-item">6</div>
+            <div class="grid-item" th:if="${name == null}">이메일로 로그인</div>
+            <div class="grid-item" th:unless="${name == null}">로그아웃</div>
+        </div>
+    </header>
 </body>
+
 </html>
