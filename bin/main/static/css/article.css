@@ -1,0 +1,29 @@
+.grid-add {
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px dotted red;
+    display: grid;
+    gap: 10px;
+}
+
+.grid-add .grid-item {
+    border: 1px dotted blue;
+    border-radius: 30px;
+    padding: 20px;
+    width: 90%;
+    height: auto;
+}
+
+.grid-add .grid-item .button{
+    border: 1px dotted black;
+    border-radius: 30px;
+    margin: 10px;
+    padding: 10px;
+}
+
+@media screen and (max-width: 700px) {
+
+    /* 반응형 웹 */
+    .grid-add {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}

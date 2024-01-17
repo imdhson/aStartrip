@@ -6,15 +6,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@Slf4j
 @Controller
-public class IndexController {
-    @GetMapping("/")
-    public String index() {
-        log.debug("index()");
-        return "index";
+@Slf4j
+public class LoginController {
+
+    @GetMapping("/login")
+    public String loginAttempt() {
+        log.info("loginID page");
+        return "loginID";
+    }
+
+    @PostMapping("/login")
+    public String loginAttempt(MemberDTO dto, Model model) {
+        log.info(dto.getID());
+        model.addAttribute("ID", dto.getID());
+        return "login";
     }
 }
