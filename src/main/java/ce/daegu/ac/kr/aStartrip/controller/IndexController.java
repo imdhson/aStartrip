@@ -26,9 +26,9 @@ public class IndexController {
     }
 
     @PostMapping("/loginAttempt")
-    public String loginAttempt(@RequestBody String ID, RedirectAttributes redirectAttributes) {
-        log.info(ID);
-        redirectAttributes.addFlashAttribute("ID", ID);
+    public String loginAttempt(MemberDTO dto, RedirectAttributes redirectAttributes) {
+        log.info(dto.getID());
+        redirectAttributes.addFlashAttribute("ID", dto.getID());
         return "redirect:/login";
     }
 
