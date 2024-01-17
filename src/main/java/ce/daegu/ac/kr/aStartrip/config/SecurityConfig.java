@@ -33,8 +33,9 @@ public class SecurityConfig {
 
         return http
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers(HttpMethod.POST, "/user").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/user/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/register").permitAll()
                         .anyRequest().permitAll()
                 )
                 .formLogin(request -> request.loginPage("/login").usernameParameter("ID")
