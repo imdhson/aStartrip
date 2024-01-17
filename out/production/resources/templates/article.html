@@ -8,29 +8,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <style>
         @import url("/css/main.css");
+        @import url("/css/article.css");
     </style>
     <title>새 활동 - A startrip </title>
 </head>
 
 <body>
     <header>
-        <div class="grid">
-            <div class="grid-item">A startrip</div>
-            <div class="grid-item">2</div>
-            <div class="grid-item">3</div>
-            <div class="grid-item">4</div>
-            <div class="grid-item">5</div>
-            <div class="grid-item">6</div>
-            <div class="grid-item" th:if="${name == null}">이메일로 로그인</div>
-            <div class="grid-item" th:unless="${name == null}">로그아웃</div>
-        </div>
+        <div th:replace="~{/fragment/nav :: nav}"></div>
     </header>
     <main>
-        <div class="grid">
-            <div class="grid-item">나의 활동</div>
-            <div class="grid-item">다른이의 활동</div>
-        </div>
+        <div th:replace="~{/fragment/addArticle :: addArticle}"></div>
     </main>
+    <footer th:replace="~{/fragment/footer :: footer}"></footer>
 </body>
 
 </html>
