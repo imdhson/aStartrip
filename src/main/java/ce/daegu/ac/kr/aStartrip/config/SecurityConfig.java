@@ -22,7 +22,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public LoginFailureHandler failureHandler() {
+    public LoginFailureHandler loginFailureHandler() {
         return new LoginFailureHandler();
     }
 
@@ -39,7 +39,7 @@ public class SecurityConfig {
                 )
                 .formLogin(request -> request.loginPage("/login").usernameParameter("ID")
                         .passwordParameter("PW").loginProcessingUrl("/loginProc").successHandler(loginSuccessHandler())
-                        .failureHandler(failureHandler()))
+                        .failureHandler(loginFailureHandler()))
                 .logout(request -> request.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/login").invalidateHttpSession(true)
                         .permitAll())
