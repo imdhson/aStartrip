@@ -25,6 +25,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
             errorMsg = "내부 시스템 문제로 로그인 요청 처리 불가";
         } else if (exception instanceof UsernameNotFoundException) {
             errorMsg = "존재하지 않는 계정입니다. 회원가입 후 로그인 해주세요."; // 나중에 회원가입 처리해야할 때 필요한 exception
+            //redirect to /signup
         } else if (exception instanceof AuthenticationCredentialsNotFoundException) {
             errorMsg = "인증 요청이 거부 되었음.";
         } else {
