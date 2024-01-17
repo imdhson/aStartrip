@@ -52,8 +52,8 @@ public class MemberDetails implements UserDetails {
     // 비밀번호가 만료되지 않았는지 리턴 (true : 만료 안됨.)
 
     @Override
-    public boolean isEnabled() {
-        return true;
+    public boolean isEnabled() {// 계정이 활성화인지 리턴.
+        return dto.getActivation();
     }
-    // 계정이 활성화인지 리턴.
+
 }

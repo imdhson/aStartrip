@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
+@Setter
 @ToString
 public class MemberDTO {
     private String name;
@@ -17,9 +19,12 @@ public class MemberDTO {
     private String tel;
     private String ID;
     private String PW;
+    private boolean activation;//계정 활성화 여부: 이메일 인증 등
 
     private LocalDateTime regDate;
     private LocalDateTime modDate;
     private LocalDateTime PWModDate;
     private char grade;
+
+
 }
