@@ -1,5 +1,6 @@
 package ce.daegu.ac.kr.aStartrip.config;
 
+import ce.daegu.ac.kr.aStartrip.handler.LoginFailureHandler;
 import ce.daegu.ac.kr.aStartrip.handler.LoginSuccessHandler;
 import org.apache.coyote.Request;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,11 @@ public class SecurityConfig {
     }
 
     @Bean
+    public LoginFailureHandler failureHandler() {
+        return new LoginFailureHandler();
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors(AbstractHttpConfigurer::disable);
@@ -32,7 +38,8 @@ public class SecurityConfig {
                         .anyRequest().permitAll()
                 )
                 .formLogin(request -> request.loginPage("/login").usernameParameter("ID")
-                        .passwordParameter("PW").loginProcessingUrl("/loginProc").successHandler(loginSuccessHandler()))
+                        .passwordParameter("PW").loginProcessingUrl("/loginProc").successHandler(loginSuccessHandler())
+                        .failureHandler(failureHandler()))
                 .logout(request -> request.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/login").invalidateHttpSession(true)
                         .permitAll())
