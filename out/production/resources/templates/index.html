@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <style>
         @import url("/css/main.css");
@@ -13,13 +13,37 @@
 </head>
 
 <body>
-<div th:replace="~{/fragment/nav :: nav}"></div>
-<main>
-    <div class="grid">
-        <div class="grid-item">나의 활동</div>
-        <div class="grid-item">다른이의 활동</div>
-    </div>
-</main>
+    <div th:replace="~{/fragment/nav :: nav}"></div>
+    <main>
+        <div class="grid">
+            <div class="grid-item">
+                <h1>나의 활동</h1>
+                <div class="grid-article"> 
+                    <!-- 나의 활동 -->
+                    <a href="/article"><div class="grid-item" id="addArticle">추가 버튼</div></a>
+                    <div class="grid-item">Reading 1</div>
+                    <div class="grid-item">Writing 1</div>
+                    <div class="grid-item">단어 1</div>
+                    <div class="grid-item">나의 활동2</div>
+                    <div class="grid-item">나의 활동2</div>
+                    <div class="grid-item">나의 활동2</div>
+                    <div class="grid-item">나의 활동2</div>
+                </div>
+            </div>
+
+            <div class="grid-item">
+                <h1>게시판 (다른사람활동)</h1>
+                <div class="grid-article">
+                    <!-- 게시판 -->
+                    <div class="grid-item">다른 사람이 올린 활동1</div>
+                    <div class="grid-item">다른 사람이 올린 활동2</div>
+                    <div class="grid-item">다른 사람이 올린 활동3</div>
+                    <div class="grid-item">다른 사람이 올린 활동4</div>
+                    <div class="grid-item">다른 사람이 올린 활동5</div>
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
 
 </html>

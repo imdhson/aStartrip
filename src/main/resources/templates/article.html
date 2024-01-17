@@ -8,6 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <style>
         @import url("/css/main.css");
+        @import url("/css/article.css");
     </style>
     <title>새 활동 - A startrip </title>
 </head>
@@ -17,8 +18,9 @@
         <div th:replace="~{/fragment/nav :: nav}"></div>
     </header>
     <main>
-      
+        <div th:replace="~{/fragment/addArticle :: addArticle}"></div>
     </main>
+    <footer th:replace="~{/fragment/footer :: footer}"></footer>
 </body>
 
 </html>
