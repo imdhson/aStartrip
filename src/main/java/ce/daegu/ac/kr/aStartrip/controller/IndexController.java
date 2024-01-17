@@ -13,26 +13,25 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class IndexController {
     @GetMapping("/")
-    public String index(Model model) {
+    public String index() {
         log.debug("index()");
-        model.addAttribute("name", "test");
         return "index";
     }
 
-    @GetMapping("/loginAttempt")
+    @GetMapping("/login")
     public String loginAttempt() {
         log.info("loginID page");
         return "loginID";
     }
 
-    @PostMapping("/loginAttempt")
-    public String loginAttempt(@RequestBody String ID, RedirectAttributes redirectAttributes) {
-        log.info(ID);
-        redirectAttributes.addFlashAttribute("ID", ID);
+    @PostMapping("/login")
+    public String loginAttempt(MemberDTO dto, RedirectAttributes redirectAttributes) {
+        log.info(dto.getID());
+        redirectAttributes.addFlashAttribute("ID", dto.getID());
         return "redirect:/login";
     }
 
-    @GetMapping("/login")
+    @GetMapping("/doLogin")
     public String login(){
         log.info("PW input");
         return "login";

@@ -18,9 +18,11 @@
         <div class="grid">
             <div class="grid-item">
                 <h1>나의 활동</h1>
-                <div class="grid-article"> 
+                <div class="grid-article">
                     <!-- 나의 활동 -->
-                    <a href="/article"><div class="grid-item" id="addArticle">추가 버튼</div></a>
+                    <a href="/article">
+                        <div class="grid-item" id="addArticle">추가 버튼</div>
+                    </a>
                     <div class="grid-item">Reading 1</div>
                     <div class="grid-item">Writing 1</div>
                     <div class="grid-item">단어 1</div>
@@ -44,6 +46,7 @@
             </div>
         </div>
     </main>
+    <footer th:replace="~{/fragment/footer :: footer}"></footer>
 </body>
 
 </html>
