@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Slf4j
@@ -18,15 +19,22 @@ public class IndexController {
         return "index";
     }
 
-    @GetMapping("/signup")
-    public String signup() {
-        log.info("sign up page");
-        return "signup";
+    @GetMapping("/loginAttempt")
+    public String loginAttempt() {
+        log.info("loginID page");
+        return "loginID";
     }
 
-    @PostMapping("/signup")
-    public String regist(MemberDTO dto, RedirectAttributes redirectAttributes) {
-        log.info(dto.toString());
-        return "redirect:/";
+    @PostMapping("/loginAttempt")
+    public String loginAttempt(@RequestBody String ID, RedirectAttributes redirectAttributes) {
+        log.info(ID);
+        redirectAttributes.addFlashAttribute("ID", ID);
+        return "redirect:/login";
+    }
+
+    @GetMapping("/login")
+    public String login(){
+        log.info("PW input");
+        return "login";
     }
 }

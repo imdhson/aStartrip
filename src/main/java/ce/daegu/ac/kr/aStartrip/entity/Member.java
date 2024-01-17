@@ -1,25 +1,27 @@
-package ce.daegu.ac.kr.aStartrip.dto;
+package ce.daegu.ac.kr.aStartrip.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Data
-@AllArgsConstructor
+@Entity
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-@ToString
-public class MemberDTO {
+public class Member extends BaseEntity{
     private String name;
     private LocalDate birthDate;
     private String address;
     private String tel;
+    @Id
     private String ID;
     private String PW;
 
-    private LocalDateTime regDate;
-    private LocalDateTime modDate;
     private LocalDateTime PWModDate;
     private char grade;
 }
