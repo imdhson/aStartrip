@@ -25,6 +25,12 @@ public class RegistController {
     @PostMapping("/regist")
     public String doRegist(MemberDTO dto, Model model){
         log.info(dto.toString());
-        return "";
+        if(memberService.register(dto)){
+            return "/";
+        }
+        else{
+            model.addAttribute("email", dto.getEmail());
+            return "redirect:/regist";
+        }
     }
 }
