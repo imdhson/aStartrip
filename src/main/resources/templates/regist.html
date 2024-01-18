@@ -6,11 +6,11 @@
 </head>
 <body>
     <h1>회원가입 페이지</h1>
-    <form>
+    <form action="/regist" method="post">
         <table>
             <tr>
                 <td><label for="email">이메일 : </label></td>
-                <td><input type="text" id="email" name="email" th:value="${email}"/></td>
+                <td><input type="email" id="email" name="email" th:value="${email}"/></td>
             </tr>
             <tr>
                 <td><label for="name">이름 : </label></td>
@@ -27,6 +27,16 @@
             <tr>
                 <td><label>전화번호 : </label></td>
                 <td><input type="text" id="tel" name="tel"/></td>
+            </tr>
+            <tr>
+                <td><label>비밀번호 : </label></td>
+                <td><input type="password" id="PW" name="PW"/></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="전송"/>
+                    <input type="button" value="취소"/>
+                </td>
             </tr>
         </table>
     </form>
