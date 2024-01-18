@@ -11,13 +11,13 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import java.io.IOException;
 
 @Slf4j
-public class LoginSuccessHandler implements AuthenticationSuccessHandler  {
+public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         log.info("onAuthenticationSuccess");
         MemberDetails memberDetails = (MemberDetails) authentication.getDetails();
-        if(memberDetails == null) {
-            response.sendRedirect("/loginAttempt");
+        if (memberDetails == null) {
+            response.sendRedirect("/login");
         } else {
             response.sendRedirect("/");
         }

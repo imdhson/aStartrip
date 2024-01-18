@@ -7,8 +7,8 @@
         <div class="grid-item">_</div>
         <div class="grid-item">_</div>
         <div class="grid-item">_</div>
-        <div class="grid-item" th:if="${true}"><a href="/login">이메일로 로그인</a></div>
-        <div class="grid-item" th:unless="${true}"><a href="/logout">로그아웃</a></div>
+        <div class="grid-item" th:if="${username == null}"><a href="/login">이메일로 로그인</a></div>
+        <div class="grid-item" th:unless="${username == null}"><a href="/logout">[[${username}]]로그아웃</a></div>
     </div>
 </nav>
 </html>

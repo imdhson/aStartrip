@@ -36,6 +36,6 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
         }
 
         errorMsg = URLEncoder.encode(errorMsg, "utf-8");
-        response.sendRedirect("/errorPage?msg" + errorMsg);
+        response.sendRedirect("/loginError?msg=" + errorMsg);
     }
 }
