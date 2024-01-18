@@ -21,6 +21,5 @@ public class MemberDTO {
 
     private LocalDateTime regDate;
     private LocalDateTime modDate;
-    private LocalDateTime PWModDate;
     private char grade;
 }

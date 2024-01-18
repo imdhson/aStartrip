@@ -22,6 +22,5 @@ public class Member extends BaseEntity{
     private String ID;
     private String PW;
 
-    private LocalDateTime PWModDate;
     private char grade;
 }

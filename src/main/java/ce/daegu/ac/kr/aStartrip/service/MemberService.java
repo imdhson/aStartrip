@@ -4,6 +4,9 @@ import ce.daegu.ac.kr.aStartrip.dto.MemberDTO;
 import ce.daegu.ac.kr.aStartrip.entity.Member;
 
 public interface MemberService {
+
+    boolean findID(String id);
+
     default Member dtoToEntity(MemberDTO dto) {
         Member entity = Member.builder()
                 .name(dto.getName())
@@ -25,7 +28,6 @@ public interface MemberService {
                 .PW(entity.getPW())
                 .regDate(entity.getRegDate())
                 .modDate(entity.getModDate())
-                .PWModDate(entity.getPWModDate())
                 .grade(entity.getGrade()).build();
         return dto;
     }
