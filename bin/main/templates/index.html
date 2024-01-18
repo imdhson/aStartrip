@@ -18,7 +18,7 @@
         <div class="grid">
             <div class="grid-item">
                 <h1>나의 활동</h1>
-                <div class="grid-article">
+                <div class="grid-article" style="overflow-y:scroll">
                     <!-- 나의 활동 -->
                     <a href="/article">
                         <div class="grid-item" id="addArticle">추가 버튼</div>
@@ -35,13 +35,13 @@
 
             <div class="grid-item">
                 <h1>게시판 (다른사람활동)</h1>
-                <div class="grid-article">
-                    <!-- 게시판 -->
-                    <div class="grid-item">다른 사람이 올린 활동1</div>
-                    <div class="grid-item">다른 사람이 올린 활동2</div>
-                    <div class="grid-item">다른 사람이 올린 활동3</div>
-                    <div class="grid-item">다른 사람이 올린 활동4</div>
-                    <div class="grid-item">다른 사람이 올린 활동5</div>
+                <div class="grid-article" style="overflow-y:scroll">
+                    <th:block th:if="${articles != null}">
+                        <!-- 게시판 -->
+                        <th:block class="grid-item" th:each="article : ${articles}">
+                            <div class="grid-item">[[${article.title}]]</div>
+                        </th:block>
+                    </th:block>
                 </div>
             </div>
         </div>
