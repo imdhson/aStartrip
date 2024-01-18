@@ -17,12 +17,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class IndexController {
     @GetMapping("/")
-    public String index(Model model, @AuthenticationPrincipal Authentication authentication) {
+    public String index(Model model, Authentication authentication) {
         if (authentication == null){
             return "index";
         }
         MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
-        log.debug("index()");
+        log.debug("index()" + memberDetails.getUsername());
         model.addAttribute("username", memberDetails.getUsername());
         return "index";
     }

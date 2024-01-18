@@ -2,12 +2,14 @@ package ce.daegu.ac.kr.aStartrip.dto;
 
 import ce.daegu.ac.kr.aStartrip.entity.Member;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+@Slf4j
 @Data
 public class MemberDetails implements UserDetails {
 
@@ -25,11 +27,13 @@ public class MemberDetails implements UserDetails {
 
     @Override
     public String getPassword() {
+        log.info(member.getPW());
         return member.getPW();
     }
 
     @Override
     public String getUsername() {
+        log.info(member.getEmail());
         return member.getEmail();
     }
 

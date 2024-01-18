@@ -13,7 +13,7 @@
 </head>
 
 <body>
-    <div th:replace="~{/fragment/nav :: nav}"></div>
+    <div th:replace="~{/fragment/nav :: nav}" th:with="username='test'"></div>
     <main>
         <div class="grid">
             <div class="grid-item">
