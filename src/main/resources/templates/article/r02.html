@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <style>
         @import url("/css/main.css");
@@ -14,13 +14,22 @@
 </head>
 
 <body>
-<header>
-    <div th:replace="~{/fragment/nav :: nav}"></div>
-</header>
-<main>
-    <h1>선 후 독서 질문 생성</h1>
-</main>
-<footer th:replace="~{/fragment/footer :: footer}"></footer>
+    <header>
+        <div th:replace="~{/fragment/nav :: nav}"></div>
+    </header>
+    <main>
+        <h1 class="articleType">예시 지문 생성</h1>
+        <div class="r02">
+            <div class="reg">
+                <form action="">
+                    <label for="userParagraph">지문 입력</label>
+                    <textarea name="userParagraph" id="userParagraph" rows="20" cols="100" placeholder="이곳에 문단 입력"></textarea>
+                    <input type="submit" class="button" value="전송하기">
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer th:replace="~{/fragment/footer :: footer}"></footer>
 </body>
 
 </html>

@@ -4,9 +4,7 @@
 
 a {
     color: inherit;
-    /* 링크 색상을 텍스트와 동일하게 설정 */
     text-decoration: none;
-    /* 언더라인 제거 */
 }
 
 nav {
@@ -23,7 +21,6 @@ nav .grid {
 }
 
 nav .grid-item {
-    /* border: 1px solid black; */
     text-align: center;
 }
 
@@ -45,13 +42,10 @@ main .grid {
 }
 
 @media screen and (max-width: 800px) {
-
-    /* 반응형 웹 */
     main .grid {
         grid-template-columns: repeat(1, 1fr);
     }
 }
-
 
 main .grid-item {
     width: 100%;
@@ -79,4 +73,53 @@ main .grid .grid-item .grid-article .grid-item {
 
 #addArticle {
     background-color: pink;
+}
+
+/* 여기부터 폼 디자인 추가 */
+form {
+    background-color: #f7f7f7;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+form input[type="text"],
+form input[type="email"],
+form input[type="password"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+form button, .button {
+    
+    width: calc(100% - 10px);
+    padding: 10px;
+    background-color: black;
+    align-items: center;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form button:hover, .button.hover {
+    background-color: gray;
+}
+
+form label {
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* 반응형 디자인을 위한 추가 스타일 */
+@media screen and (max-width: 600px) {
+    form {
+        width: calc(100% - 40px);
+    }
 }
