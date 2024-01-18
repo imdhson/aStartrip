@@ -15,11 +15,12 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         log.info("onAuthenticationSuccess");
-        MemberDetails memberDetails = (MemberDetails) authentication.getDetails();
-        if (memberDetails == null) {
-            response.sendRedirect("/login");
-        } else {
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof MemberDetails) {
             response.sendRedirect("/");
+        } else {
+            response.sendRedirect("/login");
         }
+
     }
 }

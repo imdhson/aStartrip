@@ -4,6 +4,7 @@ import ce.daegu.ac.kr.aStartrip.dto.MemberDTO;
 import ce.daegu.ac.kr.aStartrip.entity.Member;
 import ce.daegu.ac.kr.aStartrip.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public boolean findID(String email) {
@@ -21,6 +23,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     public boolean register(MemberDTO memberDTO) {
+        memberDTO.setPW(passwordEncoder.encode(memberDTO.getPW()));
         Member entity = dtoToEntity(memberDTO);
         entity = memberRepository.save(entity);
         if (entity.getEmail().isEmpty() || entity.getEmail() == null) {
