@@ -1,8 +1,8 @@
 package ce.daegu.ac.kr.aStartrip.dto;
 
+import ce.daegu.ac.kr.aStartrip.entity.Member;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
@@ -11,10 +11,10 @@ import java.util.Collection;
 @Data
 public class MemberDetails implements UserDetails {
 
-    private final MemberDTO dto;
+    private final Member member;
 
-    public MemberDetails(MemberDTO dto) {
-        this.dto = dto;
+    public MemberDetails(Member member) {
+        this.member = member;
     }
 
     @Override
@@ -25,12 +25,12 @@ public class MemberDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return dto.getPW();
+        return member.getPW();
     }
 
     @Override
     public String getUsername() {
-        return dto.getEmail();
+        return member.getEmail();
     }
 
     @Override
@@ -53,7 +53,8 @@ public class MemberDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {// 계정이 활성화인지 리턴.
-        return dto.isActivation();
+//        return member.isActivation();
+        return true;
     }
 
 }

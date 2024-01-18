@@ -4,6 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -11,12 +12,13 @@ import org.springframework.security.authentication.InternalAuthenticationService
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.security.spec.ECField;
-
+@Slf4j
 public class LoginFailureHandler implements AuthenticationFailureHandler {
 
     @Override
@@ -34,7 +36,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
         } else {
             errorMsg = "알수 없는 오류";
         }
-
+        log.info("qqqqqqqqq {} :::: {}", exception, errorMsg);
         errorMsg = URLEncoder.encode(errorMsg, "utf-8");
         response.sendRedirect("/loginError?msg=" + errorMsg);
     }
