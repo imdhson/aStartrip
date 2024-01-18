@@ -3,18 +3,23 @@ package ce.daegu.ac.kr.aStartrip.handler;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.security.spec.ECField;
 
 public class LoginFailureHandler implements AuthenticationFailureHandler {
+    @Autowired
+    private RedirectAttributes redirectAttributes;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
@@ -33,6 +38,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
         }
 
         errorMsg = URLEncoder.encode(errorMsg, "utf-8");
-        response.sendRedirect("/loginError?msg=" + errorMsg);
+        redirectAttributes.addFlashAttribute("error", errorMsg);
+        response.sendRedirect("/errorPage");
     }
 }

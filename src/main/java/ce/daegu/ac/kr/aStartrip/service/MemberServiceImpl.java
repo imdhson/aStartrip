@@ -20,8 +20,14 @@ public class MemberServiceImpl implements MemberService {
         return true;
     }
 
-    public void register(MemberDTO memberDTO) {
+    public boolean register(MemberDTO memberDTO) {
         Member entity = dtoToEntity(memberDTO);
-        memberRepository.save(entity);
+        entity = memberRepository.save(entity);
+        if (entity.getEmail().isEmpty() || entity.getEmail() == null) {
+            return false;
+        }
+        return true;
+
+
     }
 }
