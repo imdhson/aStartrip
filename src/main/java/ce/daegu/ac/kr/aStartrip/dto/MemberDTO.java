@@ -9,8 +9,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Getter
-@Setter
 @ToString
 public class MemberDTO {
     private String name;
@@ -25,6 +23,4 @@ public class MemberDTO {
     private LocalDateTime modDate;
     private LocalDateTime PWModDate;
     private char grade;
-
-
 }
