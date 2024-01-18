@@ -53,7 +53,7 @@ public class MemberDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {// 계정이 활성화인지 리턴.
-        return dto.getActivation();
+        return dto.isActive();
     }
 
 }
