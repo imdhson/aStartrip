@@ -13,7 +13,7 @@
     height: auto;
 }
 
-.grid-add .grid-item .button{
+.grid-add .grid-item .button {
     border: 1px dotted black;
     border-radius: 30px;
     margin: 10px;
@@ -26,4 +26,55 @@
     .grid-add {
         grid-template-columns: repeat(1, 1fr);
     }
+}
+
+/* Article add */
+.articleType {
+    border: 1px solid black;
+}
+
+
+/* reading   ------- */
+.r01,
+.r02 {
+    width: 100%;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.r01 .reg {
+    min-width: 500px;
+    padding: 10px;
+    border: 1px solid skyblue;
+    text-align: center;
+}
+
+.r01 .reg:hover {
+    background-color: antiquewhite;
+}
+
+.r01 .response {
+    border: 1px solid orange;
+    margin-top: 20px;
+
+    min-width: 500px;
+    min-height: 200px;
+
+}
+.r01 .response textarea {
+    min-width: 500px;
+    min-height: 200px;
+}
+
+.r02 .reg {
+    width: 100%;
+    border: 1px solid skyblue;
+}
+
+.r02 .reg form {
+    width: 100%;
+    max-width: 800px;
 }

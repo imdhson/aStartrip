@@ -54,7 +54,7 @@ public class SecurityConfig {
                         .passwordParameter("PW").loginProcessingUrl("/loginProc").successHandler(loginSuccessHandler())
                         .failureHandler(loginFailureHandler()))
                 .logout(request -> request.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .logoutSuccessUrl("/login").invalidateHttpSession(true)
+                        .logoutSuccessUrl("/").invalidateHttpSession(true)
                         .permitAll())
                 .build();
     }
