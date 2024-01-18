@@ -45,7 +45,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/register").permitAll()
                         .anyRequest().permitAll()
                 )
-                .formLogin(request -> request.loginPage("/login").usernameParameter("ID")
+                .formLogin(request -> request.loginPage("/login").usernameParameter("email")
                         .passwordParameter("PW").loginProcessingUrl("/loginProc").successHandler(loginSuccessHandler())
                         .failureHandler(loginFailureHandler()))
                 .logout(request -> request.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

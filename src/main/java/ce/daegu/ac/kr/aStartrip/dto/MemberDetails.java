@@ -30,7 +30,7 @@ public class MemberDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return dto.getID();
+        return dto.getEmail();
     }
 
     @Override

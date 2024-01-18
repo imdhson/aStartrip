@@ -13,8 +13,8 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
 
     @Override
-    public boolean findID(String id) {
-        if (memberRepository.findById(id).isEmpty()) {
+    public boolean findID(String email) {
+        if (memberRepository.findById(email).isEmpty()) {
             return false;
         }
         return true;
