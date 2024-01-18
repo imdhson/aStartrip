@@ -23,9 +23,21 @@
             <div class="reg">
                 <form action="">
                     <label for="userParagraph">지문 입력</label>
-                    <textarea name="userParagraph" id="userParagraph" rows="20" cols="100" placeholder="이곳에 문단 입력"></textarea>
-                    <input type="submit" class="button" value="전송하기">
+                    <textarea name="userParagraph" id="userParagraph" rows="20" cols="100"
+                        placeholder="이곳에 문단 입력"></textarea>
+                    <input type="submit" class="button" value="생성 시작">
                 </form>
+            </div>
+            <div class="response">
+                <p>LLM 답변 들어가는 곳</p>
+                <div class="item">Pre Reading Question ----- 펼치기/접기</div>
+                <div class="item">BackGround Knowledge ----- 펼치기/접기</div>
+                <div class="item">Post Reading Question ----- 펼치기/접기</div>
+            </div>
+            <div class="addArticle-join">
+                <div class="button">이곳에 이어서 학습 추가</div>
+                <!-- <div th:replace="~{/fragment/addArticle :: addArticle}"></div> -->
+                <!-- 나중에 + 누르면 replace 하도록 js 구현  -->
             </div>
         </div>
     </main>

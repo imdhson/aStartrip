@@ -1,4 +1,5 @@
 .grid-add {
+    margin-top: 20px;
     grid-template-columns: repeat(3, 1fr);
     border: 1px dotted red;
     display: grid;
@@ -61,12 +62,12 @@
     margin-top: 20px;
 
     min-width: 500px;
-    min-height: 200px;
+    min-height: 400px;
 
 }
 .r01 .response textarea {
     min-width: 500px;
-    min-height: 200px;
+    min-height: 400px;
 }
 
 .r02 .reg {
@@ -77,4 +78,24 @@
 .r02 .reg form {
     width: 100%;
     max-width: 800px;
+}
+
+.r02 .response {
+    display: flex;
+    min-width: 500px;
+    flex-direction: column;
+    border: 1px solid orange;
+}
+
+.r02 .response .item{
+    min-width: 500px;
+    border: 1px solid black;
+}
+
+
+.addArticle-join {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 50%;
+    text-align: center;
 }
