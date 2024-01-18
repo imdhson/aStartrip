@@ -26,7 +26,7 @@ public class RegistController {
     public String doRegist(MemberDTO dto, Model model){
         log.info(dto.toString());
         if(memberService.register(dto)){
-            return "/";
+            return "redirect:/";
         }
         else{
             model.addAttribute("email", dto.getEmail());
