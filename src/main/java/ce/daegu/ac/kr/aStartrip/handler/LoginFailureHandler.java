@@ -18,8 +18,6 @@ import java.net.URLEncoder;
 import java.security.spec.ECField;
 
 public class LoginFailureHandler implements AuthenticationFailureHandler {
-    @Autowired
-    private RedirectAttributes redirectAttributes;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
@@ -38,7 +36,6 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
         }
 
         errorMsg = URLEncoder.encode(errorMsg, "utf-8");
-        redirectAttributes.addFlashAttribute("error", errorMsg);
-        response.sendRedirect("/errorPage");
+        response.sendRedirect("/errorPage?msg" + errorMsg);
     }
 }
