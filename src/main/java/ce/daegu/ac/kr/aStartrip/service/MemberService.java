@@ -5,7 +5,7 @@ import ce.daegu.ac.kr.aStartrip.entity.Member;
 
 public interface MemberService {
 
-    boolean findID(String id);
+    boolean findID(String email);
 
     default Member dtoToEntity(MemberDTO dto) {
         Member entity = Member.builder()
@@ -13,7 +13,7 @@ public interface MemberService {
                 .birthDate(dto.getBirthDate())
                 .address(dto.getAddress())
                 .tel(dto.getTel())
-                .ID(dto.getID())
+                .email(dto.getEmail())
                 .PW(dto.getPW()).build();
         return entity;
     }
@@ -24,7 +24,7 @@ public interface MemberService {
                 .birthDate(entity.getBirthDate())
                 .address(entity.getAddress())
                 .tel(entity.getTel())
-                .ID(entity.getID())
+                .email(entity.getEmail())
                 .PW(entity.getPW())
                 .regDate(entity.getRegDate())
                 .modDate(entity.getModDate())

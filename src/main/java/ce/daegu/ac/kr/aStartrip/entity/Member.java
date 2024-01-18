@@ -19,7 +19,7 @@ public class Member extends BaseEntity{
     private String address;
     private String tel;
     @Id
-    private String ID;
+    private String email;
     private String PW;
 
     private char grade;

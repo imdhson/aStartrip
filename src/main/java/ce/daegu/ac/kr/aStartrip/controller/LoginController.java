@@ -24,9 +24,9 @@ public class LoginController {
 
     @PostMapping("/login")
     public String login(MemberDTO dto, Model model) {
-        log.info(dto.getID());
-        model.addAttribute("ID", dto.getID());
-        if(memberService.findID(dto.getID())){
+        log.info(dto.getEmail());
+        model.addAttribute("email", dto.getEmail());
+        if(memberService.findID(dto.getEmail())){
             return "login";
         }else{
             return "regist";

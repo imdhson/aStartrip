@@ -17,7 +17,7 @@ public class MemberDTO {
     private LocalDate birthDate;
     private String address;
     private String tel;
-    private String ID;
+    private String email;
     private String PW;
     private boolean active;//계정 활성화 여부: 이메일 인증 등
 
