@@ -31,4 +31,6 @@ public interface MemberService {
                 .grade(entity.getGrade()).build();
         return dto;
     }
+
+    void register(MemberDTO memberDTO);
 }
