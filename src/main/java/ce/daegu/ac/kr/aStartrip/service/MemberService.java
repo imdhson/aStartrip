@@ -32,5 +32,5 @@ public interface MemberService {
         return dto;
     }
 
-    void register(MemberDTO memberDTO);
+    boolean register(MemberDTO memberDTO);
 }

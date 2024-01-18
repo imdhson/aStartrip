@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -23,12 +24,12 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(MemberDTO dto, Model model) {
+    public String login(@Validated MemberDTO dto, Model model) {
         log.info(dto.getEmail());
         model.addAttribute("email", dto.getEmail());
-        if(memberService.findID(dto.getEmail())){
+        if (memberService.findID(dto.getEmail())) {
             return "login";
-        }else{
+        } else {
             return "regist";
         }
     }

@@ -20,7 +20,7 @@ public class MemberServiceTest {
     public void registTest() {
         MemberDTO memberDTO =
                 MemberDTO.builder()
-                        .ID("1@mail.com")
+                        .email("1@mail.com")
                         .PW("1")
                         .name("testNAME").tel("11-1").address("address11")
                         .activation(true).build();
