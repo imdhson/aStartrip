@@ -1,4 +1,5 @@
 .grid-add {
+    margin-top: 20px;
     grid-template-columns: repeat(3, 1fr);
     border: 1px dotted red;
     display: grid;
@@ -28,15 +29,27 @@
     }
 }
 
-/* Article add */
-.articleType {
+
+.articleTitle {
     border: 1px solid black;
+    width: 100%;
+    min-height: 50px;
+}
+
+.articleTitle input {
+    width: 80%;
+    min-height: 50px;
+    border: none;
+    font-weight: bold;
+    font-size: 40px;
 }
 
 
 /* reading   ------- */
 .r01,
-.r02 {
+.r02,
+.w01,
+.w02 {
     width: 100%;
     border: 1px solid black;
     display: flex;
@@ -49,6 +62,7 @@
     min-width: 500px;
     padding: 10px;
     border: 1px solid skyblue;
+    background-color: aquamarine;
     text-align: center;
 }
 
@@ -56,17 +70,22 @@
     background-color: antiquewhite;
 }
 
-.r01 .response {
+.r01 .response,
+.w01 .response,
+.w02 .response {
     border: 1px solid orange;
     margin-top: 20px;
 
     min-width: 500px;
-    min-height: 200px;
+    min-height: 400px;
 
 }
-.r01 .response textarea {
+
+.r01 .response textarea,
+.w01 .response textarea,
+.w02 .response textarea {
     min-width: 500px;
-    min-height: 200px;
+    min-height: 400px;
 }
 
 .r02 .reg {
@@ -77,4 +96,42 @@
 .r02 .reg form {
     width: 100%;
     max-width: 800px;
+}
+
+.r02 .response {
+    display: flex;
+    min-width: 500px;
+    flex-direction: column;
+    border: 1px solid orange;
+}
+
+.r02 .response .item {
+    min-width: 500px;
+    min-height: 50px;
+    background-color: rgb(210, 210, 210);
+    border: 1px solid black;
+}
+
+
+/* writing ------- */
+.w01 .reg,
+.w02 .reg {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid skyblue;
+    text-align: center;
+}
+
+.w01 .reg form,
+.w02 .reg form {
+    width: 100%;
+    max-width: 800px;
+}
+
+
+.addArticle-join {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 50%;
+    text-align: center;
 }
