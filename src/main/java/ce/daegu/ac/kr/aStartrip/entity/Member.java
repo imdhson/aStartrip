@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -25,6 +26,7 @@ public class Member extends BaseEntity {
     private String tel;
     @Id
     @NotBlank
+    @NotNull
     @Email(message = "올바른 이메일 주소를 입력해야 합니다.")
     private String email;
     private String PW;
