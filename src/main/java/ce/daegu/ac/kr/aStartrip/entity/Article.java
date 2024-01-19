@@ -13,6 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 @Builder
 public class Article extends BaseEntity {
     @Id
@@ -32,7 +33,7 @@ public class Article extends BaseEntity {
     private Member member;
 
     @Builder.Default
-    @OneToMany(mappedBy = "card", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private List<Card> cardList = new ArrayList<>();
 
 

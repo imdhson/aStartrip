@@ -4,13 +4,24 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
+import lombok.Data;
 
+@Entity
+@Data
+@Builder
 public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotBlank
     @NotNull
     private long id;
+
+    //부모 article
+    @ManyToOne
+    @JoinColumn(name = "article_num")
+    private Article article;
+
+
     @NotNull
     @NotBlank
     @Enumerated(EnumType.STRING)
