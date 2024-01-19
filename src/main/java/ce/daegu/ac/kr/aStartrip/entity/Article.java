@@ -21,8 +21,7 @@ public class Article extends BaseEntity{
 
     //private char grade;
     //private String writer;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "member_email")
     private Member member;
-
 }

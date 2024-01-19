@@ -52,7 +52,6 @@ main .grid-item {
     width: 100%;
     height: auto;
     border: 1px dotted black;
-    text-align: center;
 }
 
 main .grid .grid-item .grid-article {
@@ -68,6 +67,16 @@ main .grid .grid-item .grid-article .grid-item {
     padding: 20px;
     width: 90%;
     height: 30px;
+    grid-template-columns: 5fr 1fr;
+    display:grid;
+}
+
+main .grid .grid-item .grid-article .grid-item .article-title {
+    text-align: left;
+}
+
+main .grid .grid-item .grid-article .grid-item .article-writer {
+    text-align: right;
 }
 
 #addArticle {

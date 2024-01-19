@@ -31,7 +31,6 @@ public class ArticleInsertTest {
                 .type('a')
                 .content("자동생성")
                 .build();
-        article = articleRepository.save(article);
         article.setMember(m);
         articleRepository.save(article);
     }
