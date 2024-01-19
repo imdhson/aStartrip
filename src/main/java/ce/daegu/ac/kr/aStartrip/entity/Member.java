@@ -9,8 +9,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -34,4 +34,5 @@ public class Member extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private ArrayList<Article> articleList = new ArrayList<>();
+    //public addAtricle(){}
 }

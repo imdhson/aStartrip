@@ -2,7 +2,8 @@ package ce.daegu.ac.kr.aStartrip.repository;
 
 import ce.daegu.ac.kr.aStartrip.entity.Article;
 import ce.daegu.ac.kr.aStartrip.entity.Member;
-import jakarta.transaction.Transactional;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -21,15 +22,16 @@ public class ArticleInsertTest {
 
     @Test
     public void articleInsertTest() {
-        Optional<Member> member = memberRepository.findById("1@1.com");
-
+        Optional<Member> member = memberRepository.findById("test@gmail.com");
+        Member m = member.get();
         Article article = Article.builder()
                 .hit(0)
                 .title("자동생성")
                 .type('a')
-                .member(member.get())
                 .content("자동생성")
                 .build();
+        article = articleRepository.save(article);
+        article.setMember(m);
         articleRepository.save(article);
     }
 }
