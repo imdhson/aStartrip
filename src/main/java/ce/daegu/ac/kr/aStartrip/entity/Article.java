@@ -1,10 +1,7 @@
 package ce.daegu.ac.kr.aStartrip.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -14,12 +11,18 @@ import java.time.LocalDateTime;
 @Builder
 public class Article extends BaseEntity{
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long num;
     private String title;
-    private String writer;
     private String content;
     private long hit;
     private int type;
     private long root;
-    private char grade;
+
+    //private char grade;
+    //private String writer;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "member_email")
+    private Member member;
+
 }

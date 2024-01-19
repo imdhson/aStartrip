@@ -1,5 +1,6 @@
 * {
     font-family: sans-serif;
+    transition: all 0.3s ease;
 }
 
 a {
@@ -60,7 +61,6 @@ main .grid .grid-item .grid-article {
     min-height: 600px;
     display: grid;
     gap: 10px;
-    grid-template-columns: repeat(1, 1fr);
 }
 
 main .grid .grid-item .grid-article .grid-item {
@@ -96,8 +96,9 @@ form input[type="password"] {
     box-sizing: border-box;
 }
 
-form button, .button {
-    
+form button,
+.button {
+
     width: calc(100% - 10px);
     padding: 10px;
     background-color: black;
@@ -108,8 +109,9 @@ form button, .button {
     cursor: pointer;
 }
 
-form button:hover, .button.hover {
-    background-color: gray;
+form button:hover,
+.button.hover {
+    background-color: rgb(0, 255, 187);
 }
 
 form label {
@@ -122,4 +124,12 @@ form label {
     form {
         width: calc(100% - 40px);
     }
+}
+
+textarea {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
 }
