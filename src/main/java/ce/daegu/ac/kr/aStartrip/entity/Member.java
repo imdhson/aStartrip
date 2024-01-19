@@ -9,7 +9,6 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +29,10 @@ public class Member extends BaseEntity {
     private String email;
     private String PW;
     private boolean activation;//계정 활성화 여부: 이메일 인증 등
-
-    @OneToMany(mappedBy = "member", cascade= CascadeType.ALL)
-    @Builder.Default
-    private List<Article> articleList = new ArrayList<>();
-
-    //public addAtricle(){}
-
     private char grade;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Article> articleList = new ArrayList<>();
+    //public addAtricle(){}
 }

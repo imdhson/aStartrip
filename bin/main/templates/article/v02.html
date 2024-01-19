@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <style>
         @import url("/css/main.css");
@@ -14,13 +14,36 @@
 </head>
 
 <body>
-<header>
-    <div th:replace="~{/fragment/nav :: nav}"></div>
-</header>
-<main>
-    <h1>동의어, 반의어 찾기</h1>
-</main>
-<footer th:replace="~{/fragment/footer :: footer}"></footer>
+    <header>
+        <div th:replace="~{/fragment/nav :: nav}"></div>
+    </header>
+    <main>
+        <div class="articleTitle">
+            <input type="text" placeholder="문장에서 단어 찾기(동의어, 반의어)" required maxlength="30">
+        </div>
+        <div class="v02">
+            <div class="reg">
+                <form action="">
+                    <label for="userParagraph">문장 입력</label>
+                    <textarea name="userParagraph" id="userParagraph" rows="2" cols="100"
+                        placeholder="이곳에 sentence 입력"></textarea>
+                    <div class="button">동의어, 반의어, word-family 찾기</div> <!-- js 로 처리-->
+                </form>
+            </div>
+            <div class="response">
+                <p>LLM 답변 들어가는 곳</p>
+                <div class="item">동의어  ----- 펼치기/접기</div>
+                <div class="item">반의어  ----- 펼치기/접기</div>
+                <div class="item">word-family ----- 펼치기/접기</div>
+            </div>
+            <div class="addArticle-join">
+                <div class="button">이곳에 이어서 학습 추가</div>
+                <!-- <div th:replace="~{/fragment/addArticle :: addArticle}"></div> -->
+                <!-- 나중에 + 누르면 replace 하도록 js 구현  -->
+            </div>
+        </div>
+    </main>
+    <footer th:replace="~{/fragment/footer :: footer}"></footer>
 </body>
 
 </html>

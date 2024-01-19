@@ -17,7 +17,6 @@ import java.util.Optional;
 public class ArticleInsertTest {
     @Autowired
     private ArticleRepository articleRepository;
-
     @Autowired
     private MemberRepository memberRepository;
 
@@ -30,8 +29,12 @@ public class ArticleInsertTest {
                 .title("자동생성")
                 .type('a')
                 .content("자동생성")
+                .member(m)
                 .build();
+<<<<<<< HEAD
         article.setMember(m);
+=======
+>>>>>>> origin/master
         articleRepository.save(article);
     }
 }
