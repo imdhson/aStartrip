@@ -33,6 +33,6 @@ public class Member extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private ArrayList<Article> articleList = new ArrayList<>();
+    private List<Article> articleList = new ArrayList<>();
     //public addAtricle(){}
 }

@@ -19,9 +19,7 @@ public class Article extends BaseEntity {
     private int type;
     private long root;
 
-    //private char grade;
-    //private String writer;
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "member_email")
     private Member member;
 

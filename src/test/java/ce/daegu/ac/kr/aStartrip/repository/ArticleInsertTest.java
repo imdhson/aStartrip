@@ -29,9 +29,8 @@ public class ArticleInsertTest {
                 .title("자동생성")
                 .type('a')
                 .content("자동생성")
+                .member(m)
                 .build();
-        article = articleRepository.save(article);
-        article.setMember(m);
         articleRepository.save(article);
     }
 }
