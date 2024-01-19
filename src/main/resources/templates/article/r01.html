@@ -18,7 +18,9 @@
         <div th:replace="~{/fragment/nav :: nav}"></div>
     </header>
     <main>
-        <h1 class="articleType">예시 지문 생성</h1>
+        <div class="articleTitle">
+            <input type="text" placeholder="예시 지문 생성" required maxlength="30">
+        </div>
         <div class="r01">
             <div class="reg">
                 <h2>탭 하여 생성 요청 보내기</h2>
@@ -33,7 +35,6 @@
                 <!-- 나중에 + 누르면 replace 하도록 js 구현  -->
             </div>
         </div>
-
 
     </main>
     <footer th:replace="~{/fragment/footer :: footer}"></footer>

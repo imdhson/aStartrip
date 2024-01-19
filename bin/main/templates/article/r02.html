@@ -18,14 +18,16 @@
         <div th:replace="~{/fragment/nav :: nav}"></div>
     </header>
     <main>
-        <h1 class="articleType">예시 지문 생성</h1>
+        <div class="articleTitle">
+            <input type="text" placeholder="선 후 독서 질문 생성" required maxlength="30">
+        </div>
         <div class="r02">
             <div class="reg">
-                <form action="">
+                <form>
                     <label for="userParagraph">지문 입력</label>
                     <textarea name="userParagraph" id="userParagraph" rows="20" cols="100"
                         placeholder="이곳에 문단 입력"></textarea>
-                    <input type="submit" class="button" value="생성 시작">
+                    <div class="button">생성 시작</div> <!-- js 로 처리-->
                 </form>
             </div>
             <div class="response">
