@@ -35,8 +35,21 @@
                 <div class="grid-article" style="overflow-y:scroll">
                     <th:block th:if="${articles != null}">
                         <!-- 게시판 -->
-                        <th:block class="grid-item" th:each="article : ${articles}">
-                            <div class="grid-item">[[${article.title}]]</div>
+                        <th:block th:each="article : ${articles}">
+                            <a href="http://www.naver.com">
+                                <div class="grid-item">
+                                    <div class="article-title">
+                                        [<label>[[${article.num}]]</label>]
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        [[${article.title}]]
+                                    </div>
+                                    <div class="article-writer">
+                                        <label>[[${article.writer}]]</label>
+                                        &nbsp;&nbsp;
+                                        <label>[[${article.hit}]]</label>회
+                                    </div>
+                                </div>
+                            </a>
                         </th:block>
                     </th:block>
                 </div>

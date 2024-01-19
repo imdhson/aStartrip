@@ -31,6 +31,10 @@ public class ArticleInsertTest {
                 .content("자동생성")
                 .member(m)
                 .build();
+<<<<<<< HEAD
+        article.setMember(m);
+=======
+>>>>>>> origin/master
         articleRepository.save(article);
     }
 }

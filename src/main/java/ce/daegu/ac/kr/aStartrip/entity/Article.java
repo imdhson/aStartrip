@@ -19,8 +19,8 @@ public class Article extends BaseEntity {
     private int type;
     private long root;
 
+
     @ManyToOne()
     @JoinColumn(name = "member_email")
     private Member member;
-
 }
