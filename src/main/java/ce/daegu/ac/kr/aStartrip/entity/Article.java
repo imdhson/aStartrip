@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Article extends BaseEntity{
+public class Article extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long num;
@@ -21,7 +21,7 @@ public class Article extends BaseEntity{
 
     //private char grade;
     //private String writer;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "member_email")
     private Member member;
 
