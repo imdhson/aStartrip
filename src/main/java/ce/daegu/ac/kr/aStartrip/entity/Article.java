@@ -35,6 +35,4 @@ public class Article extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private List<Card> cardList = new ArrayList<>();
-
-
 }

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Slf4j
 @Controller
@@ -53,5 +54,11 @@ public class ArticleController {
     public String v02() {
         log.debug("v02()");
         return "article/v02";
+    }
+
+    @GetMapping("/article/{num}")
+    public String articleDetail(@PathVariable("num") String articleNum){
+        log.debug("articleDetail({})", articleNum);
+        return "article/article";
     }
 }

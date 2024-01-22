@@ -26,6 +26,7 @@ public class Card {
     @NotBlank
     @Enumerated(EnumType.STRING)
     private CardType cardType;
+
     @Enumerated(EnumType.STRING)
     private LLMStatus llmStatus = LLMStatus.NEW;
 
