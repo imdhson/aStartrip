@@ -31,8 +31,8 @@ public class Article extends BaseEntity {
     private Member member;
 
     @Builder.Default
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
-
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ToString.Exclude
     private List<Card> cardList = new ArrayList<>();
     public void addCard(Card card) {
         cardList.add(card);

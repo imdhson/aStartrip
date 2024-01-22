@@ -1,7 +1,6 @@
 package ce.daegu.ac.kr.aStartrip.repository;
 
-import ce.daegu.ac.kr.aStartrip.entity.Article;
-import ce.daegu.ac.kr.aStartrip.entity.Member;
+import ce.daegu.ac.kr.aStartrip.entity.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +18,8 @@ public class ArticleInsertTest {
     private ArticleRepository articleRepository;
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    private CardRepository cardRepository;
 
     @Test
     public void articleInsertTest() {
@@ -31,5 +32,31 @@ public class ArticleInsertTest {
                 .member(m)
                 .build();
         articleRepository.save(article);
+    }
+
+    @Test
+    public void articleCardAddTest() {
+        Optional<Article> articleOptional = articleRepository.findById(1L);
+        if (articleOptional.isPresent()) {
+            Article article = articleOptional.get();
+//            log.debug("DEBUG before::::" + article);
+//            CardDTO cardDTO = CardDTO.builder()
+//                    .cardType(CardTypeENUM.R01)
+//                    .UserInput0("123123123")
+//                    .LLMResponse0("123123123123123")
+//                    .llmStatus(LLMStatusENUM.COMPLETED)
+//                    .build();
+//            cardService.addCard(1L, cardDTO);
+
+            Card card = Card.builder()
+                    .cardType(CardTypeENUM.R01)
+                    .UserInput0("111111")
+                    .article(article)
+                    .llmStatus(LLMStatusENUM.NEW)
+                    .LLMResponse0(":1312312321312")
+                    .build();
+            cardRepository.save(card);
+        }
+
     }
 }
