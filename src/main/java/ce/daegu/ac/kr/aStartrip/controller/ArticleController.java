@@ -1,5 +1,10 @@
 package ce.daegu.ac.kr.aStartrip.controller;
 
+import ce.daegu.ac.kr.aStartrip.dto.MemberDetails;
+import ce.daegu.ac.kr.aStartrip.entity.Member;
+import ce.daegu.ac.kr.aStartrip.service.ArticleService;
+import ce.daegu.ac.kr.aStartrip.service.MemberService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,13 +17,18 @@ import ce.daegu.ac.kr.aStartrip.dto.MemberDTO;
 
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 public class ArticleController {
 
+    private final MemberService memberService;
+    private final ArticleService articleService;
+
     @GetMapping("/article")
-    public String article(@AuthenticationPrincipal MemberDTO memberDTO, Model Model) { // 새로운 학습 활동 시작
+    public String article(@AuthenticationPrincipal MemberDetails memberDetails, Model Model) { // 새로운 학습 활동 시작
         log.debug("article()");
-        log.debug("111111111",memberDTO);
-        return "article/article";
+        Member member = memberDetails.getMember();
+        long articleNum = articleService.addArticle(member);
+        return "redirect:/article/" + articleNum;
     }
 
     // reading -------
@@ -62,7 +72,7 @@ public class ArticleController {
     }
 
     @GetMapping("/article/{num}")
-    public String articleDetail(@PathVariable("num") String articleNum){
+    public String articleDetail(@PathVariable("num") String articleNum) {
         log.debug("articleDetail({})", articleNum);
         return "article/article";
     }

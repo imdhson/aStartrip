@@ -17,16 +17,12 @@ import java.util.List;
 @Builder
 public class Article extends BaseEntity {
     @Id
-    @NotNull
-    @NotBlank
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long num;
     private String title;
     private String content;
     private long hit;
-    private int type;
-    private long root;
-
+    private boolean visibleBoard; // 게시판에 업로드 된지 여부
 
     @ManyToOne
     @JoinColumn(name = "member_email")

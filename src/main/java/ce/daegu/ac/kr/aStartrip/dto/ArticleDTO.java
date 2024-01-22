@@ -4,6 +4,12 @@ import jakarta.persistence.Id;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+import org.hibernate.mapping.Array;
+import org.hibernate.mapping.List;
+
+import ce.daegu.ac.kr.aStartrip.entity.Member;
 
 @Data
 @AllArgsConstructor
@@ -16,9 +22,10 @@ public class ArticleDTO {
     private String writer;
     private String content;
     private long hit;
-    private int type;
-    private long root;
+    private boolean visibleBoard;
+
     private LocalDateTime regDate;
     private LocalDateTime modDate;
-    private char grade;
+
+    private ArrayList<CardDTO> cardDTOList;
 }

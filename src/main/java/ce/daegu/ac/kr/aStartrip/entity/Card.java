@@ -12,8 +12,6 @@ import lombok.Data;
 public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotBlank
-    @NotNull
     private long id;
 
     //부모 article
@@ -35,6 +33,4 @@ public class Card {
     private String LLMResponse0; //r01 | r02-Pre | w01 | w02 | v01 | v02-동의어
     private String LLMResponse1; //r02-Background | v02-반의어
     private String LLMResponse2; //r02-Post | v02-word-family
-
-
 }

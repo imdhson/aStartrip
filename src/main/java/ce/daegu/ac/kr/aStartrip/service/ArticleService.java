@@ -4,24 +4,26 @@ import ce.daegu.ac.kr.aStartrip.dto.ArticleDTO;
 import ce.daegu.ac.kr.aStartrip.dto.MemberDTO;
 import ce.daegu.ac.kr.aStartrip.entity.Article;
 import ce.daegu.ac.kr.aStartrip.entity.Member;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 public interface ArticleService {
-
     List<ArticleDTO> getAllArticleList();
 
-    long AddArticle(MemberDTO memberDTO);
+    long addArticle(Member member);
 
     default Article dtoToEntity(ArticleDTO dto, Member member) {
         Article entity = Article.builder()
                 .num(dto.getNum())
                 .title(dto.getTitle())
                 .content(dto.getContent())
+                .member(member)
                 .hit(dto.getHit())
-                .type(dto.getType())
-                .root(dto.getRoot())
-                .member(member).build();
+                .visibleBoard(dto.isVisibleBoard())
+                .member(member)
+                .build();
         return entity;
     }
 
@@ -32,11 +34,9 @@ public interface ArticleService {
                 .writer(entity.getMember().getName())
                 .content(entity.getContent())
                 .hit(entity.getHit())
-                .type(entity.getType())
-                .root(entity.getRoot())
+                .visibleBoard(entity.isVisibleBoard())
                 .regDate(entity.getRegDate())
-                .modDate(entity.getModDate())
-                .grade(entity.getMember().getGrade()).build();
+                .modDate(entity.getModDate()).build();
         return dto;
     }
 }

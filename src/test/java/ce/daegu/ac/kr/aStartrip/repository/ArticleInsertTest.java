@@ -27,7 +27,6 @@ public class ArticleInsertTest {
         Article article = Article.builder()
                 .hit(0)
                 .title("자동생성")
-                .type('a')
                 .content("자동생성")
                 .member(m)
                 .build();
