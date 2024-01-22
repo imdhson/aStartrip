@@ -1,23 +1,28 @@
 package ce.daegu.ac.kr.aStartrip.service;
 
 import ce.daegu.ac.kr.aStartrip.dto.ArticleDTO;
+import ce.daegu.ac.kr.aStartrip.dto.CardDTO;
 import ce.daegu.ac.kr.aStartrip.dto.MemberDTO;
 import ce.daegu.ac.kr.aStartrip.entity.Article;
+import ce.daegu.ac.kr.aStartrip.entity.Card;
 import ce.daegu.ac.kr.aStartrip.entity.Member;
 import ce.daegu.ac.kr.aStartrip.repository.ArticleRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class ArticleServiceImpl implements ArticleService {
 
-    @Autowired
-    private ArticleRepository articleRepository;
+    private final ArticleRepository articleRepository;
+    private final CardService cardService;
 
     @Override
     public List<ArticleDTO> getAllArticleList() {
@@ -37,6 +42,5 @@ public class ArticleServiceImpl implements ArticleService {
         article = articleRepository.save(article);
         return article.getNum();
     }
-
 
 }

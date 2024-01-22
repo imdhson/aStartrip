@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
+@ToString
 public class Article extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,5 +32,10 @@ public class Article extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+
     private List<Card> cardList = new ArrayList<>();
+    public void addCard(Card card) {
+        cardList.add(card);
+        card.setArticle(this);
+    }
 }

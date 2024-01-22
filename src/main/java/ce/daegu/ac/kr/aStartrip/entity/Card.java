@@ -1,18 +1,21 @@
 package ce.daegu.ac.kr.aStartrip.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Card {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     //부모 article
     @ManyToOne
@@ -21,12 +24,11 @@ public class Card {
 
 
     @NotNull
-    @NotBlank
     @Enumerated(EnumType.STRING)
-    private CardType cardType;
+    private CardTypeENUM cardType;
 
     @Enumerated(EnumType.STRING)
-    private LLMStatus llmStatus = LLMStatus.NEW;
+    private LLMStatusENUM llmStatus = LLMStatusENUM.NEW;
 
     private String UserInput0; //r02 | w01 | w02 | v01 | v02 | 댓글
 

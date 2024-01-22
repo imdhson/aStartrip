@@ -1,5 +1,5 @@
 package ce.daegu.ac.kr.aStartrip.entity;
 
-public enum LLMStatus {
+public enum LLMStatusENUM {
     NEW, GENERATING, COMPLETED, CANCELED
 }

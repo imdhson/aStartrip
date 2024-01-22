@@ -8,6 +8,9 @@ import ce.daegu.ac.kr.aStartrip.service.ArticleService;
 import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,12 +28,15 @@ public class ArticleRController {
 
     @GetMapping("/api/article/{num}")
     public ResponseEntity<ArticleDTO> articleDetail(@PathVariable("num") long num, @AuthenticationPrincipal MemberDetails memberDetails) {
+        HttpHeaders httpheaders = new HttpHeaders();
+        httpheaders.setContentType(MediaType.APPLICATION_JSON);
+
         try{
             //게시글에 접근 권한 있는지 넣어야함.
             memberDetails.getMember().getName();
         } catch (NullPointerException nullPointerException){
             //비로그인 사용자 or 접근 권한 없는 사용자
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().headers(httpheaders).build();
         }
         log.debug("00000000000", memberDetails.getMember().getName());
         log.debug("00000000000   : "+ num);
@@ -40,8 +46,8 @@ public class ArticleRController {
             ArticleDTO articleDTO = articleService.entityToDto(article);
             log.debug("toSTRING111111111"+articleDTO.toString());
 
-            return ResponseEntity.ok(articleDTO);
+            return ResponseEntity.status(HttpStatus.OK).headers(httpheaders).body(articleDTO);
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.badRequest().headers(httpheaders).build();
     }
 }
