@@ -22,10 +22,12 @@ public class MemberServiceTest {
                 MemberDTO.builder()
                         .email("1@mail.com")
                         .PW("1")
+                        .address()
                         .name("testNAME").tel("11-1").address("address11")
                         .activation(true).build();
         memberService.register(memberDTO);
     }
+
 
 
 }
