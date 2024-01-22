@@ -1,6 +1,7 @@
 package ce.daegu.ac.kr.aStartrip.service;
 
 import ce.daegu.ac.kr.aStartrip.dto.ArticleDTO;
+import ce.daegu.ac.kr.aStartrip.dto.MemberDTO;
 import ce.daegu.ac.kr.aStartrip.entity.Article;
 import ce.daegu.ac.kr.aStartrip.entity.Member;
 
@@ -9,6 +10,8 @@ import java.util.List;
 public interface ArticleService {
 
     List<ArticleDTO> getAllArticleList();
+
+    long AddArticle(MemberDTO memberDTO);
 
     default Article dtoToEntity(ArticleDTO dto, Member member) {
         Article entity = Article.builder()

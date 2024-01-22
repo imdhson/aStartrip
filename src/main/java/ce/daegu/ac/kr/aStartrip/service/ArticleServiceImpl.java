@@ -1,6 +1,7 @@
 package ce.daegu.ac.kr.aStartrip.service;
 
 import ce.daegu.ac.kr.aStartrip.dto.ArticleDTO;
+import ce.daegu.ac.kr.aStartrip.dto.MemberDTO;
 import ce.daegu.ac.kr.aStartrip.entity.Article;
 import ce.daegu.ac.kr.aStartrip.repository.ArticleRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -26,5 +27,10 @@ public class ArticleServiceImpl implements ArticleService{
             articleDTOList.add(dto);
         }
         return articleDTOList;
+    }
+
+    @Override
+    public long AddArticle(MemberDTO memberDTO) {
+        return 0;
     }
 }

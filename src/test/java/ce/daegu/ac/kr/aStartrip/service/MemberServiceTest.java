@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Service;
 
-
 @Slf4j
 @SpringBootTest
 public class MemberServiceTest {
@@ -18,16 +17,12 @@ public class MemberServiceTest {
 
     @Test
     public void registTest() {
-        MemberDTO memberDTO =
-                MemberDTO.builder()
-                        .email("1@mail.com")
-                        .PW("1")
-                        .address()
-                        .name("testNAME").tel("11-1").address("address11")
-                        .activation(true).build();
+        MemberDTO memberDTO = MemberDTO.builder()
+                .email("1@mail.com")
+                .PW("1")
+                .name("testNAME").tel("11-1").address("address11")
+                .activation(true).build();
         memberService.register(memberDTO);
     }
-
-
 
 }
