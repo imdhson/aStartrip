@@ -1,7 +1,12 @@
 package ce.daegu.ac.kr.aStartrip.service;
 
+import ce.daegu.ac.kr.aStartrip.dto.ArticleDTO;
 import ce.daegu.ac.kr.aStartrip.dto.MemberDTO;
+import ce.daegu.ac.kr.aStartrip.entity.Article;
 import ce.daegu.ac.kr.aStartrip.entity.Member;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public interface MemberService {
 
@@ -19,6 +24,19 @@ public interface MemberService {
     }
 
     default MemberDTO entityToDto(Member entity) {
+        List<ArticleDTO> aList = new ArrayList<>();
+        for(Article a : entity.getArticleList()){
+            ArticleDTO aa = ArticleDTO.builder()
+                    .num(a.getNum())
+                    .title(a.getTitle())
+                    .writer(a.getMember().getName())
+                    .content(a.getContent())
+                    .hit(a.getHit())
+                    .visibleBoard(a.isVisibleBoard())
+                    .regDate(a.getRegDate())
+                    .modDate(a.getModDate()).build();
+            aList.add(aa);
+        }
         MemberDTO dto = MemberDTO.builder()
                 .name(entity.getName())
                 .birthDate(entity.getBirthDate())
@@ -28,7 +46,8 @@ public interface MemberService {
                 .PW(entity.getPW())
                 .regDate(entity.getRegDate())
                 .modDate(entity.getModDate())
-                .grade(entity.getGrade()).build();
+                .grade(entity.getGrade())
+                .articleDTOList(aList).build();
         return dto;
     }
 

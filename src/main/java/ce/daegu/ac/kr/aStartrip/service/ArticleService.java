@@ -9,6 +9,7 @@ import ce.daegu.ac.kr.aStartrip.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface ArticleService {
@@ -30,6 +31,20 @@ public interface ArticleService {
     }
 
     default ArticleDTO entityToDto(Article entity) {
+        List<Card> list = entity.getCardList();
+        ArrayList<CardDTO> cList = new ArrayList<>();
+        for (Card c : list) {
+            CardDTO cc = CardDTO.builder()
+                    .id(c.getId())
+                    .articleNum(c.getArticle().getNum())
+                    .cardType(c.getCardType())
+                    .llmStatus(c.getLlmStatus())
+                    .UserInput0(c.getUserInput0())
+                    .LLMResponse0(c.getLLMResponse0())
+                    .LLMResponse1(c.getLLMResponse1())
+                    .LLMResponse2(c.getLLMResponse2()).build();
+            cList.add(cc);
+        }
         ArticleDTO dto = ArticleDTO.builder()
                 .num(entity.getNum())
                 .title(entity.getTitle())
@@ -38,7 +53,9 @@ public interface ArticleService {
                 .hit(entity.getHit())
                 .visibleBoard(entity.isVisibleBoard())
                 .regDate(entity.getRegDate())
-                .modDate(entity.getModDate()).build();
+                .modDate(entity.getModDate())
+                .cardDTOList(cList)
+                .build();
         return dto;
     }
 }

@@ -2,6 +2,7 @@ package ce.daegu.ac.kr.aStartrip.controller;
 
 import ce.daegu.ac.kr.aStartrip.dto.MemberDetails;
 import ce.daegu.ac.kr.aStartrip.entity.Member;
+import ce.daegu.ac.kr.aStartrip.repository.MemberRepository;
 import ce.daegu.ac.kr.aStartrip.service.ArticleService;
 import ce.daegu.ac.kr.aStartrip.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import ce.daegu.ac.kr.aStartrip.dto.MemberDTO;
 
+import java.util.Optional;
+
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -22,6 +25,7 @@ public class ArticleController {
 
     private final MemberService memberService;
     private final ArticleService articleService;
+    private final MemberRepository memberRepository;
 
     @GetMapping("/article")
     public String article(@AuthenticationPrincipal MemberDetails memberDetails, Model Model) { // 새로운 학습 활동 시작
@@ -75,5 +79,12 @@ public class ArticleController {
     public String articleDetail(@PathVariable("num") String articleNum) {
         log.debug("articleDetail({})", articleNum);
         return "article/article";
+    }
+
+    @GetMapping("/member/{memberName}")
+    public void memberDetail(@PathVariable("memberName") String memberName) {
+        Optional<Member> member = memberRepository.findById(memberName);
+        log.debug("memberDetail({})", member.get().toString());
+
     }
 }

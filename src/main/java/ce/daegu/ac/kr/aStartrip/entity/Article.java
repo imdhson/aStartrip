@@ -28,14 +28,15 @@ public class Article extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "member_email")
+    @ToString.Exclude
     private Member member;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @ToString.Exclude
-    private List<Card> cardList = new ArrayList<>();
     public void addCard(Card card) {
         cardList.add(card);
         card.setArticle(this);
     }
+    @Builder.Default
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ToString.Exclude
+    private List<Card> cardList = new ArrayList<>();
 }
