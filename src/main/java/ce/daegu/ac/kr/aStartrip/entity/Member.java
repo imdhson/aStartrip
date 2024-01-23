@@ -25,8 +25,6 @@ public class Member extends BaseEntity {
     private String address;
     private String tel;
     @Id
-    @NotBlank
-    @NotNull
     @Email(message = "올바른 이메일 주소를 입력해야 합니다.")
     private String email;
     private String PW;
