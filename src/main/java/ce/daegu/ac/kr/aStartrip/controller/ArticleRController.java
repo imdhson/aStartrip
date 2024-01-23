@@ -71,6 +71,5 @@ public class ArticleRController {
             return ResponseEntity.status(HttpStatus.OK).headers(httpheaders).body(memberDTO);
         }
         return null;
-
     }
 }

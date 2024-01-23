@@ -1,3 +1,4 @@
+console.log("1111")
 
 function jsonTest(articleNum) {
     console.log("jsonTest()")
