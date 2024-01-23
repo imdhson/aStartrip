@@ -31,49 +31,52 @@ public class ArticleController {
         return "redirect:/article/" + articleNum;
     }
 
-    // reading -------
-
-    @GetMapping("/article/r01")
-    public String r01() {
-        log.debug("r01()");
-        return "article/r01";
-    }
-
-    @GetMapping("/article/r02")
-    public String r02() {
-        log.debug("r02()");
-        return "article/r02";
-    }
-
-    // writing -------
-    @GetMapping("/article/w01")
-    public String w01() {
-        log.debug("w01()");
-        return "article/w01";
-    }
-
-    @GetMapping("/article/w02")
-    public String w02() {
-        log.debug("w02()");
-        return "article/w02";
-    }
-
-    //vocabulary --------
-    @GetMapping("/article/v01")
-    public String v01() {
-        log.debug("v01()");
-        return "article/v01";
-    }
-
-    @GetMapping("/article/v02")
-    public String v02() {
-        log.debug("v02()");
-        return "article/v02";
-    }
-
     @GetMapping("/article/{num}")
-    public String articleDetail(@PathVariable("num") String articleNum) {
+    public String articleDetail(@PathVariable("num") String articleNum, Model model) {
+        model.addAttribute("articleNum", articleNum);
         log.debug("articleDetail({})", articleNum);
         return "article/article";
     }
+//
+//    // reading -------
+//
+//    @GetMapping("/article/r01")
+//    public String r01() {
+//        log.debug("r01()");
+//        return "article/r01";
+//    }
+//
+//    @GetMapping("/article/r02")
+//    public String r02() {
+//        log.debug("r02()");
+//        return "article/r02";
+//    }
+//
+//    // writing -------
+//    @GetMapping("/article/w01")
+//    public String w01() {
+//        log.debug("w01()");
+//        return "article/w01";
+//    }
+//
+//    @GetMapping("/article/w02")
+//    public String w02() {
+//        log.debug("w02()");
+//        return "article/w02";
+//    }
+//
+//    //vocabulary --------
+//    @GetMapping("/article/v01")
+//    public String v01() {
+//        log.debug("v01()");
+//        return "article/v01";
+//    }
+//
+//    @GetMapping("/article/v02")
+//    public String v02() {
+//        log.debug("v02()");
+//        return "article/v02";
+//    }
+
+
 }
