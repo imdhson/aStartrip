@@ -27,7 +27,7 @@
                     <th:block th:if="${userArticles != null}">
                         <!-- 게시판 -->
                         <th:block th:each="userArticle : ${userArticles}">
-                            <a href="http://www.naver.com">
+                            <a th:href="@{/article/{articleNum}(articleNum=${userArticle.num})}">
                                 <div class="grid-item">
                                     <div class="article-title">
                                         [<label>[[${userArticle.num}]]</label>]
