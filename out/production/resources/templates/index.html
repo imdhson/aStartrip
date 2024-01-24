@@ -52,7 +52,7 @@
                     <th:block th:if="${articles != null}">
                         <!-- 게시판 -->
                         <th:block th:each="article : ${articles}">
-                            <a href="http://www.naver.com">
+                            <a th:href="@{/article/{articleNum}(articleNum=${article.num})}">
                                 <div class="grid-item">
                                     <div class="article-title">
                                         [<label>[[${article.num}]]</label>]
