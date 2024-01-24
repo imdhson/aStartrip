@@ -43,4 +43,9 @@ public class ArticleServiceImpl implements ArticleService {
         return article.getNum();
     }
 
+    @Override
+    public void changeArticle(Member member, ArticleDTO articleDTO) {
+
+    }
+
 }

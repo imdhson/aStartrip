@@ -1,47 +1,17 @@
 <!doctype html>
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <style>
-        @import url("/css/main.css");
-        @import url("/css/article.css");
-    </style>
-    <title>새 활동 - A startrip </title>
-</head>
-
-<body>
-    <header>
-        <div th:replace="~{/fragment/nav :: nav}"></div>
-    </header>
-    <main>
-        <div class="articleTitle">
-            <input type="text" placeholder="지문 첨삭" required maxlength="30">
-        </div>
-        <div class="w01">
-            <div class="reg">
-                <form action="">
-                    <label for="userParagraph">지문 입력</label>
-                    <textarea name="userParagraph" id="userParagraph" rows="20" cols="100"
-                        placeholder="이곳에 문단 입력"></textarea>
-                   <div class="button">지문 첨삭 시작</div> <!-- js 로 처리-->
-                </form>
-            </div>
-            <div class="response">
-               <!-- 생성 요청 누르면 보이도록 수정 -->
-               <textarea>LLM API의 답변이 들어가는 곳</textarea>
-            </div>
-            <div class="addArticle-join">
-                <div class="button">이곳에 이어서 학습 추가</div>
-                <!-- <div th:replace="~{/fragment/addArticle :: addArticle}"></div> -->
-                <!-- 나중에 + 누르면 replace 하도록 js 구현  -->
-            </div>
-        </div>
-    </main>
-    <footer th:replace="~{/fragment/footer :: footer}"></footer>
-</body>
+<div class="w01" th:fragment="w01">
+    <div class="reg">
+        <form action="">
+            <label for="userParagraph">지문 입력</label>
+            <textarea name="userParagraph" id="userParagraph" rows="20" cols="100" placeholder="이곳에 문단 입력"></textarea>
+            <div class="button">지문 첨삭 시작</div> <!-- js 로 처리-->
+        </form>
+    </div>
+    <div class="response">
+        <!-- 생성 요청 누르면 보이도록 수정 -->
+        <textarea id="llmresponse0">LLM API의 답변이 들어가는 곳</textarea>
+    </div>
+</div>
 
 </html>

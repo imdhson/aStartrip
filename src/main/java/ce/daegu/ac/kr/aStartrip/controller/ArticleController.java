@@ -36,6 +36,20 @@ public class ArticleController {
         return "redirect:/article/" + articleNum;
     }
 
+    @GetMapping("/article/{num}")
+    public String articleDetail(@PathVariable("num") String articleNum, Model model) {
+        log.debug("articleDetail({})", articleNum);
+        model.addAttribute("articleNum", articleNum);
+        return "article/article";
+    }
+
+    @GetMapping("/member/{memberName}")
+    public void memberDetail(@PathVariable("memberName") String memberName) {
+        Optional<Member> member = memberRepository.findById(memberName);
+        log.debug("memberDetail({})", member.get().toString());
+
+    }
+
 //    // reading -------
 //
 //    @GetMapping("/article/r01")
@@ -76,16 +90,4 @@ public class ArticleController {
 //        return "article/v02";
 //    }
 
-    @GetMapping("/article/{num}")
-    public String articleDetail(@PathVariable("num") String articleNum) {
-        log.debug("articleDetail({})", articleNum);
-        return "article/article";
-    }
-
-    @GetMapping("/member/{memberName}")
-    public void memberDetail(@PathVariable("memberName") String memberName) {
-        Optional<Member> member = memberRepository.findById(memberName);
-        log.debug("memberDetail({})", member.get().toString());
-
-    }
 }

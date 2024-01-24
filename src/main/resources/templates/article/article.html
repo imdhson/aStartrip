@@ -1,52 +1,40 @@
+<!doctype html>
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feature Page</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-        }
+        @import url("/css/main.css");
+        @import url("/css/article.css");
     </style>
-    <script src="/js/article.js">
-        jsonTest([[${ articleNum }]]);
-    </script>
+    <title>새 활동 - A startrip </title>
 </head>
 
-<body class="bg-gray-200 p-5">
-<div th:replace="~{/fragment/nav :: nav}"></div>
-<div class="max-w-2xl mx-auto bg-white p-5">
-    <h1 class="text-2xl font-bold mb-6">TITLE</h1>
-
-    <div class="border-2 border-black p-4 mb-4">
-        <h2 class="text-lg font-bold mb-2">Feature : R01</h2>
-        <div class="border-2 border-black p-4 mb-4">
-            <p class="font-bold">Input : lorem Ipsum Dollar lorem Ipsum Dollarlorem Ipsum Dollarlorem Ipsum
-                Dollarlorem Ipsum Ipsum Dollarlorem Ipsum Dollarlorem Ipsum Ipsum</p>
+<body>
+    <header>
+        <div th:replace="~{/fragment/nav :: nav}"></div>
+    </header>
+    <main>
+        <div class="articleTitle">
+            <input id="articleTitle" type="text" placeholder="제목 입니다." required maxlength="30">
         </div>
-        <div class="bg-teal-400 p-4">
-            <p class="font-bold">Output : lorem Ipsum Dollar lorem Ipsum Dollarlorem Ipsum Dollarlorem Ipsum
-                Dollarlorem</p>
-        </div>
-    </div>
-
-    <div class="border-2 border-black p-4">
-        <h2 class="text-lg font-bold mb-2">Feature : R02</h2>
-        <div class="border-2 border-black p-4 mb-4">
-            <p class="font-bold">Input : lorem Ipsum Dollar lorem Ipsum Dollarlorem Ipsum Dollarlorem Ipsum
-                Dollarlorem Ipsum Ipsum Dollarlorem Ipsum Dollarlorem Ipsum Ipsum</p>
-        </div>
-        <div class="bg-teal-400 p-4">
-            <p class="font-bold">Output : lorem Ipsum Dollar lorem Ipsum Dollarlorem Ipsum Dollarlorem Ipsum
-                Dollarlorem Ipsum Ipsum</p>
-        </div>
-    </div>
-</div>
-<footer th:replace="~{/fragment/footer :: footer}"></footer>
+        <div th:replace="~{/article/r01 :: r01}"></div>
+        <div th:replace="~{/article/r02 :: r02}"></div>
+        <div th:replace="~{/article/w01 :: w01}"></div>
+        <div th:replace="~{/article/w02 :: w02}"></div>
+        <div th:replace="~{/article/v01 :: v01}"></div>
+        <div th:replace="~{/article/v02 :: v02}"></div>
+        <div th:replace="~{/article/addArticle :: addArticle}"></div>
+    </main>
+    <footer th:replace="~{/fragment/footer :: footer}"></footer>
 </body>
+
+
+
+<script src="/js/article.js"></script>
+<script>jsonR([[${ articleNum }]])</script>
 
 </html>

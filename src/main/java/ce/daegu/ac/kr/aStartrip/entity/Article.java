@@ -22,9 +22,9 @@ public class Article extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long num;
     private String title;
-    private String content;
     private long hit;
-    private boolean visibleBoard; // 게시판에 업로드 된지 여부
+    private boolean visibleBoard = false; // 게시판에 업로드 된지 여부
+    private boolean editable = false; // 다른 이가 수정할 수 있는지 여부
 
     @ManyToOne
     @JoinColumn(name = "member_email")
@@ -35,6 +35,7 @@ public class Article extends BaseEntity {
         cardList.add(card);
         card.setArticle(this);
     }
+
     @Builder.Default
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @ToString.Exclude

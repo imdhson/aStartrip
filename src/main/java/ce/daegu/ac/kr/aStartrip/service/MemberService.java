@@ -32,7 +32,6 @@ public interface MemberService {
                     .num(a.getNum())
                     .title(a.getTitle())
                     .writer(a.getMember().getName())
-                    .content(a.getContent())
                     .hit(a.getHit())
                     .visibleBoard(a.isVisibleBoard())
                     .regDate(a.getRegDate())

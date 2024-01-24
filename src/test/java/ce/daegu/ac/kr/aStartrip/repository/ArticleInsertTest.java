@@ -1,6 +1,8 @@
 package ce.daegu.ac.kr.aStartrip.repository;
 
+import ce.daegu.ac.kr.aStartrip.dto.CardDTO;
 import ce.daegu.ac.kr.aStartrip.entity.*;
+import ce.daegu.ac.kr.aStartrip.service.CardService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,8 @@ public class ArticleInsertTest {
     private MemberRepository memberRepository;
     @Autowired
     private CardRepository cardRepository;
+    @Autowired
+    private CardService cardService;
 
     @Test
     public void articleInsertTest() {
@@ -36,26 +40,28 @@ public class ArticleInsertTest {
 
     @Test
     public void articleCardAddTest() {
-        Optional<Article> articleOptional = articleRepository.findById(1L);
+        Optional<Article> articleOptional = articleRepository.findById(5L);
         if (articleOptional.isPresent()) {
             Article article = articleOptional.get();
-//            log.debug("DEBUG before::::" + article);
-//            CardDTO cardDTO = CardDTO.builder()
-//                    .cardType(CardTypeENUM.R01)
-//                    .UserInput0("123123123")
-//                    .LLMResponse0("123123123123123")
-//                    .llmStatus(LLMStatusENUM.COMPLETED)
-//                    .build();
-//            cardService.addCard(1L, cardDTO);
-
-            Card card = Card.builder()
-                    .cardType(CardTypeENUM.R01)
-                    .UserInput0("111111")
-                    .article(article)
-                    .llmStatus(LLMStatusENUM.NEW)
-                    .LLMResponse0(":1312312321312")
+            log.debug("DEBUG before::::" + article);
+            CardDTO cardDTO = CardDTO.builder()
+                    .cardType(CardTypeENUM.V02)
+                    .UserInput0("USERINPUT0")
+                    .LLMResponse0("LLMResponse0")
+                    .LLMResponse1("LLMResponse1")
+                    .LLMResponse2("LLMResponse2")
+                    .llmStatus(LLMStatusENUM.COMPLETED)
                     .build();
-            cardRepository.save(card);
+            cardService.addCard(5L, cardDTO);
+
+//            Card card = Card.builder()
+//                    .cardType(CardTypeENUM.R01)
+//                    .UserInput0("111111")
+//                    .article(article)
+//                    .llmStatus(LLMStatusENUM.NEW)
+//                    .LLMResponse0(":1312312321312")
+//                    .build();
+//            cardRepository.save(card);
         }
 
     }

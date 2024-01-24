@@ -17,11 +17,13 @@ public interface ArticleService {
 
     long addArticle(Member member);
 
+    void changeArticle(Member member, ArticleDTO articleDTO);
+    // member와 articleDTO의 writer가 동일할 경우에만 articleDTO로 save(UPDATE) 동작 수행
+
     default Article dtoToEntity(ArticleDTO dto, Member member) {
         Article entity = Article.builder()
                 .num(dto.getNum())
                 .title(dto.getTitle())
-                .content(dto.getContent())
                 .member(member)
                 .hit(dto.getHit())
                 .visibleBoard(dto.isVisibleBoard())
@@ -49,7 +51,6 @@ public interface ArticleService {
                 .num(entity.getNum())
                 .title(entity.getTitle())
                 .writer(entity.getMember().getName())
-                .content(entity.getContent())
                 .hit(entity.getHit())
                 .visibleBoard(entity.isVisibleBoard())
                 .regDate(entity.getRegDate())
