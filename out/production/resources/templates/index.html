@@ -23,10 +23,26 @@
                     <a href="/article">
                         <div class="grid-item" id="addArticle">추가 버튼</div>
                     </a>
-                    <div class="grid-item">나의 활동1</div>
-                    <div class="grid-item">나의 활동2</div>
-                    <div class="grid-item">나의 활동3</div>
-                    <div class="grid-item">나의 활동4</div>
+
+                    <th:block th:if="${userArticles != null}">
+                        <!-- 게시판 -->
+                        <th:block th:each="userArticle : ${userArticles}">
+                            <a href="http://www.naver.com">
+                                <div class="grid-item">
+                                    <div class="article-title">
+                                        [<label>[[${userArticle.num}]]</label>]
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                        [[${userArticle.title}]]
+                                    </div>
+                                    <div class="article-writer">
+                                        <label>[[${userArticle.writer}]]</label>
+                                        &nbsp;&nbsp;
+                                        <label>[[${userArticle.hit}]]</label>회
+                                    </div>
+                                </div>
+                            </a>
+                        </th:block>
+                    </th:block>
                 </div>
             </div>
 

@@ -1,5 +1,6 @@
 package ce.daegu.ac.kr.aStartrip.controller;
 
+import ce.daegu.ac.kr.aStartrip.dto.ArticleDTO;
 import ce.daegu.ac.kr.aStartrip.dto.MemberDetails;
 import ce.daegu.ac.kr.aStartrip.entity.Member;
 import ce.daegu.ac.kr.aStartrip.repository.MemberRepository;
