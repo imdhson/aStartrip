@@ -40,17 +40,19 @@ public class ArticleInsertTest {
 
     @Test
     public void articleCardAddTest() {
-        Optional<Article> articleOptional = articleRepository.findById(1L);
+        Optional<Article> articleOptional = articleRepository.findById(5L);
         if (articleOptional.isPresent()) {
             Article article = articleOptional.get();
             log.debug("DEBUG before::::" + article);
             CardDTO cardDTO = CardDTO.builder()
-                    .cardType(CardTypeENUM.R01)
-                    .UserInput0("123123123")
-                    .LLMResponse0("123123123123123")
+                    .cardType(CardTypeENUM.V02)
+                    .UserInput0("USERINPUT0")
+                    .LLMResponse0("LLMResponse0")
+                    .LLMResponse1("LLMResponse1")
+                    .LLMResponse2("LLMResponse2")
                     .llmStatus(LLMStatusENUM.COMPLETED)
                     .build();
-            cardService.addCard(1L, cardDTO);
+            cardService.addCard(5L, cardDTO);
 
 //            Card card = Card.builder()
 //                    .cardType(CardTypeENUM.R01)

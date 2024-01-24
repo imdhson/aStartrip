@@ -20,7 +20,6 @@ public class ArticleDTO {
     private Long num;
     private String title;
     private String writer;
-    private String content;
     private long hit;
     private boolean visibleBoard;
 
