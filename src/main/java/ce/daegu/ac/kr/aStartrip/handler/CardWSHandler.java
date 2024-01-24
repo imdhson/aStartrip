@@ -21,7 +21,7 @@ public class CardWSHandler extends TextWebSocketHandler {
         CardDTO cardDTO = objectMapper.readValue(jsonPayload, CardDTO.class);
         log.debug("WS 수신: {}", cardDTO);
         session.sendMessage(new TextMessage("Json Received"));
-        MemberDetails memberDetails = (MemberDetails) session.getPrincipal();
+//        MemberDetails memberDetails = (MemberDetails) session.getPrincipal();
     }
 }
 
