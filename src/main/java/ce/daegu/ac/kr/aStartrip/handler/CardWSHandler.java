@@ -6,12 +6,16 @@ import ce.daegu.ac.kr.aStartrip.dto.MemberDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-@RequiredArgsConstructor
 @Slf4j
+@Component
+@RequiredArgsConstructor
 public class CardWSHandler extends TextWebSocketHandler {
     private final ObjectMapper objectMapper;
 

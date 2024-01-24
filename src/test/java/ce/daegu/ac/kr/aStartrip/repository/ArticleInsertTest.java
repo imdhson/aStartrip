@@ -32,7 +32,6 @@ public class ArticleInsertTest {
         Article article = Article.builder()
                 .hit(0)
                 .title("자동생성")
-                .content("자동생성")
                 .member(m)
                 .build();
         articleRepository.save(article);
@@ -40,7 +39,7 @@ public class ArticleInsertTest {
 
     @Test
     public void articleCardAddTest() {
-        Optional<Article> articleOptional = articleRepository.findById(5L);
+        Optional<Article> articleOptional = articleRepository.findById(1L);
         if (articleOptional.isPresent()) {
             Article article = articleOptional.get();
             log.debug("DEBUG before::::" + article);
@@ -52,7 +51,7 @@ public class ArticleInsertTest {
                     .LLMResponse2("LLMResponse2")
                     .llmStatus(LLMStatusENUM.COMPLETED)
                     .build();
-            cardService.addCard(5L, cardDTO);
+            cardService.addCard(1L, cardDTO);
 
 //            Card card = Card.builder()
 //                    .cardType(CardTypeENUM.R01)

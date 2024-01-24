@@ -1,6 +1,5 @@
-//WebSocket으로 통신하기
-//마지막 keypress 부터 5초간 keypress 없으면 websocket으로 발신
-//keypress 없는 상태의 경우 event 발생마다 websocket으로 수정된 카드 json 수신해서 화면 그리기
+// articleDTO 에 변화(제목, card add) 가 있어서 메시지 수신시
+// main 삭제 이후  articledetailview 재호출 구현
 
 const r01 = document.querySelector(".r01").cloneNode(true)
 const r02 = document.querySelector(".r02").cloneNode(true)
@@ -27,8 +26,6 @@ function jsonR(articleNum) {
         .then(jsonData => {
             // 게시글 json 으로 처리 시작
             articleDetailView(jsonData)
-
-            console.log(jsonData);
         })
         .catch(error => {
             // 에러 처리
@@ -136,7 +133,8 @@ function titleWS(articleNum, dom) {
         console.log("커넥션 열림")
     }
     webSocket.onmessage = function (event) {
-        console.log('Message from server: ', event.data);
+        jsonData = JSON.parse(event.data)
+        console.log('articleDTO: ', jsonData);
     };
     webSocket.onclose = function (event) {
         console.log("커넥션 닫힘 ");
@@ -205,5 +203,23 @@ function cardWS(card, dom) {
         }
         jsonMessage = JSON.stringify(jsonObj)
         webSocket.send(jsonMessage)
+    }
+}
+
+function addCard(cardType) {
+    switch (cardType) {
+        case "R01":
+
+            break
+        case "R02":
+            break
+        case "W01":
+            break
+        case "W02":
+            break
+        case "V01":
+            break
+        case "V02":
+            break
     }
 }
