@@ -17,6 +17,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ArticleService articleService;
 
     @Override
     public boolean findID(String email) {
@@ -24,6 +25,12 @@ public class MemberServiceImpl implements MemberService {
             return false;
         }
         return true;
+    }
+
+    public void findUpdateTitleUser(String email, ArticleDTO dto) {
+        Optional<Member> entity = memberRepository.findById(email);
+        Member m = entity.get();
+        articleService.changeArticle(m, dto);
     }
 
     @Override

@@ -5,6 +5,8 @@ import ce.daegu.ac.kr.aStartrip.dto.MemberDetails;
 import ce.daegu.ac.kr.aStartrip.entity.Article;
 import ce.daegu.ac.kr.aStartrip.repository.ArticleRepository;
 import ce.daegu.ac.kr.aStartrip.service.ArticleService;
+import ce.daegu.ac.kr.aStartrip.service.MemberService;
+import ce.daegu.ac.kr.aStartrip.service.MemberServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +27,7 @@ public class ArticleWSHandler extends TextWebSocketHandler {
     private final ObjectMapper objectMapper;
     private final ArticleRepository articleRepository;
     private final ArticleService articleService;
+    private final MemberService memberService;
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -32,7 +35,9 @@ public class ArticleWSHandler extends TextWebSocketHandler {
         ArticleDTO articleDTO = objectMapper.readValue(jsonPayload, ArticleDTO.class);
         log.debug("WS 수신: {}", articleDTO);
 
-//        MemberDetails memberDetails = (MemberDetails) session.getPrincipal();
+        MemberDetails memberDetails = (MemberDetails) session.getAttributes().get("memberDetails");
+
+        memberService.findUpdateTitleUser(memberDetails.getUsername(), articleDTO);
 
         //수정된 것을 받을 때마다 sendMessage 수행하여 js 에서 데이터 갱신하기
         Optional<Article> article = articleRepository.findById(articleDTO.getNum());

@@ -45,14 +45,14 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public void changeArticle(Member member, ArticleDTO articleDTO) {
-        if(member.getName().equals(articleDTO.getWriter())) {
-            Optional<Article> entity = articleRepository.findById(articleDTO.getNum());
-            if(entity.isPresent()) {
-                Article article = entity.get();
-                article = updateArticle(article, articleDTO);
+        Optional<Article> entity = articleRepository.findById(articleDTO.getNum());
+        Article article = entity.get();
 
-                articleRepository.save(article);
-            }
+        if(member.getEmail().equals(article.getMember().getEmail())) {
+            article.setTitle(articleDTO.getTitle());
+            log.info("@@@@@@@@@@@@@@@@@" + article.toString());
+            articleRepository.save(article);
+
         }
     }
 
