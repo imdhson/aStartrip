@@ -62,7 +62,7 @@ function articleDetailView(jsonData) {
 
     let cards = jsonData.cardDTOList
     cards.forEach(card => {
-        cardBuild(card); //card 받아와서 카드 하나씩 그리기
+        cardBuild(card, cardsDOM); //card 받아와서 카드 하나씩 그리기
         cardWS(card, child) //card 변경시 불러지는 웹 소켓
     });
 
@@ -138,8 +138,10 @@ function cardWS(card, dom) {
         console.log(jsonData)
         const current_time = new Date().getTime();
         if (current_time - last_interaction >= 3000) {
-            dom.remove()
-            cardBuild(card)
+            while(dom.firstChild){
+                dom.removeChild(dom.firstChild)
+            }
+            cardBuild(card, dom)
             console.log("card 재생성됨:: ", jsonData)
         }
     };
@@ -214,7 +216,7 @@ function addCard(articleNum, cardType1) {
         }));
 }
 
-function cardBuild(card) {
+function cardBuild(card, dom) {
     switch (card.cardType) {
         case "R01":
             child = r01.cloneNode(true)
@@ -222,7 +224,7 @@ function cardBuild(card) {
             child.querySelector("#llmresponse0").value = card.llmresponse0
 
             child.style.display = "flex"
-            cardsDOM.appendChild(child)
+            dom.appendChild(child)
             break;
         case "R02":
             child = r02.cloneNode(true)
@@ -233,7 +235,7 @@ function cardBuild(card) {
             child.querySelector("#llmresponse2").text = card.llmresponse2
 
             child.style.display = "flex"
-            cardsDOM.appendChild(child)
+            dom.appendChild(child)
             break;
         case "W01":
             child = w01.cloneNode(true)
@@ -242,7 +244,7 @@ function cardBuild(card) {
             child.querySelector("#llmresponse0").value = card.llmresponse0
 
             child.style.display = "flex"
-            cardsDOM.appendChild(child)
+            dom.appendChild(child)
             break;
         case "W02":
             child = w02.cloneNode(true)
@@ -251,7 +253,7 @@ function cardBuild(card) {
             child.querySelector("#llmresponse0").value = card.llmresponse0
 
             child.style.display = "flex"
-            cardsDOM.appendChild(child)
+            dom.appendChild(child)
             break;
         case "V01":
             child = v01.cloneNode(true)
@@ -260,7 +262,7 @@ function cardBuild(card) {
             child.querySelector("#llmresponse0").value = card.llmresponse0
 
             child.style.display = "flex"
-            cardsDOM.appendChild(child)
+            dom.appendChild(child)
             break;
         case "V02":
             child = v02.cloneNode(true)
@@ -271,7 +273,7 @@ function cardBuild(card) {
             child.querySelector("#llmresponse2").value = card.llmresponse2
 
             child.style.display = "flex"
-            cardsDOM.appendChild(child)
+            dom.appendChild(child)
             break;
     }//Switch 문 종료
 }

@@ -30,9 +30,9 @@ public class ArticleWSHandler extends TextWebSocketHandler {
 
         //card add 시에
         // 브로드캐스트로 sendMessage 수행하여 js 에서 데이터 갱신하기
-        Optional<Article> articleOptional= articleRepository.findById(articleDTO.getNum());
-        ArticleDTO articleDTO1 = articleService.entityToDto(articleOptional.get());
-        session.sendMessage(new TextMessage(objectMapper.writeValueAsBytes(articleDTO1)));
+//        Optional<Article> articleOptional= articleRepository.findById(articleDTO.getNum());
+//        ArticleDTO articleDTO1 = articleService.entityToDto(articleOptional.get());
+//        session.sendMessage(new TextMessage(objectMapper.writeValueAsBytes(articleDTO1)));
     }
 
 }
