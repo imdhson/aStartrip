@@ -1,6 +1,7 @@
 package ce.daegu.ac.kr.aStartrip.service;
 
 import ce.daegu.ac.kr.aStartrip.dto.ArticleDTO;
+import ce.daegu.ac.kr.aStartrip.dto.CardDTO;
 import ce.daegu.ac.kr.aStartrip.dto.MemberDTO;
 import ce.daegu.ac.kr.aStartrip.entity.Article;
 import ce.daegu.ac.kr.aStartrip.entity.Member;

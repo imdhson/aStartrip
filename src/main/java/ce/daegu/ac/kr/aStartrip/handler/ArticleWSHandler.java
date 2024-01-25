@@ -4,6 +4,8 @@ import ce.daegu.ac.kr.aStartrip.dto.ArticleDTO;
 import ce.daegu.ac.kr.aStartrip.entity.Article;
 import ce.daegu.ac.kr.aStartrip.repository.ArticleRepository;
 import ce.daegu.ac.kr.aStartrip.service.ArticleService;
+import ce.daegu.ac.kr.aStartrip.service.MemberService;
+import ce.daegu.ac.kr.aStartrip.service.MemberServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,9 @@ public class ArticleWSHandler extends TextWebSocketHandler {
 
         //card add 시에
         // 브로드캐스트로 sendMessage 수행하여 js 에서 데이터 갱신하기
+        Optional<Article> articleOptional= articleRepository.findById(articleDTO.getNum());
+        ArticleDTO articleDTO1 = articleService.entityToDto(articleOptional.get());
+        session.sendMessage(new TextMessage(objectMapper.writeValueAsBytes(articleDTO1)));
     }
 
 }

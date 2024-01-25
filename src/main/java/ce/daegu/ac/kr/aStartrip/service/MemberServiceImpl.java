@@ -1,6 +1,7 @@
 package ce.daegu.ac.kr.aStartrip.service;
 
 import ce.daegu.ac.kr.aStartrip.dto.ArticleDTO;
+import ce.daegu.ac.kr.aStartrip.dto.CardDTO;
 import ce.daegu.ac.kr.aStartrip.dto.MemberDTO;
 import ce.daegu.ac.kr.aStartrip.entity.Member;
 import ce.daegu.ac.kr.aStartrip.repository.MemberRepository;
@@ -17,6 +18,8 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ArticleService articleService;
+    private final CardService cardService;
 
     @Override
     public boolean findID(String email) {

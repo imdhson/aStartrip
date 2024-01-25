@@ -5,6 +5,7 @@ import ce.daegu.ac.kr.aStartrip.dto.MemberDetails;
 import ce.daegu.ac.kr.aStartrip.entity.Article;
 import ce.daegu.ac.kr.aStartrip.repository.ArticleRepository;
 import ce.daegu.ac.kr.aStartrip.service.ArticleService;
+import ce.daegu.ac.kr.aStartrip.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -34,6 +35,10 @@ public class TitleWSHandler extends TextWebSocketHandler {
         String jsonPayload = message.getPayload();
         ArticleDTO articleDTO = objectMapper.readValue(jsonPayload, ArticleDTO.class);
         log.debug("WS 수신: {}", articleDTO);
+
+        MemberDetails memberDetails = (MemberDetails) session.getAttributes().get("memberDetails");
+
+        articleService.updateArticle(memberDetails.getUsername(), articleDTO);
 
         //수정된 것을 받을 때마다 브로드캐스트로 title-ws 변경 sendMessage 수행하여 js 에서 데이터 갱신하기
         Optional<Article> articleOptional= articleRepository.findById(articleDTO.getNum());

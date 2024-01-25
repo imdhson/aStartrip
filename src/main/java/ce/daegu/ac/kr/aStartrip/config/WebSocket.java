@@ -3,10 +3,12 @@ package ce.daegu.ac.kr.aStartrip.config;
 
 import ce.daegu.ac.kr.aStartrip.handler.ArticleWSHandler;
 import ce.daegu.ac.kr.aStartrip.handler.CardWSHandler;
+import ce.daegu.ac.kr.aStartrip.interceptor.HttpHandshakeInterceptor;
 import ce.daegu.ac.kr.aStartrip.handler.TitleWSHandler;
 import ce.daegu.ac.kr.aStartrip.repository.ArticleRepository;
 import ce.daegu.ac.kr.aStartrip.repository.CardRepository;
 import ce.daegu.ac.kr.aStartrip.service.ArticleService;
+import ce.daegu.ac.kr.aStartrip.service.MemberService;
 import ce.daegu.ac.kr.aStartrip.service.CardService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -23,13 +25,16 @@ public class WebSocket implements WebSocketConfigurer {
     private final ObjectMapper objectMapper;
     private final ArticleRepository articleRepository;
     private final ArticleService articleService;
+    private final MemberService memberService;
     private final CardRepository cardRepository;
     private final CardService cardService;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(titleWSHandler(), "/title-ws").setAllowedOrigins("*");
-        registry.addHandler(cardWSHandler(), "/card-ws").setAllowedOrigins("*");
+        registry.addHandler(titleWSHandler(), "/title-ws")
+                .addInterceptors(new HttpHandshakeInterceptor()).setAllowedOrigins("*");
+        registry.addHandler(cardWSHandler(), "/card-ws")
+                .addInterceptors(new HttpHandshakeInterceptor()).setAllowedOrigins("*");
         registry.addHandler(articleWSHandler(), "/article-ws").setAllowedOrigins("*");
     }
 
@@ -38,7 +43,7 @@ public class WebSocket implements WebSocketConfigurer {
     }
 
     public WebSocketHandler cardWSHandler() {
-        return new CardWSHandler(objectMapper, cardRepository, cardService);
+        return new CardWSHandler(objectMapper, cardRepository, cardService, articleService, memberService);
     }
 
     public WebSocketHandler articleWSHandler() {
