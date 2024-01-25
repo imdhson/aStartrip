@@ -4,6 +4,7 @@ import ce.daegu.ac.kr.aStartrip.dto.ArticleDTO;
 import ce.daegu.ac.kr.aStartrip.dto.MemberDTO;
 import ce.daegu.ac.kr.aStartrip.dto.MemberDetails;
 import ce.daegu.ac.kr.aStartrip.service.ArticleService;
+import ce.daegu.ac.kr.aStartrip.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -25,6 +26,9 @@ public class IndexController {
     @Autowired
     private ArticleService articleService;
 
+    @Autowired
+    private MemberService memberService;
+
     @GetMapping("/")
     public String index(Model model, Authentication authentication) {
         List<ArticleDTO> articleDTOList = articleService.getAllArticleList();
@@ -34,8 +38,13 @@ public class IndexController {
             return "index";
         }
         MemberDetails memberDetails = (MemberDetails) authentication.getPrincipal();
-        log.debug("index()" + memberDetails.getUsername());
-        model.addAttribute("username", memberDetails.getUsername());
+        String email = memberDetails.getUsername();
+        log.debug("index()" + email);
+        List<ArticleDTO> articleUserList = memberService.userArticleList(email);
+//        log.debug("index() : " + articleUserList);
+        model.addAttribute("username", email);
+        model.addAttribute("userArticles", articleUserList);
+
         return "index";
     }
 }

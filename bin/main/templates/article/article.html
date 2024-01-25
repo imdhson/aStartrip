@@ -18,9 +18,23 @@
         <div th:replace="~{/fragment/nav :: nav}"></div>
     </header>
     <main>
-        <div th:replace="~{/fragment/addArticle :: addArticle}"></div>
+        <div class="articleTitle">
+            <input id="articleTitle" type="text" placeholder="제목 입니다." required maxlength="30">
+        </div>
+        <div th:replace="~{/article/r01 :: r01}"></div>
+        <div th:replace="~{/article/r02 :: r02}"></div>
+        <div th:replace="~{/article/w01 :: w01}"></div>
+        <div th:replace="~{/article/w02 :: w02}"></div>
+        <div th:replace="~{/article/v01 :: v01}"></div>
+        <div th:replace="~{/article/v02 :: v02}"></div>
+        <div th:replace="~{/article/addArticle :: addArticle}"></div>
     </main>
     <footer th:replace="~{/fragment/footer :: footer}"></footer>
 </body>
+
+
+
+<script src="/js/article.js"></script>
+<script>jsonR([[${ articleNum }]])</script>
 
 </html>

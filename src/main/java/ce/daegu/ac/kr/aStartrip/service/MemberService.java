@@ -12,6 +12,8 @@ public interface MemberService {
 
     boolean findID(String email);
 
+    List<ArticleDTO> userArticleList(String email);
+
     default Member dtoToEntity(MemberDTO dto) {
         Member entity = Member.builder()
                 .name(dto.getName())
