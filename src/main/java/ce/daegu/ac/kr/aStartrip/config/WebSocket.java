@@ -5,8 +5,10 @@ import ce.daegu.ac.kr.aStartrip.handler.ArticleWSHandler;
 import ce.daegu.ac.kr.aStartrip.handler.CardWSHandler;
 import ce.daegu.ac.kr.aStartrip.interceptor.HttpHandshakeInterceptor;
 import ce.daegu.ac.kr.aStartrip.repository.ArticleRepository;
+import ce.daegu.ac.kr.aStartrip.repository.CardRepository;
 import ce.daegu.ac.kr.aStartrip.service.ArticleService;
 import ce.daegu.ac.kr.aStartrip.service.MemberService;
+import ce.daegu.ac.kr.aStartrip.service.CardService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +25,8 @@ public class WebSocket implements WebSocketConfigurer {
     private final ArticleRepository articleRepository;
     private final ArticleService articleService;
     private final MemberService memberService;
+    private final CardRepository cardRepository;
+    private final CardService cardService;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
@@ -36,6 +40,6 @@ public class WebSocket implements WebSocketConfigurer {
     }
 
     public WebSocketHandler cardWSHandler() {
-        return new CardWSHandler(objectMapper);
+        return new CardWSHandler(objectMapper, cardRepository, cardService);
     }
 }

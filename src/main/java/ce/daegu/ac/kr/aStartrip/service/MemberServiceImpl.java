@@ -30,7 +30,7 @@ public class MemberServiceImpl implements MemberService {
     public void findUpdateTitleUser(String email, ArticleDTO dto) {
         Optional<Member> entity = memberRepository.findById(email);
         Member m = entity.get();
-        articleService.changeArticle(m, dto);
+        articleService.updateArticle(m, dto);
     }
 
     @Override
