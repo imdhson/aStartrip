@@ -3,11 +3,8 @@ package ce.daegu.ac.kr.aStartrip.config;
 
 import ce.daegu.ac.kr.aStartrip.handler.ArticleWSHandler;
 import ce.daegu.ac.kr.aStartrip.handler.CardWSHandler;
-<<<<<<< HEAD
 import ce.daegu.ac.kr.aStartrip.interceptor.HttpHandshakeInterceptor;
-=======
 import ce.daegu.ac.kr.aStartrip.handler.TitleWSHandler;
->>>>>>> origin/master
 import ce.daegu.ac.kr.aStartrip.repository.ArticleRepository;
 import ce.daegu.ac.kr.aStartrip.repository.CardRepository;
 import ce.daegu.ac.kr.aStartrip.service.ArticleService;
