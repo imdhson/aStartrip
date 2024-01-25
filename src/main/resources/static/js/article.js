@@ -108,7 +108,7 @@ function articleWS(articleNum, dom){
     
     }
     webSocket.onmessage = function (event){
-        newJsonData = event.data
+        newJsonData =  JSON.parse(event.data) 
         const current_time = new Date().getTime()
         if(current_time - last_interaction >= 3000){
             dom.remove()
