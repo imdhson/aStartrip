@@ -3,6 +3,7 @@ package ce.daegu.ac.kr.aStartrip.config;
 
 import ce.daegu.ac.kr.aStartrip.handler.ArticleWSHandler;
 import ce.daegu.ac.kr.aStartrip.handler.CardWSHandler;
+import ce.daegu.ac.kr.aStartrip.handler.TitleWSHandler;
 import ce.daegu.ac.kr.aStartrip.repository.ArticleRepository;
 import ce.daegu.ac.kr.aStartrip.repository.CardRepository;
 import ce.daegu.ac.kr.aStartrip.service.ArticleService;
@@ -27,15 +28,20 @@ public class WebSocket implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(articleWSHandler(), "/article-ws").setAllowedOrigins("*");
+        registry.addHandler(titleWSHandler(), "/title-ws").setAllowedOrigins("*");
         registry.addHandler(cardWSHandler(), "/card-ws").setAllowedOrigins("*");
+        registry.addHandler(articleWSHandler(), "/article-ws").setAllowedOrigins("*");
     }
 
-    public WebSocketHandler articleWSHandler() {
-        return new ArticleWSHandler(objectMapper, articleRepository, articleService);
+    public WebSocketHandler titleWSHandler() {
+        return new TitleWSHandler(objectMapper, articleRepository, articleService);
     }
 
     public WebSocketHandler cardWSHandler() {
         return new CardWSHandler(objectMapper, cardRepository, cardService);
+    }
+
+    public WebSocketHandler articleWSHandler() {
+        return new ArticleWSHandler(objectMapper, articleRepository, articleService);
     }
 }
