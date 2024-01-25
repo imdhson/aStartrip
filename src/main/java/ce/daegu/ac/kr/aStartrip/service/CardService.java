@@ -8,6 +8,9 @@ public interface CardService {
     CardDTO updateCard(CardDTO cardDTO);
     CardDTO findCardById(long id);
 
+    void changeCard(CardDTO dto);
+    // 카드 핸들러에서 처음으로 접근하는 메소드.
+
     default Card dtoToEntity(CardDTO cardDTO) {
         Card card = Card.builder()
                 .id(cardDTO.getId())

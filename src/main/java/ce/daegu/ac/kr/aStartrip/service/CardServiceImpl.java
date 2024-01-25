@@ -19,6 +19,7 @@ import java.util.Optional;
 public class CardServiceImpl implements CardService {
     private final ArticleRepository articleRepository;
     private final CardRepository cardRepository;
+    private  final ArticleService articleService;
 
     @Override
     public boolean addCard(long num, CardDTO cardDTO) {
@@ -44,6 +45,12 @@ public class CardServiceImpl implements CardService {
             return entityToDto(cardOptional.get());
         }
         return null;
+    }
+
+    @Override
+    public void changeCard(CardDTO dto){
+        Optional<Card> e = cardRepository.findById(dto.getId());
+        Card entity = e.get();
     }
 
     @Override

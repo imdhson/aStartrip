@@ -40,6 +40,6 @@ public class WebSocket implements WebSocketConfigurer {
     }
 
     public WebSocketHandler cardWSHandler() {
-        return new CardWSHandler(objectMapper, cardRepository, cardService);
+        return new CardWSHandler(objectMapper, cardRepository, cardService, articleService);
     }
 }
