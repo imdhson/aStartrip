@@ -59,7 +59,7 @@ function start(articleNum) {
 function articleDetailView(jsonData) {
 
     title.value = jsonData.title
-    articleWS(jsonData.num, title) //article 관리 웹 소켓
+    titleWS(jsonData.num, title) //article 관리 웹 소켓
 
     let cards = jsonData.cardDTOList
     cards.forEach(card => {
@@ -70,23 +70,24 @@ function articleDetailView(jsonData) {
 
     addArticle.style.display = "grid"
     main.appendChild(addArticle)
+    articleWS(jsonData.num, main)
 }
 
-function articleWS(articleNum, dom) { // card 마지막 id가 js에 저장된 것과 일치하지 않으면 if 현재_card > card 추가
-    let webSocket = new WebSocket('ws://' + server_address + '/article-ws')
+function titleWS(articleNum, dom) { // card 마지막 id가 js에 저장된 것과 일치하지 않으면 if 현재_card > card 추가
+    let webSocket = new WebSocket('ws://' + server_address + '/title-ws')
     webSocket.onopen = function (event) {
-        console.log("커넥션 열림")
+        console.log("커넥션 열림 titleWS")
     }
     webSocket.onmessage = function (event) {
-        jsonData = JSON.parse(event.data) //여기서 메시지 받아서 마지막 이벤트 이후 3초 지났을 때에만 대입하도록 수정
+        newTitle = event.data //여기서 메시지 받아서 마지막 이벤트 이후 3초 지났을 때에만 대입하도록 수정
         const current_time = new Date().getTime();
         if (current_time - last_interaction >= 3000) {
-            dom.value = jsonData.title;
-            console.log("titleWS 대입됨: ", jsonData)
+            dom.value = newTitle;
+            console.log("titleWS 대입됨: ", newTitle)
         }
     };
     webSocket.onclose = function (event) {
-        console.log("커넥션 닫힘 ");
+        console.log("커넥션 닫힘 titleWS");
     }
 
     dom.addEventListener('keyup', sendTitle)
@@ -98,13 +99,32 @@ function articleWS(articleNum, dom) { // card 마지막 id가 js에 저장된 �
         var jsonMessage = JSON.stringify({ num: articleNum, title: dom.value })
         webSocket.send(jsonMessage)
     }
-
 }
+
+function articleWS(articleNum, dom){
+    let webSocket = new WebSocket('ws://' + server_address + '/article-ws')
+    webSocket.onopen = function(event){
+        console.log("커넥션 열림 articleWS")
+    
+    }
+    webSocket.onmessage = function (event){
+        newJsonData =  JSON.parse(event.data) 
+        const current_time = new Date().getTime()
+        if(current_time - last_interaction >= 3000){
+            dom.remove()
+            return articleDetailView(newJsonData)
+        }
+    };
+    webSocket.onclose = function(event){
+        console.log("커넥션 닫힘 articleWS")
+    }
+}
+
 
 function cardWS(card, dom) {
     let webSocket = new WebSocket('ws://' + server_address + '/card-ws')
     webSocket.onopen = function (event) {
-        console.log("커넥션 열림")
+        console.log("커넥션 열림 cardWS")
     }
     webSocket.onmessage = function (event) {
         jsonData = JSON.parse(event.data) //여기서 메시지 받아서 마지막 이벤트 이후 3초 지났을 때에만 대입하도록 수정
@@ -117,7 +137,7 @@ function cardWS(card, dom) {
         }
     };
     webSocket.onclose = function (event) {
-        console.log("커넥션 닫힘 ");
+        console.log("커넥션 닫힘 cardWS");
     }
 
     dom.addEventListener('keyup', sendCard)
