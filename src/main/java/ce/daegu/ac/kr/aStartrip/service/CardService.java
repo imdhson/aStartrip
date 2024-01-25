@@ -1,6 +1,8 @@
 package ce.daegu.ac.kr.aStartrip.service;
 
+import ce.daegu.ac.kr.aStartrip.dto.ArticleDTO;
 import ce.daegu.ac.kr.aStartrip.dto.CardDTO;
+import ce.daegu.ac.kr.aStartrip.entity.Article;
 import ce.daegu.ac.kr.aStartrip.entity.Card;
 
 public interface CardService {
@@ -8,8 +10,11 @@ public interface CardService {
     CardDTO updateCard(CardDTO cardDTO);
     CardDTO findCardById(long id);
 
-    void changeCard(CardDTO dto);
-    // 카드 핸들러에서 처음으로 접근하는 메소드.
+    void changeCard(String email, String writer, CardDTO dto);
+
+    long getArticleId(CardDTO cardDTO);
+
+    void updateCard2(CardDTO cardDTO);
 
     default Card dtoToEntity(CardDTO cardDTO) {
         Card card = Card.builder()

@@ -22,7 +22,7 @@ import java.util.Optional;
 public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
-    private final CardService cardService;
+    private final  CardService cardService;
 
     @Override
     public List<ArticleDTO> getAllArticleList() {
@@ -44,14 +44,22 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void updateArticle(Member member, ArticleDTO articleDTO) {
+    public void updateArticle(String email, ArticleDTO articleDTO) {
         Optional<Article> entity = articleRepository.findById(articleDTO.getNum());
         Article article = entity.get();
 
-        if (member.getEmail().equals(article.getMember().getEmail())) {
+        if (email.equals(article.getMember().getEmail())) {
             article.setTitle(articleDTO.getTitle());
             log.info("@@@@@@@@@@@@@@@@@" + article.toString());
             articleRepository.save(article);
+        }
+    }
+
+    @Override
+    public void updateCard1(String username, long articleId, CardDTO cardDTO) {
+        Optional<Article> e = articleRepository.findById(articleId);
+        if(username.equals(e.get().getMember().getEmail())) {
+            cardService.updateCard2(cardDTO);
         }
     }
 

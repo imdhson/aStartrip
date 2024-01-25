@@ -33,16 +33,17 @@ public class WebSocket implements WebSocketConfigurer {
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(titleWSHandler(), "/title-ws")
                 .addInterceptors(new HttpHandshakeInterceptor()).setAllowedOrigins("*");
-        registry.addHandler(cardWSHandler(), "/card-ws").setAllowedOrigins("*");
+        registry.addHandler(cardWSHandler(), "/card-ws")
+                .addInterceptors(new HttpHandshakeInterceptor()).setAllowedOrigins("*");
         registry.addHandler(articleWSHandler(), "/article-ws").setAllowedOrigins("*");
     }
 
     public WebSocketHandler titleWSHandler() {
-        return new TitleWSHandler(objectMapper, articleRepository, articleService, memberService);
+        return new TitleWSHandler(objectMapper, articleRepository, articleService);
     }
 
     public WebSocketHandler cardWSHandler() {
-        return new CardWSHandler(objectMapper, cardRepository, cardService, articleService);
+        return new CardWSHandler(objectMapper, cardRepository, cardService, articleService, memberService);
     }
 
     public WebSocketHandler articleWSHandler() {
