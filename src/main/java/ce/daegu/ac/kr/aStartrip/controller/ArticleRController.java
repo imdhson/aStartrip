@@ -1,6 +1,7 @@
 package ce.daegu.ac.kr.aStartrip.controller;
 
 import ce.daegu.ac.kr.aStartrip.dto.ArticleDTO;
+import ce.daegu.ac.kr.aStartrip.dto.CardDTO;
 import ce.daegu.ac.kr.aStartrip.dto.MemberDTO;
 import ce.daegu.ac.kr.aStartrip.dto.MemberDetails;
 import ce.daegu.ac.kr.aStartrip.entity.Article;
@@ -18,9 +19,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -71,5 +70,11 @@ public class ArticleRController {
             return ResponseEntity.status(HttpStatus.OK).headers(httpheaders).body(memberDTO);
         }
         return null;
+    }
+
+    @PostMapping("/api/article/{num}/add-card")
+    public ResponseEntity<CardDTO> articleUpdate(@PathVariable("num") long num, @AuthenticationPrincipal MemberDetails memberDetails, @RequestBody CardDTO cardDTO){
+        log.debug("CardDTO: {}", cardDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(cardDTO);
     }
 }

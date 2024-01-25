@@ -44,7 +44,7 @@ public class ArticleInsertTest {
             Article article = articleOptional.get();
             log.debug("DEBUG before::::" + article);
             CardDTO cardDTO = CardDTO.builder()
-                    .cardType(CardTypeENUM.V02)
+                    .cardType(CardTypeENUM.R01)
                     .UserInput0("USERINPUT0")
                     .LLMResponse0("LLMResponse0")
                     .LLMResponse1("LLMResponse1")

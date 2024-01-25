@@ -27,7 +27,7 @@
         <div th:replace="~{/article/w02 :: w02}"></div>
         <div th:replace="~{/article/v01 :: v01}"></div>
         <div th:replace="~{/article/v02 :: v02}"></div>
-        <div th:replace="~{/article/addArticle :: addArticle}"></div>
+        <div th:replace="~{/article/addArticle :: addArticle(${articleNum})}"></div>
     </main>
     <footer th:replace="~{/fragment/footer :: footer}"></footer>
 </body>
@@ -35,6 +35,8 @@
 
 
 <script src="/js/article.js"></script>
-<script>jsonR([[${ articleNum }]])</script>
+<script>
+    start([[${ articleNum }]])
+</script>
 
 </html>
