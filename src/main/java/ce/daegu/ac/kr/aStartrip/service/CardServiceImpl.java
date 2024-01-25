@@ -36,4 +36,21 @@ public class CardServiceImpl implements CardService {
         }
         return false;
     }
+
+    @Override
+    public CardDTO findCardById(long id) {
+        Optional<Card> cardOptional = cardRepository.findById(id);
+        if (cardOptional.isPresent()) {
+            return entityToDto(cardOptional.get());
+        }
+        return null;
+    }
+
+    @Override
+    public CardDTO updateCard(CardDTO cardDTO) {
+        //updateCard 수행 시 llmstatus 확인해서 generating 인 경우, LLMService 실행
+        return null;
+    }
+
+
 }

@@ -44,7 +44,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void changeArticle(Member member, ArticleDTO articleDTO) {
+    public void updateArticle(Member member, ArticleDTO articleDTO) {
         if(member.getName().equals(articleDTO.getWriter())) {
             Optional<Article> entity = articleRepository.findById(articleDTO.getNum());
             if(entity.isPresent()) {

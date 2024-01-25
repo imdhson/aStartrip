@@ -4,7 +4,9 @@ import ce.daegu.ac.kr.aStartrip.dto.CardDTO;
 import ce.daegu.ac.kr.aStartrip.entity.Card;
 
 public interface CardService {
-    boolean addCard(long num, CardDTO cardDTO);
+    boolean addCard(long articleNum, CardDTO cardDTO);
+    CardDTO updateCard(CardDTO cardDTO);
+    CardDTO findCardById(long id);
 
     default Card dtoToEntity(CardDTO cardDTO) {
         Card card = Card.builder()

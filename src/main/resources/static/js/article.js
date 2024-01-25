@@ -59,7 +59,7 @@ function start(articleNum) {
 function articleDetailView(jsonData) {
 
     title.value = jsonData.title
-    titleWS(jsonData.num, title) //title 관리 웹 소켓
+    articleWS(jsonData.num, title) //article 관리 웹 소켓
 
     let cards = jsonData.cardDTOList
     cards.forEach(card => {
@@ -72,7 +72,7 @@ function articleDetailView(jsonData) {
     main.appendChild(addArticle)
 }
 
-function titleWS(articleNum, dom) { // card 마지막 id가 js에 저장된 것과 일치하지 않으면 card 추가
+function articleWS(articleNum, dom) { // card 마지막 id가 js에 저장된 것과 일치하지 않으면 if 현재_card > card 추가
     let webSocket = new WebSocket('ws://' + server_address + '/article-ws')
     webSocket.onopen = function (event) {
         console.log("커넥션 열림")

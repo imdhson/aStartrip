@@ -17,7 +17,7 @@ public interface ArticleService {
 
     long addArticle(Member member);
 
-    void changeArticle(Member member, ArticleDTO articleDTO);
+    void updateArticle(Member member, ArticleDTO articleDTO);
     // member와 articleDTO의 writer가 동일할 경우에만 articleDTO로 save(UPDATE) 동작 수행
 
     default Article updateArticle(Article a, ArticleDTO b) {

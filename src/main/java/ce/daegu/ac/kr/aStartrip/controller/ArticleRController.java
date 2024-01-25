@@ -75,6 +75,7 @@ public class ArticleRController {
     @PostMapping("/api/article/{num}/add-card")
     public ResponseEntity<CardDTO> articleUpdate(@PathVariable("num") long num, @AuthenticationPrincipal MemberDetails memberDetails, @RequestBody CardDTO cardDTO){
         log.debug("CardDTO: {}", cardDTO);
+        //add card 요청이 들어오면 ArticleWSHandler로 ArticleDTO를 브로드캐스트를 해야 페이지 갱신 됨.
         return ResponseEntity.status(HttpStatus.OK).body(cardDTO);
     }
 }
