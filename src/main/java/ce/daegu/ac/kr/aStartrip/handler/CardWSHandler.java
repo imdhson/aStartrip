@@ -39,7 +39,7 @@ public class CardWSHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String jsonPayload = message.getPayload();
         CardDTO cardDTO = objectMapper.readValue(jsonPayload, CardDTO.class);
-        log.debug("WS 수신: {}", cardDTO);
+        //log.debug("WS 수신: {}", cardDTO);
 
         if(!session.getAttributes().containsKey("key")) {
             session.getAttributes().put("key", cardDTO.getId());
@@ -47,14 +47,14 @@ public class CardWSHandler extends TextWebSocketHandler {
 
         long key = (long)session.getAttributes().get("key");
 
-        log.info("before === key :  " + key + ", map : " + sessionListCard);
+        //log.info("before === key :  " + key + ", map : " + sessionListCard);
         if(!sessionListCard.containsKey(key)){
             sessionListCard.put(key, new ArrayList<WebSocketSession>());
         }
         if(!sessionListCard.get(key).contains(session)){
             sessionListCard.get(key).add(session);
         }
-        log.info("after === key :  " + key + ", map : " + sessionListCard);
+        //log.info("after === key :  " + key + ", map : " + sessionListCard);
 
 
         MemberDetails memberDetails = (MemberDetails) session.getAttributes().get("memberDetails");
@@ -82,7 +82,7 @@ public class CardWSHandler extends TextWebSocketHandler {
         if(sessionListCard.get(key).isEmpty() || sessionListCard.get(key) == null) {
             sessionListCard.remove(key);
         }
-        log.info("session remove === key :  " + key + ", map : " + sessionListCard);
+        //log.info("session remove === key :  " + key + ", map : " + sessionListCard);
 
         super.afterConnectionClosed(session, status);
     }
