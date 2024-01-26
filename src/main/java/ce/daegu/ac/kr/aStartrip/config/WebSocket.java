@@ -47,6 +47,6 @@ public class WebSocket implements WebSocketConfigurer {
     }
 
     public WebSocketHandler articleWSHandler() {
-        return new ArticleWSHandler(objectMapper, articleRepository, articleService);
+        return new ArticleWSHandler(objectMapper, articleRepository, articleService, cardService);
     }
 }

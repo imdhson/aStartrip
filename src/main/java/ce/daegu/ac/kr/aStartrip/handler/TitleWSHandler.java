@@ -37,7 +37,7 @@ public class TitleWSHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String jsonPayload = message.getPayload();
         ArticleDTO articleDTO = objectMapper.readValue(jsonPayload, ArticleDTO.class);
-        log.debug("WS 수신: {}", articleDTO);
+        //log.debug("WS 수신: {}", articleDTO);
 
         if(!session.getAttributes().containsKey("key")) {
             session.getAttributes().put("key", articleDTO.getNum());
@@ -45,14 +45,14 @@ public class TitleWSHandler extends TextWebSocketHandler {
 
         long key = (long)session.getAttributes().get("key");
 
-        log.info("before === key :  " + key + ", map : " + sessionListTitle);
+        //log.info("before === key :  " + key + ", map : " + sessionListTitle);
         if(!sessionListTitle.containsKey(key)){
             sessionListTitle.put(key, new ArrayList<WebSocketSession>());
         }
         if(!sessionListTitle.get(key).contains(session)){
             sessionListTitle.get(key).add(session);
         }
-        log.info("after === key :  " + key + ", map : " + sessionListTitle);
+        //log.info("after === key :  " + key + ", map : " + sessionListTitle);
 
         MemberDetails memberDetails = (MemberDetails) session.getAttributes().get("memberDetails");
 
@@ -77,7 +77,7 @@ public class TitleWSHandler extends TextWebSocketHandler {
         if(sessionListTitle.get(key).isEmpty() || sessionListTitle.get(key) == null) {
             sessionListTitle.remove(key);
         }
-        log.info("session remove === key :  " + key + ", map : " + sessionListTitle);
+        //log.info("session remove === key :  " + key + ", map : " + sessionListTitle);
 
         super.afterConnectionClosed(session, status);
     }
