@@ -3,6 +3,7 @@ package ce.daegu.ac.kr.aStartrip.handler;
 import ce.daegu.ac.kr.aStartrip.dto.ArticleDTO;
 import ce.daegu.ac.kr.aStartrip.dto.CardDTO;
 import ce.daegu.ac.kr.aStartrip.dto.MemberDetails;
+import ce.daegu.ac.kr.aStartrip.entity.Article;
 import ce.daegu.ac.kr.aStartrip.entity.Card;
 import ce.daegu.ac.kr.aStartrip.repository.CardRepository;
 import ce.daegu.ac.kr.aStartrip.service.ArticleService;
@@ -14,14 +15,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Component
@@ -33,8 +32,7 @@ public class CardWSHandler extends TextWebSocketHandler {
     private final ArticleService articleService;
     private final MemberService memberService;
 
-    private static Map<Long, List<WebSocketSession>> sessionList = new HashMap<>();
-    private long key = 0;
+    private static Map<Long, List<WebSocketSession>> sessionListCard = new HashMap<>();
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -42,14 +40,49 @@ public class CardWSHandler extends TextWebSocketHandler {
         CardDTO cardDTO = objectMapper.readValue(jsonPayload, CardDTO.class);
         log.debug("WS 수신: {}", cardDTO);
 
-        MemberDetails memberDetails = (MemberDetails) session.getAttributes().get("memberDetails");
-        long articleId = cardService.getArticleId(cardDTO);
-        articleService.updateCard1(memberDetails.getUsername(), articleId, cardDTO);
+        if(!session.getAttributes().containsKey("key")) {
+            session.getAttributes().put("key", cardDTO.getId());
+        }
 
-        //수정된 것을 받을 때마다 브로드캐스트로 card-ws   sendMessage 수행하여 js 에서 데이터 갱신하기
-        Optional<Card> cardOptional = cardRepository.findById(cardDTO.getId());
-        CardDTO cardDTO1 = cardService.entityToDto(cardOptional.get());
-        session.sendMessage(new TextMessage(objectMapper.writeValueAsBytes(cardDTO1)));
+        long key = (long)session.getAttributes().get("key");
+
+        log.info("before === key :  " + key + ", map : " + sessionListCard);
+        if(!sessionListCard.containsKey(key)){
+            sessionListCard.put(key, new ArrayList<WebSocketSession>());
+        }
+        if(!sessionListCard.get(key).contains(session)){
+            sessionListCard.get(key).add(session);
+        }
+        log.info("after === key :  " + key + ", map : " + sessionListCard);
+
+
+        MemberDetails memberDetails = (MemberDetails) session.getAttributes().get("memberDetails");
+
+        if(cardDTO.getCardType() != null) {
+            long articleId = cardService.getArticleId(cardDTO);
+            boolean pass = articleService.updateCard1(memberDetails.getUsername(), articleId, cardDTO);
+
+            if (pass) {
+                //수정된 것을 받을 때마다 브로드캐스트로 card-ws   sendMessage 수행하여 js 에서 데이터 갱신하기
+                Optional<Card> cardOptional = cardRepository.findById(cardDTO.getId());
+                CardDTO cardDTO1 = cardService.entityToDto(cardOptional.get());
+                for (WebSocketSession s : sessionListCard.get(key)) {
+                    s.sendMessage(new TextMessage(objectMapper.writeValueAsBytes(cardDTO1)));
+                }
+            }
+        }
+    }
+
+    @Override
+    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+        long key = (long)session.getAttributes().get("key");
+        sessionListCard.get(key).remove(session);
+        if(sessionListCard.get(key).isEmpty() || sessionListCard.get(key) == null) {
+            sessionListCard.remove(key);
+        }
+        log.info("session remove === key :  " + key + ", map : " + sessionListCard);
+
+        super.afterConnectionClosed(session, status);
     }
 }
 
