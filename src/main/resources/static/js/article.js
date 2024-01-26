@@ -74,7 +74,6 @@ function articleDetailView(jsonData) {
 function titleWS(articleNum, dom) { // card 마지막 id가 js에 저장된 것과 일치하지 않으면 if 현재_card > card 추가
     let webSocket = new WebSocket('ws://' + server_address + '/title-ws')
     webSocket.onopen = function (event) {
-
         var jsonMessage = JSON.stringify({
             num: articleNum
         })
