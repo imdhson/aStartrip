@@ -29,8 +29,8 @@ for card in some_cards:
     token = 'fwjgKFvw5mJgOXDiTDzXwIsEpgkdwFQrBsoAhDCc4hutK-RJlUnejL-vsr6IhQp460_LhQ.'
     bard = Bard(token = token)
     response = bard.get_answer(card.user_input0)
-    card.llmresponse0 =  response['content']
-    card.llm_status= 'COMPLETED'
+    card.llmresponse0 =  response['content'] 
+    card.llm_status= 'COMPLETED' # llm status completed로 변경
     print("db에 대입됨: ",response['content'])
 session.commit()
 

@@ -7,6 +7,7 @@ const w02 = document.querySelector(".w02").cloneNode(true)
 const v01 = document.querySelector(".v01").cloneNode(true)
 const v02 = document.querySelector(".v02").cloneNode(true)
 const title = document.querySelector("#articleTitle")
+let articleWS_webSocket = null
 
 const cardsDOM = document.querySelector(".cards")
 const addArticle = document.querySelector(".grid-add")
@@ -74,15 +75,16 @@ function articleDetailView(jsonData) {
 function titleWS(articleNum, dom) { // card 마지막 id가 js에 저장된 것과 일치하지 않으면 if 현재_card > card 추가
     let webSocket = new WebSocket('ws://' + server_address + '/title-ws')
     webSocket.onopen = function (event) {
+
         var jsonMessage = JSON.stringify({
             num: articleNum
         })
         webSocket.send(jsonMessage)
     }
     webSocket.onmessage = function (event) {
-        newTitle = event.data //여기서 메시지 받아서 마지막 이벤트 이후 3초 지났을 때에만 대입하도록 수정
+        newTitle = event.data //여기서 메시지 받아서 마지막 이벤트 이후 1초 지났을 때에만 대입하도록 수정
         const current_time = new Date().getTime();
-        if (current_time - last_interaction >= 3000) {
+        if (current_time - last_interaction >= 1000) {
             dom.value = newTitle;
             console.log("titleWS 대입됨: ", newTitle)
         }
@@ -104,30 +106,30 @@ function titleWS(articleNum, dom) { // card 마지막 id가 js에 저장된 것�
 
 function articleWS(articleNum, dom) {
     //card add 등을 통해 article 전체가 변경된 경우에 사용됨
-    let webSocket = new WebSocket('ws://' + server_address + '/article-ws')
-    webSocket.onopen = function (event) {
+    articleWS_webSocket = new WebSocket('ws://' + server_address + '/article-ws')
+    articleWS_webSocket.onopen = function (event) {
         console.log("커넥션 열림 articleWS")
         var jsonMessage = JSON.stringify({
             num: articleNum
         })
-        webSocket.send(jsonMessage)
+        articleWS_webSocket.send(jsonMessage)
     }
-    webSocket.onmessage = function (event) {
+    articleWS_webSocket.onmessage = function (event) {
         newJsonData = JSON.parse(event.data)
         const current_time = new Date().getTime()
-        // if (current_time - last_interaction >= 3000) {
+        if (current_time - last_interaction >= 1000) {
 
-        if (confirm("cardsDom remove and detailview")) {
-            while (dom.firstChild) { //dom아래의 요소들을 제거 
-                dom.removeChild(dom.firstChild);
+            if (confirm("cardsDom remove and detailview")) {
+                while (dom.firstChild) { //dom아래의 요소들을 제거 
+                    dom.removeChild(dom.firstChild);
+                }
+                return articleDetailView(newJsonData)
             }
-            return articleDetailView(newJsonData)
+
+
         }
-
-
-        // }
     };
-    webSocket.onclose = function (event) {
+    articleWS_webSocket.onclose = function (event) {
         console.log("커넥션 닫힘 articleWS")
     }
 }
@@ -144,10 +146,10 @@ function cardWS(card, dom) {
 
     }
     webSocket.onmessage = function (event) {
-        //여기서 변경된 카드 받아서 마지막 이벤트 이후 3초 지났을 때에만 대입하도록 수정
+        //여기서 변경된 카드 받아서 마지막 이벤트 이후 1초 지났을 때에만 대입하도록 수정
         newCard = JSON.parse(event.data)
         const current_time = new Date().getTime();
-        if (current_time - last_interaction >= 3000) {
+        if (current_time - last_interaction >= 1000) {
             while (dom.firstChild) {
                 dom.removeChild(dom.firstChild)
             }
@@ -207,24 +209,13 @@ function cardWS(card, dom) {
     }
 }
 function addCard(articleNum, cardType1) {
-    console.log(articleNum, cardType1)
-    const cardDTO = {
-        cardType: cardType1
+    const articleDTO = {
+        num: articleNum,
+        cardDTOList: [{ cardType: cardType1 }]
     }
-    fetch('http://' + server_address + '/api/article/' + articleNum + '/add-card', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(cardDTO)
-    })
-        .then(response => response.json())
-        .then(data => {
-            console.log("성공", data)
-        })
-        .catch((error => {
-            console.error("에러: ", error)
-        }));
+    jsonMessage = JSON.stringify(articleDTO)
+    console.log(articleDTO)
+    articleWS_webSocket.send(jsonMessage)
 }
 
 function cardBuild(card, dom) {

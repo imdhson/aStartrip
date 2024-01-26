@@ -39,7 +39,7 @@ public class TitleWSHandler extends TextWebSocketHandler {
         ArticleDTO articleDTO = objectMapper.readValue(jsonPayload, ArticleDTO.class);
         log.debug("WS 수신: {}", articleDTO);
 
-        if(session.getAttributes().containsKey("key")) {
+        if(!session.getAttributes().containsKey("key")) {
             session.getAttributes().put("key", articleDTO.getNum());
         }
 

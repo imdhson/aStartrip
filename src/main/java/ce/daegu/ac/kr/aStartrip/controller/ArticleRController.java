@@ -9,6 +9,7 @@ import ce.daegu.ac.kr.aStartrip.entity.Member;
 import ce.daegu.ac.kr.aStartrip.repository.ArticleRepository;
 import ce.daegu.ac.kr.aStartrip.repository.MemberRepository;
 import ce.daegu.ac.kr.aStartrip.service.ArticleService;
+import ce.daegu.ac.kr.aStartrip.service.CardService;
 import ce.daegu.ac.kr.aStartrip.service.MemberService;
 import jakarta.validation.constraints.Null;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,7 @@ import java.util.Optional;
 public class ArticleRController {
     private final ArticleRepository articleRepository;
     private final ArticleService articleService;
+    private final CardService cardService;
     private final MemberService memberService; // !
     private final MemberRepository memberRepository; // !
 
@@ -73,9 +75,10 @@ public class ArticleRController {
     }
 
     @PostMapping("/api/article/{num}/add-card")
-    public ResponseEntity<CardDTO> articleUpdate(@PathVariable("num") long num, @AuthenticationPrincipal MemberDetails memberDetails, @RequestBody CardDTO cardDTO){
+    public void articleUpdate(@PathVariable("num") long num, @AuthenticationPrincipal MemberDetails memberDetails, @RequestBody CardDTO cardDTO) {
         log.debug("CardDTO: {}", cardDTO);
+        cardService.addCard(num, cardDTO);
+
         //add card 요청이 들어오면 ArticleWSHandler로 ArticleDTO를 브로드캐스트를 해야 페이지 갱신 됨.
-        return ResponseEntity.status(HttpStatus.OK).body(cardDTO);
     }
 }
