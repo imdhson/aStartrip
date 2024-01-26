@@ -11,9 +11,10 @@ import org.springframework.stereotype.Service;
 public class BardService implements LLMService {
     private final CardService cardService;
 
+    private static boolean running = false;
     @Override
     public CardDTO execute(CardDTO cardDTO) {
-        //carddto.id 로 llmstatus 가 generating 인 경우에
+        // carddto.id 로 llmstatus 가 generating 인 경우에
         // userinput0으로 llm 사용 이후 llmresponse에 반환함.
         CardDTO cardDTOfind = cardService.findCardById(cardDTO.getId());
 

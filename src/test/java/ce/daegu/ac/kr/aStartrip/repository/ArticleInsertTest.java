@@ -45,7 +45,7 @@ public class ArticleInsertTest {
             log.debug("DEBUG before::::" + article);
             CardDTO cardDTO = CardDTO.builder()
                     .cardType(CardTypeENUM.W01)
-                    .UserInput0("안녕하세요. 구글 바드님. 엄준식에 대해 알려주세요.")
+                    .UserInput0("안녕하세요. 구글 바드님. 대구대학교 이백승에 대해 알려주세요.")
                     .LLMResponse0("LLMResponse0")
                     .LLMResponse1("LLMResponse1")
                     .LLMResponse2("LLMResponse2")
