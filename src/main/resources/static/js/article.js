@@ -6,14 +6,13 @@ const w01 = document.querySelector(".w01").cloneNode(true)
 const w02 = document.querySelector(".w02").cloneNode(true)
 const v01 = document.querySelector(".v01").cloneNode(true)
 const v02 = document.querySelector(".v02").cloneNode(true)
-const title = document.querySelector("#articleTitle")
-let articleWS_webSocket
-let cardWS_webSocket
-let titleWS_webSocket
 
+const title = document.querySelector("#articleTitle")
 const cardsDOM = document.querySelector(".cards")
 const addArticle = document.querySelector(".grid-add")
 
+let cardWS_webSocket_arr = []
+let articleWS_webSocket;
 let last_interaction = 0;
 
 function start(articleNum) {
@@ -28,7 +27,9 @@ function start(articleNum) {
         })
         .then(jsonData => {
             // 게시글 json 으로 처리 시작
-            articleWS(jsonData.num, cardsDOM) //article 수정 시 수신해서 새로 그리는 websocket
+
+            title.value = jsonData.title
+            titleWS(jsonData.num, title) //article 관리 웹 소켓
             articleDetailView(jsonData)
         })
         .catch(error => {
@@ -59,9 +60,7 @@ function start(articleNum) {
 // writer: "1name"
 
 function articleDetailView(jsonData) {
-
-    title.value = jsonData.title
-    titleWS(jsonData.num, title) //article 관리 웹 소켓
+    articleWS(jsonData.num, cardsDOM) //article 수정 시 수신해서 새로 그리는 websocket
 
     let cards = jsonData.cardDTOList
     cards.forEach(card => {
@@ -74,7 +73,7 @@ function articleDetailView(jsonData) {
 
 }
 
-function titleWS(articleNum, dom) { // card 마지막 id가 js에 저장된 것과 일치하지 않으면 if 현재_card > card 추가
+function titleWS(articleNum, dom) {
     titleWS_webSocket = new WebSocket('ws://' + server_address + '/title-ws')
     titleWS_webSocket.onopen = function (event) {
 
@@ -120,17 +119,15 @@ function articleWS(articleNum, dom) {
         newJsonData = JSON.parse(event.data)
         const current_time = new Date().getTime()
         if (current_time - last_interaction >= 1000) {
-
-            if (confirm("cardsDom remove and detailview")) {
-                while (dom.firstChild) { //dom아래의 요소들을 제거 
-                    dom.removeChild(dom.firstChild);
-                }
-                articleWS_webSocket.close()
-                cardWS_webSocket.close()
-                return articleDetailView(newJsonData)
+            while (dom.firstChild) { //dom아래의 요소들을 제거 
+                dom.removeChild(dom.firstChild);
             }
-
-
+            articleWS_webSocket.close()
+            cardWS_webSocket_arr.forEach(e => {
+                // article-ws에서 글 갱신시 close하기 위해서 담음
+                e.close()
+            })
+            return articleDetailView(newJsonData)
         }
     };
     articleWS_webSocket.onclose = function (event) {
@@ -140,7 +137,8 @@ function articleWS(articleNum, dom) {
 
 
 function cardWS(card, dom) {
-    cardWS_webSocket = new WebSocket('ws://' + server_address + '/card-ws')
+    const cardWS_webSocket = new WebSocket('ws://' + server_address + '/card-ws')
+    cardWS_webSocket_arr.push(cardWS_webSocket) // article-ws에서 글 갱신시 close하기 위해서 담음
     cardWS_webSocket.onopen = function (event) {
         console.log("커넥션 열림 cardWS")
         var jsonMessage = JSON.stringify({
@@ -220,8 +218,10 @@ function addCard(articleNum, cardType1) {
         cardDTOList: [{ cardType: cardType1 }]
     }
     jsonMessage = JSON.stringify(articleDTO)
-    console.log(articleDTO)
-    articleWS_webSocket.send(jsonMessage)
+    if (articleWS_webSocket.readyState === WebSocket.OPEN) {
+        console.log(jsonMessage)
+        articleWS_webSocket.send(jsonMessage)
+    }
 }
 
 function cardBuild(card, dom) {
