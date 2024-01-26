@@ -74,21 +74,25 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public void updateCard2(CardDTO cardDTO) {
+    public boolean updateCard2(CardDTO cardDTO) {
         Optional<Card> e = cardRepository.findById(cardDTO.getId());
-        Card entity = e.get();
-        if (cardDTO.getUserInput0() != null && !cardDTO.getUserInput0().isEmpty()) {
-            entity.setUserInput0(cardDTO.getUserInput0());
+        if(e.isPresent()) {
+            Card entity = e.get();
+            if (cardDTO.getUserInput0() != null && !cardDTO.getUserInput0().isEmpty()) {
+                entity.setUserInput0(cardDTO.getUserInput0());
+            }
+            if (cardDTO.getLLMResponse0() != null && !cardDTO.getLLMResponse0().isEmpty()) {
+                entity.setLLMResponse0(cardDTO.getLLMResponse0());
+            }
+            if (cardDTO.getLLMResponse1() != null && !cardDTO.getLLMResponse1().isEmpty()) {
+                entity.setLLMResponse1(cardDTO.getLLMResponse1());
+            }
+            if (cardDTO.getLLMResponse2() != null && !cardDTO.getLLMResponse2().isEmpty()) {
+                entity.setLLMResponse2(cardDTO.getLLMResponse2());
+            }
+            return true;
         }
-        if (cardDTO.getLLMResponse0() != null && !cardDTO.getLLMResponse0().isEmpty()) {
-            entity.setLLMResponse0(cardDTO.getLLMResponse0());
-        }
-        if (cardDTO.getLLMResponse1() != null && !cardDTO.getLLMResponse1().isEmpty()) {
-            entity.setLLMResponse1(cardDTO.getLLMResponse1());
-        }
-        if (cardDTO.getLLMResponse2() != null &&!cardDTO.getLLMResponse2().isEmpty()) {
-            entity.setLLMResponse2(cardDTO.getLLMResponse2());
-        }
+        return false;
     }
 
     @Override

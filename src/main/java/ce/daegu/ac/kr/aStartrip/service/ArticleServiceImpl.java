@@ -60,11 +60,12 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void updateCard1(String username, long articleId, CardDTO cardDTO) {
+    public boolean updateCard1(String username, long articleId, CardDTO cardDTO) {
         Optional<Article> e = articleRepository.findById(articleId);
         if(username.equals(e.get().getMember().getEmail())) {
-            cardService.updateCard2(cardDTO);
+            return cardService.updateCard2(cardDTO);
         }
+        return false;
     }
 
 }

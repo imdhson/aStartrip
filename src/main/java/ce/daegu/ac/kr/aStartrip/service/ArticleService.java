@@ -20,7 +20,7 @@ public interface ArticleService {
     boolean updateArticle(String email, ArticleDTO articleDTO);
     // member와 articleDTO의 writer가 동일할 경우에만 articleDTO로 save(UPDATE) 동작 수행
 
-    void updateCard1(String username, long articleId, CardDTO cardDTO);
+    boolean updateCard1(String username, long articleId, CardDTO cardDTO);
 
     default Article dtoToEntity(ArticleDTO dto, Member member) {
         Article entity = Article.builder()
