@@ -7,7 +7,9 @@ const w02 = document.querySelector(".w02").cloneNode(true)
 const v01 = document.querySelector(".v01").cloneNode(true)
 const v02 = document.querySelector(".v02").cloneNode(true)
 const title = document.querySelector("#articleTitle")
-let articleWS_webSocket = null
+let articleWS_webSocket
+let cardWS_webSocket
+let titleWS_webSocket
 
 const cardsDOM = document.querySelector(".cards")
 const addArticle = document.querySelector(".grid-add")
@@ -73,15 +75,15 @@ function articleDetailView(jsonData) {
 }
 
 function titleWS(articleNum, dom) { // card 마지막 id가 js에 저장된 것과 일치하지 않으면 if 현재_card > card 추가
-    let webSocket = new WebSocket('ws://' + server_address + '/title-ws')
-    webSocket.onopen = function (event) {
+    titleWS_webSocket = new WebSocket('ws://' + server_address + '/title-ws')
+    titleWS_webSocket.onopen = function (event) {
 
         var jsonMessage = JSON.stringify({
             num: articleNum
         })
-        webSocket.send(jsonMessage)
+        titleWS_webSocket.send(jsonMessage)
     }
-    webSocket.onmessage = function (event) {
+    titleWS_webSocket.onmessage = function (event) {
         newTitle = event.data //여기서 메시지 받아서 마지막 이벤트 이후 1초 지났을 때에만 대입하도록 수정
         const current_time = new Date().getTime();
         if (current_time - last_interaction >= 1000) {
@@ -89,7 +91,7 @@ function titleWS(articleNum, dom) { // card 마지막 id가 js에 저장된 것�
             console.log("titleWS 대입됨: ", newTitle)
         }
     };
-    webSocket.onclose = function (event) {
+    titleWS_webSocket.onclose = function (event) {
         console.log("커넥션 닫힘 titleWS");
     }
 
@@ -100,7 +102,7 @@ function titleWS(articleNum, dom) { // card 마지막 id가 js에 저장된 것�
     function sendTitle(event) {
         last_interaction = new Date().getTime()
         var jsonMessage = JSON.stringify({ num: articleNum, title: dom.value })
-        webSocket.send(jsonMessage)
+        titleWS_webSocket.send(jsonMessage)
     }
 }
 
@@ -123,6 +125,8 @@ function articleWS(articleNum, dom) {
                 while (dom.firstChild) { //dom아래의 요소들을 제거 
                     dom.removeChild(dom.firstChild);
                 }
+                articleWS_webSocket.close()
+                cardWS_webSocket.close()
                 return articleDetailView(newJsonData)
             }
 
@@ -136,16 +140,18 @@ function articleWS(articleNum, dom) {
 
 
 function cardWS(card, dom) {
-    let webSocket = new WebSocket('ws://' + server_address + '/card-ws')
-    webSocket.onopen = function (event) {
+    cardWS_webSocket = new WebSocket('ws://' + server_address + '/card-ws')
+    cardWS_webSocket.onopen = function (event) {
         console.log("커넥션 열림 cardWS")
         var jsonMessage = JSON.stringify({
             id: card.id
         })
-        webSocket.send(jsonMessage)
+        if (cardWS_webSocket.readyState === WebSocket.OPEN) {
+            cardWS_webSocket.send(jsonMessage)
+        }
 
     }
-    webSocket.onmessage = function (event) {
+    cardWS_webSocket.onmessage = function (event) {
         //여기서 변경된 카드 받아서 마지막 이벤트 이후 1초 지났을 때에만 대입하도록 수정
         newCard = JSON.parse(event.data)
         const current_time = new Date().getTime();
@@ -157,7 +163,7 @@ function cardWS(card, dom) {
             console.log("card 재생성됨:: ", newCard)
         }
     };
-    webSocket.onclose = function (event) {
+    cardWS_webSocket.onclose = function (event) {
         console.log("커넥션 닫힘 cardWS");
     }
 
@@ -205,7 +211,7 @@ function cardWS(card, dom) {
                 break
         }
         jsonMessage = JSON.stringify(jsonObj)
-        webSocket.send(jsonMessage)
+        cardWS_webSocket.send(jsonMessage)
     }
 }
 function addCard(articleNum, cardType1) {

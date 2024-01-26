@@ -19,8 +19,15 @@ public class BardServiceTest {
     @Autowired
     private CardService cardService;
 
+
+    @Test
+    public void currentpath(){
+        llmService.execute(1);
+    }
+
     @Test
     public void executeTest() {
+
 //        CardDTO cardDTO  = cardService.findCardById(1L);
 //        llmService.execute(cardDTO);
         try{

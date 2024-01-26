@@ -8,6 +8,7 @@ import ce.daegu.ac.kr.aStartrip.entity.Card;
 import ce.daegu.ac.kr.aStartrip.repository.CardRepository;
 import ce.daegu.ac.kr.aStartrip.service.ArticleService;
 import ce.daegu.ac.kr.aStartrip.service.CardService;
+import ce.daegu.ac.kr.aStartrip.service.LLMService;
 import ce.daegu.ac.kr.aStartrip.service.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -61,6 +62,7 @@ public class CardWSHandler extends TextWebSocketHandler {
         if(cardDTO.getCardType() != null) {
             long articleId = cardService.getArticleId(cardDTO);
             boolean pass = articleService.updateCard1(memberDetails.getUsername(), articleId, cardDTO);
+
 
             if (pass) {
                 //수정된 것을 받을 때마다 브로드캐스트로 card-ws   sendMessage 수행하여 js 에서 데이터 갱신하기
