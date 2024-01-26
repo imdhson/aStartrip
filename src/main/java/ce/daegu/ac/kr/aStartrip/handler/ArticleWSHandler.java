@@ -27,14 +27,12 @@ public class ArticleWSHandler extends TextWebSocketHandler {
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String jsonPayload = message.getPayload();
-        ArticleDTO articleDTO = objectMapper.readValue(jsonPayload, ArticleDTO.class);
-        log.debug("WS 수신: {}", articleDTO);
 
-        //수정된 것을 받을 때마다 브로드캐스트로 article-ws sendMessage 수행하여 js 에서 데이터 갱신하기
-
-        Optional<Article> articleOptional= articleRepository.findById(articleDTO.getNum());
-        ArticleDTO articleDTO1 = articleService.entityToDto(articleOptional.get());
-        session.sendMessage(new TextMessage(objectMapper.writeValueAsBytes(articleDTO1)));
+        //card add 시에
+        // 브로드캐스트로 sendMessage 수행하여 js 에서 데이터 갱신하기
+//        Optional<Article> articleOptional= articleRepository.findById(articleDTO.getNum());
+//        ArticleDTO articleDTO1 = articleService.entityToDto(articleOptional.get());
+//        session.sendMessage(new TextMessage(objectMapper.writeValueAsBytes(articleDTO1)));
     }
 
 }
