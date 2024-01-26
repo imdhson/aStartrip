@@ -18,6 +18,9 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -29,6 +32,9 @@ public class CardWSHandler extends TextWebSocketHandler {
     private final CardService cardService;
     private final ArticleService articleService;
     private final MemberService memberService;
+
+    private static Map<Long, List<WebSocketSession>> sessionList = new HashMap<>();
+    private long key = 0;
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
