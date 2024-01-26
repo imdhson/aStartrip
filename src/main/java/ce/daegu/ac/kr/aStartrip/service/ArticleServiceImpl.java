@@ -44,15 +44,19 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void updateArticle(String email, ArticleDTO articleDTO) {
+    public boolean updateArticle(String email, ArticleDTO articleDTO) {
         Optional<Article> entity = articleRepository.findById(articleDTO.getNum());
-        Article article = entity.get();
+        if(entity.isPresent()) {
+            Article article = entity.get();
 
-        if (email.equals(article.getMember().getEmail())) {
-            article.setTitle(articleDTO.getTitle());
-            log.info("@@@@@@@@@@@@@@@@@" + article.toString());
-            articleRepository.save(article);
+            if (email.equals(article.getMember().getEmail())) {
+                article.setTitle(articleDTO.getTitle());
+                log.info("@@@@@@@@@@@@@@@@@" + article.toString());
+                articleRepository.save(article);
+            }
+            return true;
         }
+        return false;
     }
 
     @Override
