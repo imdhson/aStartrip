@@ -25,7 +25,7 @@ function start(articleNum) {
         })
         .then(jsonData => {
             // 게시글 json 으로 처리 시작
-            articleWS(jsonData.num, cardsDOM)
+            articleWS(jsonData.num, cardsDOM) //article 수정 시 수신해서 새로 그리는 websocket
             articleDetailView(jsonData)
         })
         .catch(error => {
@@ -74,7 +74,9 @@ function articleDetailView(jsonData) {
 function titleWS(articleNum, dom) { // card 마지막 id가 js에 저장된 것과 일치하지 않으면 if 현재_card > card 추가
     let webSocket = new WebSocket('ws://' + server_address + '/title-ws')
     webSocket.onopen = function (event) {
-        console.log("커넥션 열림 titleWS")
+        
+        var jsonMessage = JSON.stringify({ num: articleNum })
+        webSocket.send(jsonMessage)
     }
     webSocket.onmessage = function (event) {
         newTitle = event.data //여기서 메시지 받아서 마지막 이벤트 이후 3초 지났을 때에만 대입하도록 수정
@@ -89,7 +91,7 @@ function titleWS(articleNum, dom) { // card 마지막 id가 js에 저장된 것�
     }
 
     dom.addEventListener('keyup', sendTitle)
-    dom.addEventListener('blur', sendTitle)
+    // dom.addEventListener('blur', sendTitle)
 
 
     function sendTitle(event) {
@@ -132,17 +134,18 @@ function cardWS(card, dom) {
     let webSocket = new WebSocket('ws://' + server_address + '/card-ws')
     webSocket.onopen = function (event) {
         console.log("커넥션 열림 cardWS")
+
     }
     webSocket.onmessage = function (event) {
-        jsonData = JSON.parse(event.data) //여기서 메시지 받아서 마지막 이벤트 이후 3초 지났을 때에만 대입하도록 수정
-        console.log(jsonData)
+        //여기서 변경된 카드 받아서 마지막 이벤트 이후 3초 지났을 때에만 대입하도록 수정
+        newCard = JSON.parse(event.data) 
         const current_time = new Date().getTime();
         if (current_time - last_interaction >= 3000) {
             while(dom.firstChild){
                 dom.removeChild(dom.firstChild)
             }
-            cardBuild(card, dom)
-            console.log("card 재생성됨:: ", jsonData)
+            cardBuild(newCard, dom)
+            console.log("card 재생성됨:: ", newCard)
         }
     };
     webSocket.onclose = function (event) {
@@ -150,9 +153,10 @@ function cardWS(card, dom) {
     }
 
     dom.addEventListener('keyup', sendCard)
-    dom.addEventListener('blur', sendCard)
+    // dom.addEventListener('blur', sendCard)
 
     function sendCard(event) {
+        //카드에 변경이 있을 경우에 card-ws로 보내는 역할 
         last_interaction = new Date().getTime()
 
 

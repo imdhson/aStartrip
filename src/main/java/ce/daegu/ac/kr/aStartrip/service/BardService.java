@@ -15,7 +15,8 @@ public class BardService implements LLMService {
     public CardDTO execute(CardDTO cardDTO) {
         //carddto.id 로 llmstatus 가 generating 인 경우에
         // userinput0으로 llm 사용 이후 llmresponse에 반환함.
-        CardDTO cardDTO1 = cardService.findCardById(cardDTO.getId());
-        return cardDTO1; //수정해야함 !!!!
+        CardDTO cardDTOfind = cardService.findCardById(cardDTO.getId());
+
+        return cardDTOfind; //수정해야함 !!!!
     }
 }

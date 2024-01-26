@@ -1,7 +1,7 @@
 .grid-add {
     margin-top: 20px;
     grid-template-columns: repeat(3, 1fr);
-    border: 1px dotted red;
+    /* border: 1px dotted red; */
     /* display: grid; */
     display: none;
     gap: 10px;
@@ -16,7 +16,7 @@
 }
 
 .grid-add .grid-item .button {
-    border: 1px dotted black;
+    /* border: 1px dotted black; */
     border-radius: 30px;
     margin: 10px;
     padding: 10px;
@@ -32,7 +32,7 @@
 
 
 .articleTitle {
-    border: 1px solid black;
+    /* border: 1px solid black; */
     width: 100%;
     min-height: 50px;
 }
@@ -53,7 +53,8 @@
 .w02,
 .v01,
 .v02 {
-    width: 100%;
+    width: calc( 100% - 20px );
+    padding: 10px;
     border: 1px solid black;
     /* display: flex; */
     display: none;
@@ -65,7 +66,7 @@
 .r01 .reg {
     min-width: 500px;
     padding: 10px;
-    border: 1px solid skyblue;
+    /* border: 1px solid skyblue; */
     background-color: aquamarine;
     text-align: center;
 }
@@ -121,7 +122,7 @@
     min-width: 500px;
     min-height: 50px;
     background-color: rgb(210, 210, 210);
-    border: 1px solid black;
+    /* border: 1px solid black; */
 }
 
 
@@ -132,7 +133,7 @@
 .v02 .reg {
     width: 100%;
     padding: 10px;
-    border: 1px solid skyblue;
+    /* border: 1px solid skyblue; */
     text-align: center;
 }
 

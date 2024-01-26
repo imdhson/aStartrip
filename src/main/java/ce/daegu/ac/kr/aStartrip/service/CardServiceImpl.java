@@ -49,19 +49,19 @@ public class CardServiceImpl implements CardService {
 
     @Override
     public void changeCard(String email, String writer, CardDTO dto) {
-        if(email.equals(writer)) {
+        if (email.equals(writer)) {
             Optional<Card> e = cardRepository.findById(dto.getId());
             Card entity = e.get();
-            if(!dto.getUserInput0().isEmpty()) {
+            if (!dto.getUserInput0().isEmpty()) {
                 entity.setUserInput0(dto.getUserInput0());
             }
-            if(!dto.getLLMResponse0().isEmpty()) {
+            if (!dto.getLLMResponse0().isEmpty()) {
                 entity.setLLMResponse0(dto.getLLMResponse0());
             }
-            if(!dto.getLLMResponse1().isEmpty()) {
+            if (!dto.getLLMResponse1().isEmpty()) {
                 entity.setLLMResponse1(dto.getLLMResponse1());
             }
-            if(!dto.getLLMResponse2().isEmpty()) {
+            if (!dto.getLLMResponse2().isEmpty()) {
                 entity.setLLMResponse2(dto.getLLMResponse2());
             }
         }
@@ -77,16 +77,16 @@ public class CardServiceImpl implements CardService {
     public void updateCard2(CardDTO cardDTO) {
         Optional<Card> e = cardRepository.findById(cardDTO.getId());
         Card entity = e.get();
-        if(!cardDTO.getUserInput0().isEmpty()){
+        if (cardDTO.getUserInput0() != null && !cardDTO.getUserInput0().isEmpty()) {
             entity.setUserInput0(cardDTO.getUserInput0());
         }
-        if(!cardDTO.getLLMResponse0().isEmpty()) {
+        if (cardDTO.getLLMResponse0() != null && !cardDTO.getLLMResponse0().isEmpty()) {
             entity.setLLMResponse0(cardDTO.getLLMResponse0());
         }
-        if(!cardDTO.getLLMResponse1().isEmpty()) {
+        if (cardDTO.getLLMResponse1() != null && !cardDTO.getLLMResponse1().isEmpty()) {
             entity.setLLMResponse1(cardDTO.getLLMResponse1());
         }
-        if(!cardDTO.getLLMResponse2().isEmpty()) {
+        if (cardDTO.getLLMResponse2() != null &&!cardDTO.getLLMResponse2().isEmpty()) {
             entity.setLLMResponse2(cardDTO.getLLMResponse2());
         }
     }
