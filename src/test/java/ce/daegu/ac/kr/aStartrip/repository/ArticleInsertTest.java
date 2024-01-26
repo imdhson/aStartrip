@@ -44,12 +44,12 @@ public class ArticleInsertTest {
             Article article = articleOptional.get();
             log.debug("DEBUG before::::" + article);
             CardDTO cardDTO = CardDTO.builder()
-                    .cardType(CardTypeENUM.R01)
-                    .UserInput0("USERINPUT0")
+                    .cardType(CardTypeENUM.W01)
+                    .UserInput0("안녕하세요. 구글 바드님. 엄준식에 대해 알려주세요.")
                     .LLMResponse0("LLMResponse0")
                     .LLMResponse1("LLMResponse1")
                     .LLMResponse2("LLMResponse2")
-                    .llmStatus(LLMStatusENUM.COMPLETED)
+                    .llmStatus(LLMStatusENUM.GENERATING)
                     .build();
             cardService.addCard(1L, cardDTO);
 

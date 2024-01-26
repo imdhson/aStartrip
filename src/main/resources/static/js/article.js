@@ -74,6 +74,7 @@ function articleDetailView(jsonData) {
 function titleWS(articleNum, dom) { // card 마지막 id가 js에 저장된 것과 일치하지 않으면 if 현재_card > card 추가
     let webSocket = new WebSocket('ws://' + server_address + '/title-ws')
     webSocket.onopen = function (event) {
+<<<<<<< HEAD
         
         var jsonMessage = JSON.stringify({ num: articleNum})
         webSocket.send(jsonMessage)
@@ -106,14 +107,18 @@ function articleWS(articleNum, dom) {
     let webSocket = new WebSocket('ws://' + server_address + '/article-ws')
     webSocket.onopen = function (event) {
         console.log("커넥션 열림 articleWS")
+        var jsonMessage = JSON.stringify({
+            num: articleNum
+        })
+        webSocket.send(jsonMessage)
     }
     webSocket.onmessage = function (event) {
         newJsonData = JSON.parse(event.data)
         const current_time = new Date().getTime()
         // if (current_time - last_interaction >= 3000) {
-        
+
         if (confirm("cardsDom remove and detailview")) {
-            while(dom.firstChild){ //dom아래의 요소들을 제거 
+            while (dom.firstChild) { //dom아래의 요소들을 제거 
                 dom.removeChild(dom.firstChild);
             }
             return articleDetailView(newJsonData)
@@ -134,14 +139,18 @@ function cardWS(card, dom) {
     let webSocket = new WebSocket('ws://' + server_address + '/card-ws')
     webSocket.onopen = function (event) {
         console.log("커넥션 열림 cardWS")
+        var jsonMessage = JSON.stringify({
+            id: card.id
+        })
+        webSocket.send(jsonMessage)
 
     }
     webSocket.onmessage = function (event) {
         //여기서 변경된 카드 받아서 마지막 이벤트 이후 3초 지났을 때에만 대입하도록 수정
-        newCard = JSON.parse(event.data) 
+        newCard = JSON.parse(event.data)
         const current_time = new Date().getTime();
         if (current_time - last_interaction >= 3000) {
-            while(dom.firstChild){
+            while (dom.firstChild) {
                 dom.removeChild(dom.firstChild)
             }
             cardBuild(newCard, dom)
