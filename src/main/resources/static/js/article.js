@@ -75,7 +75,7 @@ function titleWS(articleNum, dom) { // card 마지막 id가 js에 저장된 것�
     let webSocket = new WebSocket('ws://' + server_address + '/title-ws')
     webSocket.onopen = function (event) {
         
-        var jsonMessage = JSON.stringify({ num: articleNum })
+        var jsonMessage = JSON.stringify({ num: articleNum})
         webSocket.send(jsonMessage)
     }
     webSocket.onmessage = function (event) {

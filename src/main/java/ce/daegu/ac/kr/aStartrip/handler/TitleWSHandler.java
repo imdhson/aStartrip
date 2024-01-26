@@ -34,7 +34,6 @@ public class TitleWSHandler extends TextWebSocketHandler {
     private static Map<Long, List<WebSocketSession>> sessionList = new HashMap<>();
     private long key = 0;
 
-
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String jsonPayload = message.getPayload();
@@ -53,14 +52,16 @@ public class TitleWSHandler extends TextWebSocketHandler {
 
         MemberDetails memberDetails = (MemberDetails) session.getAttributes().get("memberDetails");
 
-        boolean pass = articleService.updateArticle(memberDetails.getUsername(), articleDTO);
+        if(articleDTO.getTitle() != null) {
+            boolean pass = articleService.updateArticle(memberDetails.getUsername(), articleDTO);
 
-        if(pass) {
-            //수정된 것을 받을 때마다 브로드캐스트로 title-ws 변경 sendMessage 수행하여 js 에서 데이터 갱신하기
-            Optional<Article> articleOptional = articleRepository.findById(articleDTO.getNum());
-            ArticleDTO articleDTO1 = articleService.entityToDto(articleOptional.get());
-            for(WebSocketSession s : sessionList.get(key)) {
-                s.sendMessage(new TextMessage(articleDTO1.getTitle()));
+            if (pass) {
+                //수정된 것을 받을 때마다 브로드캐스트로 title-ws 변경 sendMessage 수행하여 js 에서 데이터 갱신하기
+                Optional<Article> articleOptional = articleRepository.findById(articleDTO.getNum());
+                ArticleDTO articleDTO1 = articleService.entityToDto(articleOptional.get());
+                for (WebSocketSession s : sessionList.get(key)) {
+                    s.sendMessage(new TextMessage(articleDTO1.getTitle()));
+                }
             }
         }
     }
