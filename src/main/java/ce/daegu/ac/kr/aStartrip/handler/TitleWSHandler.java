@@ -32,7 +32,6 @@ public class TitleWSHandler extends TextWebSocketHandler {
     private final ArticleService articleService;
 
     private static Map<Long, List<WebSocketSession>> sessionListTitle = new HashMap<>();
-    private static Map<WebSocketSession, Long> keyList = new HashMap<>();
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -40,18 +39,20 @@ public class TitleWSHandler extends TextWebSocketHandler {
         ArticleDTO articleDTO = objectMapper.readValue(jsonPayload, ArticleDTO.class);
         log.debug("WS 수신: {}", articleDTO);
 
-        if(!keyList.containsKey(session)) {
-            keyList.put(session, articleDTO.getNum());
+        if(session.getAttributes().containsKey("key")) {
+            session.getAttributes().put("key", articleDTO.getNum());
         }
 
-        log.info("before === key :  " + keyList.get(session) + ", map : " + sessionListTitle);
-        if(!sessionListTitle.containsKey(keyList.get(session))){
-            sessionListTitle.put(keyList.get(session), new ArrayList<WebSocketSession>());
+        long key = (long)session.getAttributes().get("key");
+
+        log.info("before === key :  " + key + ", map : " + sessionListTitle);
+        if(!sessionListTitle.containsKey(key)){
+            sessionListTitle.put(key, new ArrayList<WebSocketSession>());
         }
-        if(!sessionListTitle.get(keyList.get(session)).contains(session)){
-            sessionListTitle.get(keyList.get(session)).add(session);
+        if(!sessionListTitle.get(key).contains(session)){
+            sessionListTitle.get(key).add(session);
         }
-        log.info("after === key :  " + keyList.get(session) + ", map : " + sessionListTitle);
+        log.info("after === key :  " + key + ", map : " + sessionListTitle);
 
         MemberDetails memberDetails = (MemberDetails) session.getAttributes().get("memberDetails");
 
@@ -62,7 +63,7 @@ public class TitleWSHandler extends TextWebSocketHandler {
                 //수정된 것을 받을 때마다 브로드캐스트로 title-ws 변경 sendMessage 수행하여 js 에서 데이터 갱신하기
                 Optional<Article> articleOptional = articleRepository.findById(articleDTO.getNum());
                 ArticleDTO articleDTO1 = articleService.entityToDto(articleOptional.get());
-                for (WebSocketSession s : sessionListTitle.get(keyList.get(session))) {
+                for (WebSocketSession s : sessionListTitle.get(key)) {
                     s.sendMessage(new TextMessage(articleDTO1.getTitle()));
                 }
             }
@@ -71,12 +72,12 @@ public class TitleWSHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        sessionListTitle.get(keyList.get(session)).remove(session);
-        if(sessionListTitle.get(keyList.get(session)).isEmpty() || sessionListTitle.get(keyList.get(session)) == null) {
-            sessionListTitle.remove(keyList.get(session));
+        long key = (long)session.getAttributes().get("key");
+        sessionListTitle.get(key).remove(session);
+        if(sessionListTitle.get(key).isEmpty() || sessionListTitle.get(key) == null) {
+            sessionListTitle.remove(key);
         }
-        log.info("session remove === key :  " + keyList.get(session) + ", map : " + sessionListTitle);
-        keyList.remove(session);
+        log.info("session remove === key :  " + key + ", map : " + sessionListTitle);
 
         super.afterConnectionClosed(session, status);
     }
