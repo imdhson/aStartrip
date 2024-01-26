@@ -76,8 +76,7 @@ function titleWS(articleNum, dom) { // card 마지막 id가 js에 저장된 것�
     webSocket.onopen = function (event) {
 
         var jsonMessage = JSON.stringify({
-            num: articleNum,
-            title: dom.value
+            num: articleNum
         })
         webSocket.send(jsonMessage)
     }
@@ -124,8 +123,6 @@ function articleWS(articleNum, dom) {
                 dom.removeChild(dom.firstChild);
             }
             return articleDetailView(newJsonData)
-        } else {
-
         }
 
 
