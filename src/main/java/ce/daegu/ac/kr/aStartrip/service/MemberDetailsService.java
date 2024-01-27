@@ -25,4 +25,6 @@ public class MemberDetailsService implements UserDetailsService {
         }
         return new MemberDetails(optionalMember.get());
     }
+
+
 }

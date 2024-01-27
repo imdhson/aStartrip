@@ -35,9 +35,10 @@ public class BardService implements LLMService {
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
             while ((line = reader.readLine()) != null) {
+                log.debug("line: {}", line);
                 if (line.trim().equals("true")) {
                     return true;
-                } else{
+                } else {
                     return false;
                 }
             }

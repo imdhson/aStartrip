@@ -138,7 +138,9 @@ function articleWS(articleNum, dom) {
 
 function cardWS(card, dom) {
     const cardWS_webSocket = new WebSocket('ws://' + server_address + '/card-ws')
-    cardWS_webSocket_arr.push(cardWS_webSocket) // article-ws에서 글 갱신시 close하기 위해서 담음
+
+    cardWS_webSocket_arr.push(cardWS_webSocket) // article-ws에서 글 갱신시 close하기 위해서 담음 !
+
     cardWS_webSocket.onopen = function (event) {
         console.log("커넥션 열림 cardWS")
         var jsonMessage = JSON.stringify({

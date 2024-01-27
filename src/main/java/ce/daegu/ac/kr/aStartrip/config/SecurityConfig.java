@@ -3,6 +3,7 @@ package ce.daegu.ac.kr.aStartrip.config;
 import ce.daegu.ac.kr.aStartrip.handler.LoginFailureHandler;
 import ce.daegu.ac.kr.aStartrip.handler.LoginSuccessHandler;
 import ce.daegu.ac.kr.aStartrip.service.MemberDetailsService;
+import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpRequest;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,7 +23,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final MemberDetailsService memberDetailsService;
+
     @Bean
     public LoginSuccessHandler loginSuccessHandler() {
         return new LoginSuccessHandler();
@@ -57,6 +63,9 @@ public class SecurityConfig {
                 .logout(request -> request.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/").invalidateHttpSession(true)
                         .permitAll())
+                .rememberMe(Customizer.withDefaults()).userDetailsService(memberDetailsService)
+//                .rememberMe((remember) -> remember.rememberMeServices(myRememberMeServices))
                 .build();
+
     }
 }

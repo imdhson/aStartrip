@@ -1,6 +1,7 @@
-pip install bardapi
-pip install bardapi
-pip install sqlalchemy
-pip install mysqlclient
+pip install bardapi<br>
+pip install sqlalchemy<br>
+pip install mysqlclient<br>
+pip install pymysql<br>
+pip install python-dotenv<br>
 
-bard.py에서 주소 변경 해야함.
+src/main/.env에서 주소 변경해야함.
