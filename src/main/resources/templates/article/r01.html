@@ -1,8 +1,9 @@
 <!doctype html>
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="r01" class="r01">
+
     <script type="module" src="/js/three.js"></script>
-    <div id="cardContent">
+    <div class="cardContent">
         <div class="reg">
             <div class="button" id="regButton">탭 하여 생성 요청 보내기</div>
         </div>
@@ -10,7 +11,7 @@
             <!-- 생성 요청 누르면 보이도록 수정 -->
             <textarea id="llmresponse0">LLM API의 답변이 들어가는 곳</textarea>
         </div>
-        <div id="threejs-container"></div>
+        <div class="threejs-container"></div>
     </div>
 </div>
 

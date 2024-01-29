@@ -168,9 +168,10 @@ function cardWS(card, dom) {
     cardWS_webSocket.onclose = function (event) {
         console.log("커넥션 닫힘 cardWS");
     }
+
     dom.querySelector('#regButton').addEventListener('click', function (event) {
-        card.llmStatus = 'GENERATING'
         console.log("card regButton clicked!", card)
+        card.llmStatus = 'GENERATING'
         sendCard(event)
     });
     dom.addEventListener('keyup', sendCard)
@@ -288,16 +289,14 @@ function cardBuild(card, dom) {
             child.style.display = "flex"
             break;
     }//Switch 문 종료
-
     dom.appendChild(child)
     cardWS(card, child) //card 변경시 불러지는 웹 소켓
 
-    const content = document.getElementById('cardContent');
     if (card.llmStatus == "GENERATING") {
-        content.classList.add('blur-effect');
-        cube_three(dom); // Three.js 초기화 및 렌더링
-    } else {
-        content.classList.remove('blur-effect');
+        const cardContent = child.querySelector('.cardContent');
+        const three_container = child.querySelector('.threejs-container')
+        three_container.style.display = "block"
+        cardContent.classList.add("blur-effect")
+        cube_three(child); // Three.js 초기화 및 렌더링
     }
-
 }

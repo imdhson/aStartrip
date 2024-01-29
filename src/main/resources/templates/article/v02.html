@@ -2,25 +2,29 @@
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
 
 <div class="v02" th:fragment="v02">
-    <div class="reg">
-        <form action="">
-            <label for="userInput0">문장 입력</label>
-            <textarea name="userInput0" id="userInput0" rows="2" cols="100"
-                placeholder="이곳에 sentence 입력"></textarea>
-            <div class="button" id="regButton">동의어, 반의어, word-family 찾기</div> <!-- js 로 처리-->
-        </form>
-    </div>
-    <div class="response">
-        <p>LLM 답변 들어가는 곳</p>
-        <div class="item">동의어 ----- 펼치기/접기
-            <input type="text" id="llmresponse0" />
+    <script type="module" src="/js/three.js"></script>
+    <div class="cardContent">
+        <div class="reg">
+            <form action="">
+                <label for="userInput0">문장 입력</label>
+                <textarea name="userInput0" id="userInput0" rows="2" cols="100"
+                    placeholder="이곳에 sentence 입력"></textarea>
+                <div class="button" id="regButton">동의어, 반의어, word-family 찾기</div>
+            </form>
         </div>
-        <div class="item">반의어 ----- 펼치기/접기
-            <input type="text" id="llmresponse1" />
+        <div class="response">
+            <p>LLM 답변 들어가는 곳</p>
+            <div class="item">동의어 ----- 펼치기/접기
+                <input type="text" id="llmresponse0" />
+            </div>
+            <div class="item">반의어 ----- 펼치기/접기
+                <input type="text" id="llmresponse1" />
+            </div>
+            <div class="item">word-family ----- 펼치기/접기
+                <input type="text" id="llmresponse2" />
+            </div>
         </div>
-        <div class="item">word-family ----- 펼치기/접기
-            <input type="text" id="llmresponse2" />
-        </div>
+        <div class="threejs-container"></div>
     </div>
 </div>
 
