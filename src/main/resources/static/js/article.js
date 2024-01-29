@@ -96,12 +96,14 @@ function titleWS(articleNum, dom) {
         console.log("커넥션 닫힘 titleWS");
     }
 
-    dom.addEventListener('keyup', sendTitle)
+    dom.addEventListener('keyup', function(event){
+        last_interaction = new Date().getTime()
+        sendTitle(event)
+    })
     // dom.addEventListener('blur', sendTitle)
 
 
     function sendTitle(event) {
-        last_interaction = new Date().getTime()
         let jsonMessage = JSON.stringify({ num: articleNum, title: dom.value })
         titleWS_webSocket.send(jsonMessage)
     }
@@ -163,6 +165,8 @@ function cardWS(card, dom) {
             }
             cardBuild(newCard, dom)
             console.log("card 재생성됨:: ", newCard)
+        } else {
+            console.log("card 재생성 대기중, last_interaction 이유")
         }
     };
     cardWS_webSocket.onclose = function (event) {
@@ -172,16 +176,17 @@ function cardWS(card, dom) {
     dom.querySelector('#regButton').addEventListener('click', function (event) {
         console.log("card regButton clicked!", card)
         card.llmStatus = 'GENERATING'
+        last_interaction = 0; //무조건 바로 갱신되도록
         sendCard(event)
     });
-    dom.addEventListener('keyup', sendCard)
+    dom.addEventListener('keyup', function (event) {
+        last_interaction = new Date().getTime() //상호작용 시간 갱신
+        sendCard(event)
+    })
     // dom.addEventListener('blur', sendCard)
 
     function sendCard(event) {
         //카드에 변경이 있을 경우에 card-ws로 보내는 역할 
-        last_interaction = new Date().getTime()
-
-
         let jsonObj = {
             id: card.id,
             cardType: card.cardType,

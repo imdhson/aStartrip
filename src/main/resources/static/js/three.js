@@ -3,7 +3,7 @@ import * as THREE from "https://unpkg.com/three@v0.160.1/build/three.module.js"
 // Three.js 물체를 초기화하고 렌더링하는 함수
 export function cube_three(dom) {
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(30, dom.clientWidth / dom.clientHeight, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(40, dom.clientWidth / dom.clientHeight, 0.1, 1000);
     camera.lookAt(0, 0, 0)
     const renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setSize(dom.clientWidth, dom.clientHeight);
