@@ -90,6 +90,10 @@ public class CardServiceImpl implements CardService {
             if (cardDTO.getLLMResponse2() != null && !cardDTO.getLLMResponse2().isEmpty()) {
                 entity.setLLMResponse2(cardDTO.getLLMResponse2());
             }
+            if(cardDTO.getLlmStatus() != null){
+                entity.setLlmStatus(cardDTO.getLlmStatus());
+            }
+            cardRepository.save(entity);
             return true;
         }
         return false;

@@ -18,7 +18,7 @@ public class LLMServiceTest {
     @Test
     public void executeTest(){
         log.debug("executeTest() 시작.");
-        boolean result = llmService.execute(2L);
+        boolean result = llmService.execute(1L);
         log.debug("executeTest() 결과: {}", result);
     }
 

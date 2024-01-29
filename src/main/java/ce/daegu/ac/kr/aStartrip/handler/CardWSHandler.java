@@ -61,8 +61,9 @@ public class CardWSHandler extends TextWebSocketHandler {
 
         if(cardDTO.getCardType() != null) {
             long articleId = cardService.getArticleId(cardDTO);
+            log.debug("11111111111111, {}", cardDTO);
             boolean pass = articleService.updateCard1(memberDetails.getUsername(), articleId, cardDTO);
-
+            log.debug("11111111111111pass, {}", pass);
 
             if (pass) {
                 //수정된 것을 받을 때마다 브로드캐스트로 card-ws   sendMessage 수행하여 js 에서 데이터 갱신하기

@@ -1,3 +1,5 @@
+import { cube_three } from "/js/three.js"
+
 const server_address = 'localhost:8080' //http, ws , / 등 제외해야함
 
 const r01 = document.querySelector(".r01").cloneNode(true)
@@ -15,6 +17,7 @@ let cardWS_webSocket_arr = []
 let articleWS_webSocket;
 let last_interaction = 0;
 
+start(articleNum)
 function start(articleNum) {
     const uri = 'http://' + server_address + '/api/article/' + articleNum
     fetch(uri) // URI
@@ -65,7 +68,6 @@ function articleDetailView(jsonData) {
     let cards = jsonData.cardDTOList
     cards.forEach(card => {
         cardBuild(card, cardsDOM); //card 받아와서 카드 하나씩 그리기
-        cardWS(card, child) //card 변경시 불러지는 웹 소켓
     });
 
     addArticle.style.display = "grid"
@@ -74,16 +76,16 @@ function articleDetailView(jsonData) {
 }
 
 function titleWS(articleNum, dom) {
-    titleWS_webSocket = new WebSocket('ws://' + server_address + '/title-ws')
+    let titleWS_webSocket = new WebSocket('ws://' + server_address + '/title-ws')
     titleWS_webSocket.onopen = function (event) {
 
-        var jsonMessage = JSON.stringify({
+        let jsonMessage = JSON.stringify({
             num: articleNum
         })
         titleWS_webSocket.send(jsonMessage)
     }
     titleWS_webSocket.onmessage = function (event) {
-        newTitle = event.data //여기서 메시지 받아서 마지막 이벤트 이후 1초 지났을 때에만 대입하도록 수정
+        let newTitle = event.data //여기서 메시지 받아서 마지막 이벤트 이후 1초 지났을 때에만 대입하도록 수정
         const current_time = new Date().getTime();
         if (current_time - last_interaction >= 1000) {
             dom.value = newTitle;
@@ -100,7 +102,7 @@ function titleWS(articleNum, dom) {
 
     function sendTitle(event) {
         last_interaction = new Date().getTime()
-        var jsonMessage = JSON.stringify({ num: articleNum, title: dom.value })
+        let jsonMessage = JSON.stringify({ num: articleNum, title: dom.value })
         titleWS_webSocket.send(jsonMessage)
     }
 }
@@ -110,13 +112,13 @@ function articleWS(articleNum, dom) {
     articleWS_webSocket = new WebSocket('ws://' + server_address + '/article-ws')
     articleWS_webSocket.onopen = function (event) {
         console.log("커넥션 열림 articleWS")
-        var jsonMessage = JSON.stringify({
+        let jsonMessage = JSON.stringify({
             num: articleNum
         })
         articleWS_webSocket.send(jsonMessage)
     }
     articleWS_webSocket.onmessage = function (event) {
-        newJsonData = JSON.parse(event.data)
+        let newJsonData = JSON.parse(event.data)
         const current_time = new Date().getTime()
         if (current_time - last_interaction >= 1000) {
             while (dom.firstChild) { //dom아래의 요소들을 제거 
@@ -143,7 +145,7 @@ function cardWS(card, dom) {
 
     cardWS_webSocket.onopen = function (event) {
         console.log("커넥션 열림 cardWS")
-        var jsonMessage = JSON.stringify({
+        let jsonMessage = JSON.stringify({
             id: card.id
         })
         if (cardWS_webSocket.readyState === WebSocket.OPEN) {
@@ -153,7 +155,7 @@ function cardWS(card, dom) {
     }
     cardWS_webSocket.onmessage = function (event) {
         //여기서 변경된 카드 받아서 마지막 이벤트 이후 1초 지났을 때에만 대입하도록 수정
-        newCard = JSON.parse(event.data)
+        let newCard = JSON.parse(event.data)
         const current_time = new Date().getTime();
         if (current_time - last_interaction >= 1000) {
             while (dom.firstChild) {
@@ -166,7 +168,11 @@ function cardWS(card, dom) {
     cardWS_webSocket.onclose = function (event) {
         console.log("커넥션 닫힘 cardWS");
     }
-
+    dom.querySelector('#regButton').addEventListener('click', function (event) {
+        card.llmStatus = 'GENERATING'
+        console.log("card regButton clicked!", card)
+        sendCard(event)
+    });
     dom.addEventListener('keyup', sendCard)
     // dom.addEventListener('blur', sendCard)
 
@@ -210,7 +216,7 @@ function cardWS(card, dom) {
                 jsonObj.llmresponse2 = dom.querySelector("#llmresponse2").value
                 break
         }
-        jsonMessage = JSON.stringify(jsonObj)
+        let jsonMessage = JSON.stringify(jsonObj)
         cardWS_webSocket.send(jsonMessage)
     }
 }
@@ -219,14 +225,16 @@ function addCard(articleNum, cardType1) {
         num: articleNum,
         cardDTOList: [{ cardType: cardType1 }]
     }
-    jsonMessage = JSON.stringify(articleDTO)
+    let jsonMessage = JSON.stringify(articleDTO)
     if (articleWS_webSocket.readyState === WebSocket.OPEN) {
         console.log(jsonMessage)
         articleWS_webSocket.send(jsonMessage)
     }
 }
+window.addCard = addCard
 
 function cardBuild(card, dom) {
+    let child
     switch (card.cardType) {
         case "R01":
             child = r01.cloneNode(true)
@@ -234,18 +242,16 @@ function cardBuild(card, dom) {
             child.querySelector("#llmresponse0").value = card.llmresponse0
 
             child.style.display = "flex"
-            dom.appendChild(child)
             break;
         case "R02":
             child = r02.cloneNode(true)
 
             child.querySelector("#userInput0").value = card.userInput0
-            child.querySelector("#llmresponse0").text = card.llmresponse0
-            child.querySelector("#llmresponse1").text = card.llmresponse1
-            child.querySelector("#llmresponse2").text = card.llmresponse2
+            child.querySelector("#llmresponse0").value = card.llmresponse0
+            child.querySelector("#llmresponse1").value = card.llmresponse1
+            child.querySelector("#llmresponse2").value = card.llmresponse2
 
             child.style.display = "flex"
-            dom.appendChild(child)
             break;
         case "W01":
             child = w01.cloneNode(true)
@@ -254,7 +260,6 @@ function cardBuild(card, dom) {
             child.querySelector("#llmresponse0").value = card.llmresponse0
 
             child.style.display = "flex"
-            dom.appendChild(child)
             break;
         case "W02":
             child = w02.cloneNode(true)
@@ -263,7 +268,6 @@ function cardBuild(card, dom) {
             child.querySelector("#llmresponse0").value = card.llmresponse0
 
             child.style.display = "flex"
-            dom.appendChild(child)
             break;
         case "V01":
             child = v01.cloneNode(true)
@@ -272,7 +276,6 @@ function cardBuild(card, dom) {
             child.querySelector("#llmresponse0").value = card.llmresponse0
 
             child.style.display = "flex"
-            dom.appendChild(child)
             break;
         case "V02":
             child = v02.cloneNode(true)
@@ -283,7 +286,18 @@ function cardBuild(card, dom) {
             child.querySelector("#llmresponse2").value = card.llmresponse2
 
             child.style.display = "flex"
-            dom.appendChild(child)
             break;
     }//Switch 문 종료
+
+    dom.appendChild(child)
+    cardWS(card, child) //card 변경시 불러지는 웹 소켓
+
+    const content = document.getElementById('cardContent');
+    if (card.llmStatus == "GENERATING") {
+        content.classList.add('blur-effect');
+        cube_three(dom); // Three.js 초기화 및 렌더링
+    } else {
+        content.classList.remove('blur-effect');
+    }
+
 }

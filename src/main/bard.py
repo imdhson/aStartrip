@@ -5,8 +5,9 @@ from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.exc import SQLAlchemyError
 
+load_dotenv()
 # DB 연결
-engine = create_engine('mysql+pymysql://root:java@cciicc.cc/devas')
+engine = create_engine(os.getenv("DB_ADDRESS"))
 Session = sessionmaker(bind=engine)
 session = Session()
 
@@ -30,10 +31,9 @@ card_id = sys.argv[1]
 
 card = session.query(Card).filter_by(id=card_id, llm_status='GENERATING').first()
 if (card == None):
-    print('false')
+    print('false: cannot find card')
     sys.exit()
 
-load_dotenv()
 bard = Bard(token=os.getenv("BARD_TOKEN"))
 card_type_i = card.card_type
 if card_type_i == "R01":
@@ -109,4 +109,4 @@ try:
     print('true')
 except SQLAlchemyError:
     session.rollback()
-    print('false')
+    print('false: commit failed')

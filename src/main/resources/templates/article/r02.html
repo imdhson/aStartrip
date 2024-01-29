@@ -5,19 +5,19 @@
         <form>
             <label for="userInput0">지문 입력</label>
             <textarea name="userInput0" id="userInput0" rows="20" cols="100" placeholder="이곳에 문단 입력"></textarea>
-            <div class="button">생성 시작</div> <!-- js 로 처리-->
+            <div class="button" id="regButton">생성 시작</div> <!-- js 로 처리-->
         </form>
     </div>
     <div class="response">
         <p>LLM 답변 들어가는 곳</p>
         <div class="item">Pre Reading Question ----- 펼치기/접기
-            <p id="llmresponse0"></p>
+            <input type="text" id="llmresponse0" />
         </div>
         <div class="item">BackGround Knowledge ----- 펼치기/접기
-            <p id="llmresponse1"></p>
+            <input type="text" id="llmresponse1" />
         </div>
         <div class="item">Post Reading Question ----- 펼치기/접기
-            <p id="llmresponse2"></p>
+            <input type="text" id="llmresponse2" />
         </div>
     </div>
 </div>
