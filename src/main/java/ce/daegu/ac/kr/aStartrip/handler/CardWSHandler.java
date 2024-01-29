@@ -41,17 +41,17 @@ public class CardWSHandler extends TextWebSocketHandler {
         CardDTO cardDTO = objectMapper.readValue(jsonPayload, CardDTO.class);
         //log.debug("WS 수신: {}", cardDTO);
 
-        if(!session.getAttributes().containsKey("key")) {
+        if (!session.getAttributes().containsKey("key")) {
             session.getAttributes().put("key", cardDTO.getId());
         }
 
-        long key = (long)session.getAttributes().get("key");
+        long key = (long) session.getAttributes().get("key");
 
         //log.info("before === key :  " + key + ", map : " + sessionListCard);
-        if(!sessionListCard.containsKey(key)){
+        if (!sessionListCard.containsKey(key)) {
             sessionListCard.put(key, new ArrayList<WebSocketSession>());
         }
-        if(!sessionListCard.get(key).contains(session)){
+        if (!sessionListCard.get(key).contains(session)) {
             sessionListCard.get(key).add(session);
         }
         //log.info("after === key :  " + key + ", map : " + sessionListCard);
@@ -59,11 +59,10 @@ public class CardWSHandler extends TextWebSocketHandler {
 
         MemberDetails memberDetails = (MemberDetails) session.getAttributes().get("memberDetails");
 
-        if(cardDTO.getCardType() != null) {
+        if (cardDTO.getCardType() != null) {
             long articleId = cardService.getArticleId(cardDTO);
-            log.debug("11111111111111, {}", cardDTO);
             boolean pass = articleService.updateCard1(memberDetails.getUsername(), articleId, cardDTO);
-            log.debug("11111111111111pass, {}", pass);
+
 
             if (pass) {
                 //수정된 것을 받을 때마다 브로드캐스트로 card-ws   sendMessage 수행하여 js 에서 데이터 갱신하기
@@ -78,9 +77,9 @@ public class CardWSHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        long key = (long)session.getAttributes().get("key");
+        long key = (long) session.getAttributes().get("key");
         sessionListCard.get(key).remove(session);
-        if(sessionListCard.get(key).isEmpty() || sessionListCard.get(key) == null) {
+        if (sessionListCard.get(key).isEmpty() || sessionListCard.get(key) == null) {
             sessionListCard.remove(key);
         }
         //log.info("session remove === key :  " + key + ", map : " + sessionListCard);

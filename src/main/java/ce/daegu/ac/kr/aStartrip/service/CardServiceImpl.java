@@ -4,6 +4,7 @@ import ce.daegu.ac.kr.aStartrip.dto.ArticleDTO;
 import ce.daegu.ac.kr.aStartrip.dto.CardDTO;
 import ce.daegu.ac.kr.aStartrip.entity.Article;
 import ce.daegu.ac.kr.aStartrip.entity.Card;
+import ce.daegu.ac.kr.aStartrip.entity.LLMStatusENUM;
 import ce.daegu.ac.kr.aStartrip.repository.ArticleRepository;
 import ce.daegu.ac.kr.aStartrip.repository.CardRepository;
 import jakarta.transaction.Transactional;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @RequiredArgsConstructor
 @Service
@@ -20,6 +22,7 @@ import java.util.Optional;
 public class CardServiceImpl implements CardService {
     private final ArticleRepository articleRepository;
     private final CardRepository cardRepository;
+    private final LLMService llmService;
 
     @Override
     public boolean addCard(long num, CardDTO cardDTO) {
@@ -76,7 +79,7 @@ public class CardServiceImpl implements CardService {
     @Override
     public boolean updateCard2(CardDTO cardDTO) {
         Optional<Card> e = cardRepository.findById(cardDTO.getId());
-        if(e.isPresent()) {
+        if (e.isPresent()) {
             Card entity = e.get();
             if (cardDTO.getUserInput0() != null && !cardDTO.getUserInput0().isEmpty()) {
                 entity.setUserInput0(cardDTO.getUserInput0());
@@ -90,10 +93,17 @@ public class CardServiceImpl implements CardService {
             if (cardDTO.getLLMResponse2() != null && !cardDTO.getLLMResponse2().isEmpty()) {
                 entity.setLLMResponse2(cardDTO.getLLMResponse2());
             }
-            if(cardDTO.getLlmStatus() != null){
+            if (cardDTO.getLlmStatus() != null) {
                 entity.setLlmStatus(cardDTO.getLlmStatus());
             }
             cardRepository.save(entity);
+            if (entity.getLlmStatus() == LLMStatusENUM.GENERATING) {
+                //LLM API 사용 시작
+                CompletableFuture.runAsync(() -> { //비동기처리
+                    llmService.execute(entity);
+                });
+                 // 이곳에서 card ws 브로드 캐스트를 수행해야 함.
+            }
             return true;
         }
         return false;

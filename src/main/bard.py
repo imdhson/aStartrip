@@ -100,7 +100,8 @@ elif card_type_i == "V02":
     ''' + card.user_input0
     response = bard.get_answer(request_i)
     card.llmresponse2 = response['content']
-
+else:
+    card.llm_status = "CANCELED"
 
 card.llm_status = 'COMPLETED'  # llm status completed로 변경
 # print("db에 대입됨: ", response['content'])
