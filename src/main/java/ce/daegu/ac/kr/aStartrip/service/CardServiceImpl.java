@@ -100,9 +100,16 @@ public class CardServiceImpl implements CardService {
             if (entity.getLlmStatus() == LLMStatusENUM.GENERATING) {
                 //LLM API 사용 시작
                 CompletableFuture.runAsync(() -> { //비동기처리
-                    llmService.execute(entity);
+                    boolean pass = llmService.execute(entity);
+                    // pass가 false면 canceled로 변경
+                    if (!pass){
+                        entity.setLlmStatus(LLMStatusENUM.CANCELED);
+                    }
+                    // 이곳에서 card ws 브로드 캐스트를 수행해야 함.
+
                 });
-                 // 이곳에서 card ws 브로드 캐스트를 수행해야 함.
+
+
             }
             return true;
         }
