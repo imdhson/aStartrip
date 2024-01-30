@@ -160,7 +160,7 @@ function cardWS(card, child) {
         //여기서 변경된 카드 받아서 마지막 이벤트 이후 1초 지났을 때에만 대입하도록 수정
         let newCard = JSON.parse(event.data)
         const current_time = new Date().getTime();
-        if (current_time - last_interaction >= 1000) {
+        if (current_time - last_interaction >= 1000 || newCard.llmStatus == "COMPLETED") {
             cardBuild(newCard, child, true)
             console.log("card 재생성됨:: ", newCard)
         } else {
@@ -231,24 +231,20 @@ function cardBuild(card, dom, refresh) { //refresh는 onmessage 수신시 카드
             break;
     }//Switch 문 종료
 
-    let prev_dom_ws
-    if (refresh) {
-        prev_dom_ws = weakmap.get(dom)
+    if (refresh) {// 리프레시 시에 prev child삭제 먼저
+        let prev_dom_ws = weakmap.get(dom)
         while (dom.firstChild) {
             dom.removeChild(dom.firstChild)
         }
-    } // 리프레시 시에 prev child삭제 먼저
-
-    dom.appendChild(child)
-
-    if (!refresh) {
+        //refresh는 onmessage 수신시 카드 정보만 변경하기 위함. 새 소켓을 생성하지 않음.
+        // console.log("prev_dom_ws: ", prev_dom_ws)
+        weakmap.set(child, prev_dom_ws)
+    } else {
         let cardWS_webSocket = cardWS(card, child)
         weakmap.set(child, cardWS_webSocket)
-    } else { //이전 child에서 websocket 가져오기
-        //refresh는 onmessage 수신시 카드 정보만 변경하기 위함. 새 소켓을 생성하지 않음.
-        console.log("prev_dom_ws: ", prev_dom_ws)
-        weakmap.set(child, prev_dom_ws)
     }
+
+    dom.appendChild(child)
 
     child.querySelector('#regButton').addEventListener('click', function (event) {
         console.log("card regButton clicked!", card)
@@ -256,7 +252,7 @@ function cardBuild(card, dom, refresh) { //refresh는 onmessage 수신시 카드
         last_interaction = 0; //무조건 바로 갱신되도록
         sendCard(event, child, card)
     });
-    child.addEventListener('keyup', function (event) {
+    child.querySelector('.cardContent').addEventListener('keyup', function (event) {
         last_interaction = new Date().getTime() //상호작용 시간 갱신
         sendCard(event, child, card)
     })
@@ -308,7 +304,7 @@ function sendCard(event, child, card) {
             break
     }
     let jsonMessage = JSON.stringify(jsonObj)
-    console.log("sendCard WS:", weakmap.get(child))
+    console.log("jsonMessage", jsonMessage)
     let cardWS_webSocket = weakmap.get(child)
     cardWS_webSocket.send(jsonMessage)
 }
@@ -320,7 +316,7 @@ function addCard(articleNum, cardType1) {
     }
     let jsonMessage = JSON.stringify(articleDTO)
     if (articleWS_webSocket.readyState === WebSocket.OPEN) {
-        console.log(jsonMessage)
+        // console.log(jsonMessage)
         articleWS_webSocket.send(jsonMessage)
     }
 }

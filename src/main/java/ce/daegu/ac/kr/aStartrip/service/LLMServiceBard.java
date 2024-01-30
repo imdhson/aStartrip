@@ -30,7 +30,7 @@ public class LLMServiceBard implements LLMService {
             return false;
         }
         try {
-            Thread.sleep(3000); //3초 대기
+            Thread.sleep(0); //3초 대기
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
