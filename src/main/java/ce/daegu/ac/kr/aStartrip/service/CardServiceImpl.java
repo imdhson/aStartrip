@@ -106,7 +106,6 @@ public class CardServiceImpl implements CardService {
                         entity.setLlmStatus(LLMStatusENUM.CANCELED);
                     }
                     // 이곳에서 card ws 브로드 캐스트를 수행해야 함.
-
                 });
 
 

@@ -16,6 +16,7 @@ const addArticle = document.querySelector(".grid-add")
 let cardWS_webSocket_arr = []
 let articleWS_webSocket;
 let last_interaction = 0;
+let weakmap = new WeakMap();
 
 start(articleNum)
 function start(articleNum) {
@@ -140,10 +141,10 @@ function articleWS(articleNum, dom) {
 }
 
 
-function cardWS(card, dom) {
+function cardWS(card, child) {
     let cardWS_webSocket = new WebSocket('ws://' + server_address + '/card-ws')
 
-    cardWS_webSocket_arr.push(cardWS_webSocket) // article-ws에서 글 갱신시 close하기 위해서 담음 !
+    // cardWS_webSocket_arr.push(cardWS_webSocket) // article-ws에서 글 갱신시 close하기 위해서 담음 !
 
     cardWS_webSocket.onopen = function (event) {
         console.log("커넥션 열림 cardWS")
@@ -160,10 +161,7 @@ function cardWS(card, dom) {
         let newCard = JSON.parse(event.data)
         const current_time = new Date().getTime();
         if (current_time - last_interaction >= 1000) {
-            while (dom.firstChild) {
-                dom.removeChild(dom.firstChild)
-            }
-            cardBuild(newCard, dom, true)
+            cardBuild(newCard, child, true)
             console.log("card 재생성됨:: ", newCard)
         } else {
             console.log("card 재생성 대기중, last_interaction 이유")
@@ -173,72 +171,9 @@ function cardWS(card, dom) {
         console.log("커넥션 닫힘 cardWS");
     }
 
-    dom.querySelector('#regButton').addEventListener('click', function (event) {
-        console.log("card regButton clicked!", card)
-        card.llmStatus = 'GENERATING'
-        last_interaction = 0; //무조건 바로 갱신되도록
-        sendCard(event)
-    });
-    dom.addEventListener('keyup', function (event) {
-        last_interaction = new Date().getTime() //상호작용 시간 갱신
-        sendCard(event)
-    })
-    // dom.addEventListener('blur', sendCard)
-
-    function sendCard(event) {
-        //카드에 변경이 있을 경우에 card-ws로 보내는 역할 
-        let jsonObj = {
-            id: card.id,
-            cardType: card.cardType,
-            llmStatus: card.llmStatus
-        }
-
-        switch (card.cardType) {
-            case "R01":
-                jsonObj.llmresponse0 = dom.querySelector("#llmresponse0").value
-                break
-            case "R02":
-                jsonObj.userInput0 = dom.querySelector("#userInput0").value
-                jsonObj.llmresponse0 = dom.querySelector("#llmresponse0").value
-                jsonObj.llmresponse1 = dom.querySelector("#llmresponse1").value
-                jsonObj.llmresponse2 = dom.querySelector("#llmresponse2").value
-                break
-            case "W01":
-                jsonObj.userInput0 = dom.querySelector("#userInput0").value
-                jsonObj.llmresponse0 = dom.querySelector("#llmresponse0").value
-                break
-            case "W02":
-                jsonObj.userInput0 = dom.querySelector("#userInput0").value
-                jsonObj.llmresponse0 = dom.querySelector("#llmresponse0").value
-                break
-            case "V01":
-                jsonObj.userInput0 = dom.querySelector("#userInput0").value
-                jsonObj.llmresponse0 = dom.querySelector("#llmresponse0").value
-                break
-            case "V02":
-                jsonObj.userInput0 = dom.querySelector("#userInput0").value
-                jsonObj.llmresponse0 = dom.querySelector("#llmresponse0").value
-                jsonObj.llmresponse1 = dom.querySelector("#llmresponse1").value
-                jsonObj.llmresponse2 = dom.querySelector("#llmresponse2").value
-                break
-        }
-        let jsonMessage = JSON.stringify(jsonObj)
-        cardWS_webSocket.send(jsonMessage)
-
-    }
+    return cardWS_webSocket
 }
-function addCard(articleNum, cardType1) {
-    const articleDTO = {
-        num: articleNum,
-        cardDTOList: [{ cardType: cardType1 }]
-    }
-    let jsonMessage = JSON.stringify(articleDTO)
-    if (articleWS_webSocket.readyState === WebSocket.OPEN) {
-        console.log(jsonMessage)
-        articleWS_webSocket.send(jsonMessage)
-    }
-}
-window.addCard = addCard
+
 
 function cardBuild(card, dom, refresh) { //refresh는 onmessage 수신시 카드 정보만 변경하기 위함. 새 소켓을 생성하지 않음.
     let child
@@ -295,11 +230,36 @@ function cardBuild(card, dom, refresh) { //refresh는 onmessage 수신시 카드
             child.style.display = "flex"
             break;
     }//Switch 문 종료
+
+    let prev_dom_ws
+    if (refresh) {
+        prev_dom_ws = weakmap.get(dom)
+        while (dom.firstChild) {
+            dom.removeChild(dom.firstChild)
+        }
+    } // 리프레시 시에 prev child삭제 먼저
+
     dom.appendChild(child)
 
-    if (!refresh) {//refresh는 onmessage 수신시 카드 정보만 변경하기 위함. 새 소켓을 생성하지 않음.
-        cardWS(card, child) //card 변경시 불러지는 웹 소켓
+    if (!refresh) {
+        let cardWS_webSocket = cardWS(card, child)
+        weakmap.set(child, cardWS_webSocket)
+    } else { //이전 child에서 websocket 가져오기
+        //refresh는 onmessage 수신시 카드 정보만 변경하기 위함. 새 소켓을 생성하지 않음.
+        console.log("prev_dom_ws: ", prev_dom_ws)
+        weakmap.set(child, prev_dom_ws)
     }
+
+    child.querySelector('#regButton').addEventListener('click', function (event) {
+        console.log("card regButton clicked!", card)
+        card.llmStatus = 'GENERATING'
+        last_interaction = 0; //무조건 바로 갱신되도록
+        sendCard(event, child, card)
+    });
+    child.addEventListener('keyup', function (event) {
+        last_interaction = new Date().getTime() //상호작용 시간 갱신
+        sendCard(event, child, card)
+    })
 
     if (card.llmStatus == "GENERATING") {
         const cardContent = child.querySelector('.cardContent');
@@ -309,3 +269,59 @@ function cardBuild(card, dom, refresh) { //refresh는 onmessage 수신시 카드
         cube_three(child); // Three.js 초기화 및 렌더링
     }
 }
+
+function sendCard(event, child, card) {
+    //카드에 변경이 있을 경우에 card-ws로 보내는 역할 
+    let jsonObj = {
+        id: card.id,
+        cardType: card.cardType,
+        llmStatus: card.llmStatus
+    }
+
+    switch (card.cardType) {
+        case "R01":
+            jsonObj.llmresponse0 = child.querySelector("#llmresponse0").value
+            break
+        case "R02":
+            jsonObj.userInput0 = child.querySelector("#userInput0").value
+            jsonObj.llmresponse0 = child.querySelector("#llmresponse0").value
+            jsonObj.llmresponse1 = child.querySelector("#llmresponse1").value
+            jsonObj.llmresponse2 = child.querySelector("#llmresponse2").value
+            break
+        case "W01":
+            jsonObj.userInput0 = child.querySelector("#userInput0").value
+            jsonObj.llmresponse0 = child.querySelector("#llmresponse0").value
+            break
+        case "W02":
+            jsonObj.userInput0 = child.querySelector("#userInput0").value
+            jsonObj.llmresponse0 = child.querySelector("#llmresponse0").value
+            break
+        case "V01":
+            jsonObj.userInput0 = child.querySelector("#userInput0").value
+            jsonObj.llmresponse0 = child.querySelector("#llmresponse0").value
+            break
+        case "V02":
+            jsonObj.userInput0 = child.querySelector("#userInput0").value
+            jsonObj.llmresponse0 = child.querySelector("#llmresponse0").value
+            jsonObj.llmresponse1 = child.querySelector("#llmresponse1").value
+            jsonObj.llmresponse2 = child.querySelector("#llmresponse2").value
+            break
+    }
+    let jsonMessage = JSON.stringify(jsonObj)
+    console.log("sendCard WS:", weakmap.get(child))
+    let cardWS_webSocket = weakmap.get(child)
+    cardWS_webSocket.send(jsonMessage)
+}
+
+function addCard(articleNum, cardType1) {
+    const articleDTO = {
+        num: articleNum,
+        cardDTOList: [{ cardType: cardType1 }]
+    }
+    let jsonMessage = JSON.stringify(articleDTO)
+    if (articleWS_webSocket.readyState === WebSocket.OPEN) {
+        console.log(jsonMessage)
+        articleWS_webSocket.send(jsonMessage)
+    }
+}
+window.addCard = addCard
