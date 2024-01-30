@@ -21,6 +21,7 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.io.IOException;
 import java.util.*;
 
 @Slf4j
@@ -63,13 +64,29 @@ public class CardWSHandler extends TextWebSocketHandler {
             long articleId = cardService.getArticleId(cardDTO);
             boolean pass = articleService.updateCard1(memberDetails.getUsername(), articleId, cardDTO);
 
+            broadcast(pass, cardDTO, key);
 
-            if (pass) {
+            /*if (pass) {
                 //수정된 것을 받을 때마다 브로드캐스트로 card-ws   sendMessage 수행하여 js 에서 데이터 갱신하기
                 Optional<Card> cardOptional = cardRepository.findById(cardDTO.getId());
                 CardDTO cardDTO1 = cardService.entityToDto(cardOptional.get());
                 for (WebSocketSession s : sessionListCard.get(key)) {
                     s.sendMessage(new TextMessage(objectMapper.writeValueAsBytes(cardDTO1)));
+                }
+            }*/
+        }
+    }
+
+    public void broadcast(boolean pass, CardDTO dto, long key) {
+        if (pass) {
+            //수정된 것을 받을 때마다 브로드캐스트로 card-ws   sendMessage 수행하여 js 에서 데이터 갱신하기
+            Optional<Card> cardOptional = cardRepository.findById(dto.getId());
+            CardDTO cardDTO1 = cardService.entityToDto(cardOptional.get());
+            for (WebSocketSession s : sessionListCard.get(key)) {
+                try {
+                    s.sendMessage(new TextMessage(objectMapper.writeValueAsBytes(cardDTO1)));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
             }
         }

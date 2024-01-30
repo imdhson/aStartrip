@@ -103,6 +103,7 @@ public class CardServiceImpl implements CardService {
                     llmService.execute(entity);
                 });
                  // 이곳에서 card ws 브로드 캐스트를 수행해야 함.
+
             }
             return true;
         }
