@@ -67,7 +67,7 @@ function articleDetailView(jsonData) {
 
     let cards = jsonData.cardDTOList
     cards.forEach(card => {
-        cardBuild(card, cardsDOM); //card 받아와서 카드 하나씩 그리기
+        cardBuild(card, cardsDOM, false); //card 받아와서 카드 하나씩 그리기
     });
 
     addArticle.style.display = "grid"
@@ -96,7 +96,7 @@ function titleWS(articleNum, dom) {
         console.log("커넥션 닫힘 titleWS");
     }
 
-    dom.addEventListener('keyup', function(event){
+    dom.addEventListener('keyup', function (event) {
         last_interaction = new Date().getTime()
         sendTitle(event)
     })
@@ -141,7 +141,7 @@ function articleWS(articleNum, dom) {
 
 
 function cardWS(card, dom) {
-    const cardWS_webSocket = new WebSocket('ws://' + server_address + '/card-ws')
+    let cardWS_webSocket = new WebSocket('ws://' + server_address + '/card-ws')
 
     cardWS_webSocket_arr.push(cardWS_webSocket) // article-ws에서 글 갱신시 close하기 위해서 담음 !
 
@@ -163,7 +163,7 @@ function cardWS(card, dom) {
             while (dom.firstChild) {
                 dom.removeChild(dom.firstChild)
             }
-            cardBuild(newCard, dom)
+            cardBuild(newCard, dom, true)
             console.log("card 재생성됨:: ", newCard)
         } else {
             console.log("card 재생성 대기중, last_interaction 이유")
@@ -224,6 +224,7 @@ function cardWS(card, dom) {
         }
         let jsonMessage = JSON.stringify(jsonObj)
         cardWS_webSocket.send(jsonMessage)
+
     }
 }
 function addCard(articleNum, cardType1) {
@@ -239,7 +240,7 @@ function addCard(articleNum, cardType1) {
 }
 window.addCard = addCard
 
-function cardBuild(card, dom) {
+function cardBuild(card, dom, refresh) { //refresh는 onmessage 수신시 카드 정보만 변경하기 위함. 새 소켓을 생성하지 않음.
     let child
     switch (card.cardType) {
         case "R01":
@@ -295,7 +296,10 @@ function cardBuild(card, dom) {
             break;
     }//Switch 문 종료
     dom.appendChild(child)
-    cardWS(card, child) //card 변경시 불러지는 웹 소켓
+
+    if (!refresh) {//refresh는 onmessage 수신시 카드 정보만 변경하기 위함. 새 소켓을 생성하지 않음.
+        cardWS(card, child) //card 변경시 불러지는 웹 소켓
+    }
 
     if (card.llmStatus == "GENERATING") {
         const cardContent = child.querySelector('.cardContent');

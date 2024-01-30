@@ -48,12 +48,16 @@ elif card_type_i == "R02":
     ''' + card.user_input0
     response = bard.get_answer(request_i)
     card.llmresponse0 = response['content']
+    time.sleep(3)
+
     #Backgrond-knowledge
     request_i = '''Please create a background-knowledge for the paragraph below. Please provide answers in English and Korean.
     ________
     ''' + card.user_input0
     response = bard.get_answer(request_i)
     card.llmresponse1 = response['content']
+    time.sleep(3)
+
     #Post-reading question
     request_i = '''Please create a post-reading question for the paragraph below. Please provide answers in English and Korean.
     _________
@@ -88,18 +92,24 @@ elif card_type_i == "V02":
     ''' + card.user_input0
     response = bard.get_answer(request_i)
     card.llmresponse0 = response['content']
+    time.sleep(3)
+
     #반의어
     request_i = '''I am studying English. I'll send you the sentence, so please find the words in the sentence and tell me the related antonym.Please reply in Korean.
     ________
     ''' + card.user_input0
     response = bard.get_answer(request_i)
     card.llmresponse1 = response['content']
+    time.sleep(3)
+
     #word- family
     request_i = '''I am studying English. I'll send you the sentence, so please find the word in the sentence and tell me the word-family.Please reply in Korean.
     _________
     ''' + card.user_input0
     response = bard.get_answer(request_i)
     card.llmresponse2 = response['content']
+    time.sleep(3)
+    
 else:
     card.llm_status = "CANCELED"
 
