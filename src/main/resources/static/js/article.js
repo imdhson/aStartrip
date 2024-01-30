@@ -262,10 +262,10 @@ function cardBuild(card, dom, refresh) { //refresh는 onmessage 수신시 카드
     })
 
     if (card.llmStatus == "GENERATING") {
-        const cardContent = child.querySelector('.cardContent');
         const three_container = child.querySelector('.threejs-container')
         three_container.style.display = "block"
-        cardContent.classList.add("blur-effect")
+        child.querySelector('.cardContent .reg').classList.add("blur-effect")
+        child.querySelector('.cardContent .response').classList.add("blur-effect")
         cube_three(child); // Three.js 초기화 및 렌더링
     }
 }

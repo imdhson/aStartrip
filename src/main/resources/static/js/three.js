@@ -18,7 +18,6 @@ export function cube_three(dom) {
     light.position.set(5, 4, 3)
     scene.add(light)
     const obj = new THREE.Mesh(geometry, material);
-    obj.position.x = -0.5
     scene.add(obj);
 
     camera.position.z = 5;
