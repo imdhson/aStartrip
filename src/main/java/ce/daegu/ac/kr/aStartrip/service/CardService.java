@@ -14,7 +14,7 @@ public interface CardService {
 
     long getArticleId(CardDTO cardDTO);
 
-    boolean updateCard2(CardDTO cardDTO);
+    boolean updateCard2(CardDTO cardDTO, long key);
 
     default Card dtoToEntity(CardDTO cardDTO) {
         Card card = Card.builder()

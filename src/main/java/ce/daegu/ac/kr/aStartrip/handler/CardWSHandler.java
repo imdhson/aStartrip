@@ -1,5 +1,6 @@
 package ce.daegu.ac.kr.aStartrip.handler;
 
+import ce.daegu.ac.kr.aStartrip.broadcast.BroadcastService;
 import ce.daegu.ac.kr.aStartrip.dto.ArticleDTO;
 import ce.daegu.ac.kr.aStartrip.dto.CardDTO;
 import ce.daegu.ac.kr.aStartrip.dto.MemberDetails;
@@ -29,10 +30,11 @@ import java.util.*;
 @RequiredArgsConstructor
 public class CardWSHandler extends TextWebSocketHandler {
     private final ObjectMapper objectMapper;
-    private final CardRepository cardRepository;
+    //private final CardRepository cardRepository;
     private final CardService cardService;
     private final ArticleService articleService;
     private final MemberService memberService;
+    private final BroadcastService broadcastService;
 
     private static Map<Long, List<WebSocketSession>> sessionListCard = new HashMap<>();
 
@@ -62,34 +64,19 @@ public class CardWSHandler extends TextWebSocketHandler {
 
         if (cardDTO.getCardType() != null) {
             long articleId = cardService.getArticleId(cardDTO);
-            boolean pass = articleService.updateCard1(memberDetails.getUsername(), articleId, cardDTO);
+            boolean pass = articleService.updateCard1(memberDetails.getUsername(), articleId, cardDTO, key);
 
-            broadcast(pass, cardDTO, key);
 
-            /*if (pass) {
+            if (pass) {
                 //수정된 것을 받을 때마다 브로드캐스트로 card-ws   sendMessage 수행하여 js 에서 데이터 갱신하기
-                Optional<Card> cardOptional = cardRepository.findById(cardDTO.getId());
-                CardDTO cardDTO1 = cardService.entityToDto(cardOptional.get());
-                for (WebSocketSession s : sessionListCard.get(key)) {
-                    s.sendMessage(new TextMessage(objectMapper.writeValueAsBytes(cardDTO1)));
-                }
-            }*/
+                CardDTO cardDTO1 = cardService.findCardById(cardDTO.getId());
+                broadcastService.cardBroadcast(cardDTO1, key);
+            }
         }
     }
 
-    public void broadcast(boolean pass, CardDTO dto, long key) {
-        if (pass) {
-            //수정된 것을 받을 때마다 브로드캐스트로 card-ws   sendMessage 수행하여 js 에서 데이터 갱신하기
-            Optional<Card> cardOptional = cardRepository.findById(dto.getId());
-            CardDTO cardDTO1 = cardService.entityToDto(cardOptional.get());
-            for (WebSocketSession s : sessionListCard.get(key)) {
-                try {
-                    s.sendMessage(new TextMessage(objectMapper.writeValueAsBytes(cardDTO1)));
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
+    public static Map<Long, List<WebSocketSession>> getSessionList() {
+        return sessionListCard;
     }
 
     @Override

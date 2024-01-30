@@ -22,7 +22,7 @@ import java.util.Optional;
 public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
-    private final  CardService cardService;
+    private final CardService cardService;
 
     @Override
     public List<ArticleDTO> getAllArticleList() {
@@ -60,10 +60,10 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public boolean updateCard1(String username, long articleId, CardDTO cardDTO) {
+    public boolean updateCard1(String username, long articleId, CardDTO cardDTO, long key) {
         Optional<Article> e = articleRepository.findById(articleId);
         if(username.equals(e.get().getMember().getEmail())) {
-            return cardService.updateCard2(cardDTO);
+            return cardService.updateCard2(cardDTO, key);
         }
         return false;
     }

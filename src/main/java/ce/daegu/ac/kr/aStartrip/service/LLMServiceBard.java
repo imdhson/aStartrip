@@ -1,9 +1,10 @@
 package ce.daegu.ac.kr.aStartrip.service;
 
+import ce.daegu.ac.kr.aStartrip.broadcast.BroadcastService;
+import ce.daegu.ac.kr.aStartrip.dto.CardDTO;
 import ce.daegu.ac.kr.aStartrip.entity.Card;
 import ce.daegu.ac.kr.aStartrip.entity.LLMStatusENUM;
 import ce.daegu.ac.kr.aStartrip.repository.CardRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -11,12 +12,14 @@ import org.springframework.stereotype.Service;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 @Slf4j
 public class LLMServiceBard implements LLMService {
     private final CardRepository cardRepository;
+    private final BroadcastService broadcastService;
 
     public static boolean running = false;
 
@@ -61,5 +64,20 @@ public class LLMServiceBard implements LLMService {
         entity.setLlmStatus(LLMStatusENUM.CANCELED);
         cardRepository.save(entity);
         return false;
+    }
+
+    @Override
+    public void completeWating(CardDTO dto, long key) {
+        while (true){
+            try {
+                Thread.sleep(3000); //3초 대기
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            if(dto.getLlmStatus() == LLMStatusENUM.COMPLETED) {
+                broadcastService.cardBroadcast(dto, key);
+                break;
+            }
+        }
     }
 }

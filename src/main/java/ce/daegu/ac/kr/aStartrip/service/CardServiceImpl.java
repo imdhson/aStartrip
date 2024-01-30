@@ -77,7 +77,7 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public boolean updateCard2(CardDTO cardDTO) {
+    public boolean updateCard2(CardDTO cardDTO, long key) {
         Optional<Card> e = cardRepository.findById(cardDTO.getId());
         if (e.isPresent()) {
             Card entity = e.get();
@@ -105,7 +105,11 @@ public class CardServiceImpl implements CardService {
                     if (!pass){
                         entity.setLlmStatus(LLMStatusENUM.CANCELED);
                     }
-                    // 이곳에서 card ws 브로드 캐스트를 수행해야 함.
+                    // 이곳에서 card ws 브로드 캐스트를 수행해야 함. -> true
+                    Optional<Card> e1 = cardRepository.findById(cardDTO.getId());
+                    CardDTO dto = entityToDto(e1.get());
+
+                    llmService.completeWating(dto, key);
                 });
             }
             return true;
