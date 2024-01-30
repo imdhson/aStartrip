@@ -1,4 +1,5 @@
 import sys, os
+import time
 from dotenv import load_dotenv
 from bardapi import Bard
 from sqlalchemy import create_engine, Column, Integer, String

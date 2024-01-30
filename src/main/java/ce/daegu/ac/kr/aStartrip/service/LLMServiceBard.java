@@ -25,18 +25,18 @@ public class LLMServiceBard implements LLMService {
 
     @Override
     public boolean execute(Card entity) {
+        while (running) {
+            try {
+                Thread.sleep(6000); //6초 대기
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
-        if (running) { //running 중일 때
-            return false;
-        }
-        try {
-            Thread.sleep(0); //3초 대기
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         log.debug("현재 디렉터리:{}", System.getProperty("user.dir"));
 
         try {
+            running = true;
             Process process = new ProcessBuilder
                     ("python", "./src/main/bard.py",
                             String.valueOf(entity.getId())).start();
@@ -47,11 +47,13 @@ public class LLMServiceBard implements LLMService {
                 log.debug("Bard python: {}", line);
                 if (line.trim().equals("true")) {
                     log.debug("Bard 성공");
+                    running = false;
                     return true;
                 } else {
                     log.debug("Bard 실패");
                     entity.setLlmStatus(LLMStatusENUM.CANCELED);
                     cardRepository.save(entity);
+                    running = false;
                     return false;
                 }
             }
@@ -60,21 +62,21 @@ public class LLMServiceBard implements LLMService {
             cardRepository.save(entity);
             throw new RuntimeException(e);
         }
-
         entity.setLlmStatus(LLMStatusENUM.CANCELED);
         cardRepository.save(entity);
+        running = false;
         return false;
     }
 
     @Override
     public void completeWating(CardDTO dto, long key) {
-        while (true){
+        while (true) {
             try {
                 Thread.sleep(3000); //3초 대기
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            if(dto.getLlmStatus() == LLMStatusENUM.COMPLETED) {
+            if (dto.getLlmStatus() == LLMStatusENUM.COMPLETED || dto.getLlmStatus() == LLMStatusENUM.CANCELED) {
                 broadcastService.cardBroadcast(dto, key);
                 break;
             }

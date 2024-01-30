@@ -264,6 +264,11 @@ function cardBuild(card, dom, refresh) { //refresh는 onmessage 수신시 카드
         child.querySelector('.cardContent .response').classList.add("blur-effect")
         cube_three(child); // Three.js 초기화 및 렌더링
     }
+    if (card.llmStatus == "CANCELED") {
+        let newDiv = document.createElement("div")
+        child.appendChild(newDiv.appendChild(document.createTextNode("LLM 에서 오류 발생")))
+        newDiv.style.color = "red"
+    }
 }
 
 function sendCard(event, child, card) {
