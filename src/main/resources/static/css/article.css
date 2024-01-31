@@ -1,24 +1,23 @@
 .grid-add {
-    margin-top: 20px;
-    grid-template-columns: repeat(3, 1fr);
-    /* border: 1px dotted red; */
-    /* display: grid; */
     display: none;
+    /* display: grid; */
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
+    margin-bottom: 30px;
 }
 
 .grid-add .grid-item {
-    border: 1px dotted blue;
+    width: 100%;
     border-radius: 30px;
-    padding: 20px;
-    width: 90%;
+    text-align: center;
     height: auto;
+    box-shadow: 0px 4px 12px rgba(105, 105, 105, 0.6);
 }
 
 .grid-add .grid-item .button {
     /* border: 1px dotted black; */
     border-radius: 30px;
-    margin: 10px;
+    margin-top: 10px;
     padding: 10px;
 }
 
@@ -34,16 +33,23 @@
 
 .articleTitle {
     /* border: 1px solid black; */
-    width: 100%;
-    min-height: 50px;
+    text-align: left;
+    border-radius: 20px;
+    background-color:black;
+    box-shadow: 0px 4px 8px rgb(141, 177, 209);
+    padding: 10px;
+    color: white;
+    margin-bottom: 30px;
 }
 
 .articleTitle input {
-    width: 80%;
-    min-height: 50px;
+    background-color:black;
+    color: white;
+    width: 90%;
+    min-height: 60px;
     border: none;
     font-weight: bold;
-    font-size: 40px;
+    font-size: 50px;
 }
 
 
@@ -61,10 +67,11 @@
     width: calc(100% - 20px);
     position: relative;
     padding-top: 20px;
-    padding-bottom: 20px;
-    margin-bottom : 20px;
+    /* padding-bottom: 20px; */
+    margin-bottom: 20px;
     border-radius: 20px;
-    box-shadow: 0px 4px 8px rgba(105, 105, 105, 0.454);
+    box-shadow: 0px 4px 12px rgba(105, 105, 105, 0.6);
+
 }
 
 .blur-effect {
@@ -74,7 +81,6 @@
 .threejs-container {
     display: none;
     position: absolute;
-    border: 3px dotted palegreen;
     width: 100%;
     height: 100%;
     top: 0;
@@ -89,7 +95,8 @@
 .w01,
 .w02,
 .v01,
-.v02 {
+.v02,
+.grid-add {
     width: 100%;
     max-width: 1000px;
     /* border: 1px solid black; */
@@ -99,35 +106,45 @@
     align-items: center;
 }
 
-.r01 .reg {
-    border: 1px solid skyblue;
-    text-align: center;
-}
-
-.r01 .response,
-.w01 .response,
-.w02 .response,
-.v01 .response {
-    border: 1px solid orange;
-    padding: 10px;
-    border-radius: 20px;
-    margin-top: 20px;
-    min-height: 400px;
-
-}
-
-.r01 .response textarea,
-.w01 .response textarea,
-.w02 .response textarea,
-.v01 .response textarea {
+textarea {
     width: 100%;
-    min-height: 400px;
+    font-size: 30px;
+    height: 400px;
     border: none;
 }
 
-.r02 .reg,
-.v02 .reg {
-    border: 1px solid skyblue;
+.response {
+    padding: 10px;
+    /* border: 1px solid orange; */
+    background-color: black;
+    color: white;
+    margin-top: 20px;
+    border-radius: 20px;
+    min-height: 400px;
+}
+
+.response textarea {
+    background-color: black;
+    color: white;
+}
+
+#llmStatus {
+    width: 500px;
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    border-radius: 20px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 4px 8px rgb(255, 255, 255);
+    padding: 10px;
+    margin-bottom: 10px;
+    color: black;
+
+}
+
+.reg {
+    padding: 10px;
+    text-align: center;
 }
 
 .r02 .response,
@@ -135,15 +152,24 @@
     display: flex;
     min-width: 500px;
     flex-direction: column;
-    border: 1px solid orange;
-    padding: 10px;
+    /* border: 1px solid orange; */
     border-radius: 20px;
 }
 
-.r02 .response .item,
-.v02 .response .item {
-    min-height: 50px;
-    background-color: rgb(210, 210, 210);
+.r02 .response .item #itemTitle,
+.v02 .response .item #itemTitle {
+    width: 150px;
+    text-align: center;
+    border-radius: 20px;
+    background-color: aliceblue;
+    box-shadow: 0px 4px 8px aliceblue;
+    padding: 10px;
+    color: black;
+}
+
+.r02 .response textarea,
+.v02 .response textarea {
+    height: 100px;
 }
 
 
@@ -152,15 +178,14 @@
 .w02 .reg,
 .v01 .reg,
 .v02 .reg {
-    border: 1px solid skyblue;
+    /* border: 1px solid skyblue; */
     text-align: center;
 }
 
 /* vocabulary -------- */
-.v01 .reg form {
-    width: 300px;
+.v01 .reg textarea {
+    height: 100px;
 }
-
 
 .addArticle-join {
     margin-top: 20px;

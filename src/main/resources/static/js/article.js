@@ -272,7 +272,21 @@ function cardBuild(card, dom, refresh) { //refresh는 onmessage 수신시 카드
     })
 
     const llmStatusDOM = child.querySelector("#llmStatus") //h2 태그에 상태 표시 기능
-    llmStatusDOM.textContent = card.llmStatus
+    switch (card.llmStatus) {
+        case "NEW":
+            llmStatusDOM.textContent = "입력을 기다리고 있어요"
+            break;
+        case "GENERATING":
+            llmStatusDOM.textContent = "답변을 생성 중. . ."
+            break;
+        case "CANCELED":
+            llmStatusDOM.textContent = "! 생성 중 오류 발생 !"
+            break;
+        case "COMPLETED":
+            llmStatusDOM.textContent = "생성 완료. 한번 확인해보세요"
+            break;
+    }
+
 
     if (card.llmStatus == "GENERATING") {
         const three_container = child.querySelector('.threejs-container')

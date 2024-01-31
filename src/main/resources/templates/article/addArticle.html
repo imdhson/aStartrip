@@ -1,25 +1,39 @@
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
-<div th:fragment="addArticle(articleNum)" class="grid-add">
-    <div class="grid-item">
-        <h2>Reading</h2>
-        <!--   각 버튼을 눌렀을 때 card add 를 서버에 요청해야 함.-->
-        <div class="button" th:data-name="${articleNum}" th:onclick="addCard(this.getAttribute('data-name'), 'R01')">예시 지문 생성</div>
-        <div class="button" th:data-name="${articleNum}" th:onclick="addCard(this.getAttribute('data-name'), 'R02')">선 후 독서 질문 생성</div>
+<div th:fragment="addArticle(articleNum)">
+    <div id="cardContent" class="grid-add">
+        <div class="grid-item">
+            <h2>Reading</h2>
+            <!--   각 버튼을 눌렀을 때 card add 를 서버에 요청해야 함.-->
+            <div class="button" th:data-name="${articleNum}"
+                 th:onclick="addCard(this.getAttribute('data-name'), 'R01')">예시 지문 생성
+            </div>
+            <div class="button" th:data-name="${articleNum}"
+                 th:onclick="addCard(this.getAttribute('data-name'), 'R02')">선 후 독서 질문 생성
+            </div>
 
-    </div>
-    <div class="grid-item">
-        <h2>Writing</h2>
+        </div>
+        <div class="grid-item">
+            <h2>Writing</h2>
 
-        <div class="button" th:data-name="${articleNum}" th:onclick="addCard(this.getAttribute('data-name'), 'W01')">지문 첨삭</div>
-        <div class="button" th:data-name="${articleNum}" th:onclick="addCard(this.getAttribute('data-name'), 'W02')">문장 성분 분석</div>
+            <div class="button" th:data-name="${articleNum}"
+                 th:onclick="addCard(this.getAttribute('data-name'), 'W01')">지문 첨삭
+            </div>
+            <div class="button" th:data-name="${articleNum}"
+                 th:onclick="addCard(this.getAttribute('data-name'), 'W02')">문장 성분 분석
+            </div>
 
-    </div>
-    <div class="grid-item">
-        <h2>Vocabulary</h2>
+        </div>
+        <div class="grid-item">
+            <h2>Vocabulary</h2>
 
-        <div class="button" th:data-name="${articleNum}" th:onclick="addCard(this.getAttribute('data-name'), 'V01')">단어 기반 문장 생성</div>
-        <div class="button" th:data-name="${articleNum}" th:onclick="addCard(this.getAttribute('data-name'), 'V02')">동의어, 반의어, word-family 찾기</div>
+            <div class="button" th:data-name="${articleNum}"
+                 th:onclick="addCard(this.getAttribute('data-name'), 'V01')">단어 기반 문장 생성
+            </div>
+            <div class="button" th:data-name="${articleNum}"
+                 th:onclick="addCard(this.getAttribute('data-name'), 'V02')">동의어, 반의어, word-family 찾기
+            </div>
 
+        </div>
     </div>
 </div>
 

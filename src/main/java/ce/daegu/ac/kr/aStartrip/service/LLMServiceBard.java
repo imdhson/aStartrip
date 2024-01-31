@@ -34,7 +34,7 @@ public class LLMServiceBard implements LLMService {
         }
 
         try {
-            Thread.sleep(1000); //1초 대기 어뷰징 방지용
+            Thread.sleep(2000); //2초 대기 어뷰징 방지용
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

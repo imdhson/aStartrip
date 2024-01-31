@@ -30,6 +30,7 @@ public class CardServiceImpl implements CardService {
         if (articleOptional.isPresent()) {
             Article article = articleOptional.get();
             Card card = dtoToEntity(cardDTO);
+            card.setLlmStatus(LLMStatusENUM.NEW);
             card.setArticle(article);
             Card card1 = cardRepository.save(card);
             log.debug("Debug card1::::::::{}", card1.toString());

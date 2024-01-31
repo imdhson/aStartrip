@@ -51,7 +51,6 @@ main .grid {
 main .grid-item {
     width: 100%;
     height: auto;
-    border: 1px dotted black;
 }
 
 main .grid .grid-item .grid-article {
@@ -140,5 +139,4 @@ textarea {
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
-    font-family: Arial, sans-serif;
 }
