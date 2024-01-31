@@ -4,25 +4,20 @@
     <script type="module" src="/js/three.js"></script>
     <div class="cardContent">
         <div class="reg">
-            <form>
                 <label for="userInput0">지문 입력</label>
                 <textarea name="userInput0" id="userInput0" rows="20" cols="100" placeholder="이곳에 문단 입력"></textarea>
                 <div class="button" id="regButton">생성 시작</div> <!-- js 로 처리-->
-            </form>
         </div>
         <div class="response">
-            <p>LLM 답변 들어가는 곳</p>
+            <h2 id="llmStatus"></h2>
             <div class="item">Pre Reading Question ----- 펼치기/접기
-                <textarea name="llmresponse0" id="llmresponse0" rows="2" cols="100"
-                placeholder=""></textarea>
+                <textarea name="llmresponse0" id="llmresponse0" rows="2" cols="100" placeholder=""></textarea>
             </div>
             <div class="item">BackGround Knowledge ----- 펼치기/접기
-                <textarea name="llmresponse1" id="llmresponse1" rows="2" cols="100"
-                placeholder=""></textarea>
+                <textarea name="llmresponse1" id="llmresponse1" rows="2" cols="100" placeholder=""></textarea>
             </div>
             <div class="item">Post Reading Question ----- 펼치기/접기
-                <textarea name="llmresponse2" id="llmresponse2" rows="2" cols="100"
-                placeholder=""></textarea>
+                <textarea name="llmresponse2" id="llmresponse2" rows="2" cols="100" placeholder=""></textarea>
             </div>
         </div>
         <div class="threejs-container"></div>

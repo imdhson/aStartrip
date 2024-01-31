@@ -106,7 +106,6 @@ form input[type="password"] {
 
 form button,
 .button {
-    width: calc(100% - 10px);
     padding: 10px;
     background-color: black;
     align-items: center;
@@ -115,6 +114,9 @@ form button,
     border-radius: 4px;
     cursor: pointer;
     margin-top: 10px;
+}
+form .button {
+    width: 100%;
 }
 
 form button:hover,
@@ -137,7 +139,6 @@ form label {
 textarea {
     border: 1px solid #ccc;
     border-radius: 4px;
-    padding: 10px;
     font-size: 16px;
     font-family: Arial, sans-serif;
 }

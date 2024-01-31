@@ -265,13 +265,14 @@ function cardBuild(card, dom, refresh) { //refresh는 onmessage 수신시 카드
         if (keycount % 10 == 0) {
             sendCard(event, child, card)
         }
-        
+
         if (event.key == "Enter" || event.key == "." || event.key == "," || event.key == "?" || event.key == "!") {
             sendCard(event, child, card)
         }
     })
 
-
+    const llmStatusDOM = child.querySelector("#llmStatus") //h2 태그에 상태 표시 기능
+    llmStatusDOM.textContent = card.llmStatus
 
     if (card.llmStatus == "GENERATING") {
         const three_container = child.querySelector('.threejs-container')
@@ -279,11 +280,6 @@ function cardBuild(card, dom, refresh) { //refresh는 onmessage 수신시 카드
         child.querySelector('.cardContent .reg').classList.add("blur-effect")
         child.querySelector('.cardContent .response').classList.add("blur-effect")
         cube_three(child); // Three.js 초기화 및 렌더링
-    }
-    if (card.llmStatus == "CANCELED") {
-        let newDiv = document.createElement("div")
-        child.appendChild(newDiv.appendChild(document.createTextNode("LLM 에서 오류 발생")))
-        newDiv.style.color = "red"
     }
 }
 
