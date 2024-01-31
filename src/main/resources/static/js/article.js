@@ -291,8 +291,13 @@ function cardBuild(card, dom, refresh) { //refresh는 onmessage 수신시 카드
     if (card.llmStatus == "GENERATING") {
         const three_container = child.querySelector('.threejs-container')
         three_container.style.display = "block"
-        child.querySelector('.cardContent .reg').classList.add("blur-effect")
-        child.querySelector('.cardContent .response').classList.add("blur-effect")
+        three_container.classList.add("blur-effect")
+        setTimeout(function () {
+            child.querySelector('.cardContent .reg').classList.add("blur-effect")
+            child.querySelector('.cardContent .response').classList.add("blur-effect")
+            three_container.classList.remove("blur-effect")
+        }, 500)
+
         cube_three(child); // Three.js 초기화 및 렌더링
     }
 }
