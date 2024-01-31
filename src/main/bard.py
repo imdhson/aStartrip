@@ -80,7 +80,7 @@ elif card_type_i == "W02":
     response = bard.get_answer(request_i)
     card.llmresponse0 = response['content']
 elif card_type_i == "V01":
-    request_i = '''I am studying English. I'll send you the words separated by , so please create an English story using the words. Please reply in Korean.
+    request_i = '''I am studying English. I'll send you the words separated by , so please create an English story using the words.
     ________
     words: ''' + card.user_input0
     response = bard.get_answer(request_i)
@@ -89,6 +89,7 @@ elif card_type_i == "V01":
 elif card_type_i == "V02":
     #동의어
     request_i = '''I am studying English. I'll send you the sentence, so please find the word in the sentence and let me know the relevant synonyms. Please reply in Korean.
+    단어를 줄테니 relevant synonyms 찾아주세요. 아래는 단어 입니다.
     ________
     ''' + card.user_input0
     response = bard.get_answer(request_i)
@@ -97,6 +98,7 @@ elif card_type_i == "V02":
 
     #반의어
     request_i = '''I am studying English. I'll send you the sentence, so please find the words in the sentence and tell me the related antonym.Please reply in Korean.
+    단어를 줄테니 antonym 찾아주세요. 아래는 단어 입니다.
     ________
     ''' + card.user_input0
     response = bard.get_answer(request_i)
@@ -104,7 +106,8 @@ elif card_type_i == "V02":
     time.sleep(3)
 
     #word- family
-    request_i = '''I am studying English. I'll send you the sentence, so please find the word in the sentence and tell me the word-family.Please reply in Korean.
+    request_i = '''I am studying English. I'll send you the sentence, so please find the word in the sentence and tell me the word-family. Please reply in Korean.
+    단어를 줄테니 Word-family 찾아주세요. 아래는 단어 입니다.
     _________
     ''' + card.user_input0
     response = bard.get_answer(request_i)

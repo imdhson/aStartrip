@@ -33,6 +33,12 @@ public class LLMServiceBard implements LLMService {
             }
         }
 
+        try {
+            Thread.sleep(1000); //1초 대기 어뷰징 방지용
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         log.debug("현재 디렉터리:{}", System.getProperty("user.dir"));
 
         try {

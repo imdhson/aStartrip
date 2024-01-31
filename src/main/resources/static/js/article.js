@@ -9,13 +9,13 @@ const w02 = document.querySelector(".w02").cloneNode(true)
 const v01 = document.querySelector(".v01").cloneNode(true)
 const v02 = document.querySelector(".v02").cloneNode(true)
 
-const title = document.querySelector("#articleTitle")
 const cardsDOM = document.querySelector(".cards")
 const addArticle = document.querySelector(".grid-add")
 
 let cardWS_webSocket_arr = []
 let articleWS_webSocket;
 let last_interaction = 0;
+let keycount = 0;
 let weakmap = new WeakMap();
 
 start(articleNum)
@@ -31,7 +31,7 @@ function start(articleNum) {
         })
         .then(jsonData => {
             // 게시글 json 으로 처리 시작
-
+            const title = document.querySelector("#articleTitle")
             title.value = jsonData.title
             titleWS(jsonData.num, title) //article 관리 웹 소켓
             articleDetailView(jsonData)
@@ -99,12 +99,18 @@ function titleWS(articleNum, dom) {
 
     dom.addEventListener('keyup', function (event) {
         last_interaction = new Date().getTime()
-        sendTitle(event)
+        keycount += 1
+        if (keycount % 10 === 0) {
+            sendTitle(event, dom)
+        }
     })
-    // dom.addEventListener('blur', sendTitle)
+    dom.addEventListener('blur', function (event) {
+        last_interaction = new Date().getTime()
+        sendTitle(event, dom)
+    })
 
 
-    function sendTitle(event) {
+    function sendTitle(event, dom) {
         let jsonMessage = JSON.stringify({ num: articleNum, title: dom.value })
         titleWS_webSocket.send(jsonMessage)
     }
@@ -160,7 +166,7 @@ function cardWS(card, child) {
         //여기서 변경된 카드 받아서 마지막 이벤트 이후 1초 지났을 때에만 대입하도록 수정
         let newCard = JSON.parse(event.data)
         const current_time = new Date().getTime();
-        if (current_time - last_interaction >= 1000 || newCard.llmStatus == "COMPLETED") {
+        if (current_time - last_interaction >= 1000) {
             cardBuild(newCard, child, true)
             console.log("card 재생성됨:: ", newCard)
         } else {
@@ -254,8 +260,18 @@ function cardBuild(card, dom, refresh) { //refresh는 onmessage 수신시 카드
     });
     child.querySelector('.cardContent').addEventListener('keyup', function (event) {
         last_interaction = new Date().getTime() //상호작용 시간 갱신
-        sendCard(event, child, card)
+        keycount += 1
+        // 입력된 텍스트 길이가 20의 배수일 때만 sendCard 함수 호출
+        if (keycount % 10 == 0) {
+            sendCard(event, child, card)
+        }
+        
+        if (event.key == "Enter" || event.key == "." || event.key == "," || event.key == "?" || event.key == "!") {
+            sendCard(event, child, card)
+        }
     })
+
+
 
     if (card.llmStatus == "GENERATING") {
         const three_container = child.querySelector('.threejs-container')
@@ -309,7 +325,7 @@ function sendCard(event, child, card) {
             break
     }
     let jsonMessage = JSON.stringify(jsonObj)
-    console.log("jsonMessage", jsonMessage)
+    console.log("sendCard(): ", jsonObj)
     let cardWS_webSocket = weakmap.get(child)
     cardWS_webSocket.send(jsonMessage)
 }
