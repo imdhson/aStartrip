@@ -2,6 +2,7 @@ import sys, os
 import time
 from dotenv import load_dotenv
 from bardapi import Bard
+from bardapi import BardCookies
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.exc import SQLAlchemyError
@@ -35,7 +36,15 @@ if (card == None):
     print('false: cannot find card')
     sys.exit()
 
-bard = Bard(token=os.getenv("BARD_TOKEN"))
+cookie_dict = {
+    "__Secure-1PSID": os.getenv("BARD__Secure-1PSID"),
+    "__Secure-1PSIDTS": os.getenv("BARD__Secure-1PSIDTS"),
+    "__Secure-1PSIDCC": os.getenv("BARD__Secure-1PSIDCC")
+}
+
+bard = BardCookies(cookie_dict=cookie_dict)
+print(bard.get_answer("こんにちは")['content']) ##111111
+
 card_type_i = card.card_type
 if card_type_i == "R01":
     request_i = '''I need to study English. Please generate English paragraph on any topic. It can be long'''
