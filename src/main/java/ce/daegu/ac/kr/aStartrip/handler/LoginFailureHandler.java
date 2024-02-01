@@ -6,9 +6,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -33,7 +31,10 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
             //redirect to /signup
         } else if (exception instanceof AuthenticationCredentialsNotFoundException) {
             errorMsg = "인증 요청이 거부 되었음.";
-        } else {
+        } else if (exception instanceof DisabledException){
+            errorMsg = "비활성화 된 계정 입니다.";
+            return;
+        }else {
             errorMsg = "알수 없는 오류";
         }
         log.info("loginFAILURE {} :::: {}", exception, errorMsg);

@@ -15,7 +15,7 @@ import java.util.List;
 public interface MemberService {
 
     boolean findID(String email);
-
+    MemberDTO findMemberById(String email);
     List<ArticleDTO> userArticleList(String email);
 
     default Member dtoToEntity(MemberDTO dto) {

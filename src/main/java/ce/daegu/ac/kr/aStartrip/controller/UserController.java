@@ -24,7 +24,6 @@ public class UserController {
 
     @GetMapping("/login")
     public String loginID() {
-        log.info("loginID page");
         return "loginID";
     }
 
@@ -32,7 +31,7 @@ public class UserController {
     public String login(@Validated MemberDTO dto, Model model) {
         log.info("email: {}", dto.getEmail());
         model.addAttribute("email", dto.getEmail());
-        if (memberService.findID(dto.getEmail())) {
+        if (memberService.findID(dto.getEmail()) && memberService.findMemberById(dto.getEmail()).isActivation()) {
             return "login";
         } else {
             return "regist";

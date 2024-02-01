@@ -30,6 +30,15 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public MemberDTO findMemberById(String email) {
+        if (memberRepository.findById(email).isPresent()){
+            Member member = memberRepository.findById(email).get();
+            return entityToDto(member);
+        }
+        return null;
+    }
+
+    @Override
     public List<ArticleDTO> userArticleList(String email) {
         Optional<Member> m = memberRepository.findById(email);
         if (m.isEmpty()) {
