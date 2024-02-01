@@ -43,7 +43,6 @@ cookie_dict = {
 }
 
 bard = BardCookies(cookie_dict=cookie_dict)
-print(bard.get_answer("こんにちは")['content']) ##111111
 
 card_type_i = card.card_type
 if card_type_i == "R01":
