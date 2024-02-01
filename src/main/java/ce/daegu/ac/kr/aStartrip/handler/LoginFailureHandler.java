@@ -36,7 +36,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
         } else {
             errorMsg = "알수 없는 오류";
         }
-        log.info("qqqqqqqqq {} :::: {}", exception, errorMsg);
+        log.info("loginFAILURE {} :::: {}", exception, errorMsg);
         errorMsg = URLEncoder.encode(errorMsg, "utf-8");
         response.sendRedirect("/loginError?msg=" + errorMsg);
     }

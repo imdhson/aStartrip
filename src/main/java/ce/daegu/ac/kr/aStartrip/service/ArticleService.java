@@ -22,6 +22,8 @@ public interface ArticleService {
 
     boolean updateCard1(String username, long articleId, CardDTO cardDTO, long key);
 
+    ArticleDTO findArticlebyID(long articleNum);
+
     default Article dtoToEntity(ArticleDTO dto, Member member) {
         Article entity = Article.builder()
                 .num(dto.getNum())

@@ -1,21 +1,17 @@
 <!DOCTYPE html>
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
     <style>
         @import url("/css/main.css");
     </style>
+    <meta charset="UTF-8">
     <meta name="_csrf" content="${_csrf.token}"/>
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
-    <title>error - A-startrip</title>
+    <title>[[${member.name}]]의 my - aStartrip</title>
 </head>
 <body>
 <div th:replace="~{/fragment/nav :: nav}"></div>
-<h2>Error</h2>
-<h1 th:text="${msg}">error occured.</h1>
-<a href="/"><p>홈으로 가기</p></a>
-
-
+<h1 th:text="${member.name}">의 my</h1>
 <footer th:replace="~{/fragment/footer :: footer}"></footer>
 </body>
 </html>

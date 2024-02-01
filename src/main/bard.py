@@ -1,9 +1,22 @@
 import sys, os
+import time
 from dotenv import load_dotenv
 from bardapi import Bard
+from bardapi import BardCookies
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.exc import SQLAlchemyError
+
+
+def myReplaceAll(str):
+    str = str.replace("**", "")
+    str = str.replace("##", "")
+    if "|---|---|" in str: # llm이 표로 답변하면 그냥 에러 상태로 남겨둠
+        card.llm_status = "CANCELED"
+        session.commit()
+        print('false: table detected on llm response')
+        sys.exit()
+    return str
 
 load_dotenv()
 # DB 연결
@@ -34,12 +47,19 @@ if (card == None):
     print('false: cannot find card')
     sys.exit()
 
-bard = Bard(token=os.getenv("BARD_TOKEN"))
+cookie_dict = {
+    "__Secure-1PSID": os.getenv("BARD__Secure-1PSID"),
+    "__Secure-1PSIDTS": os.getenv("BARD__Secure-1PSIDTS"),
+    "__Secure-1PSIDCC": os.getenv("BARD__Secure-1PSIDCC")
+}
+
+bard = BardCookies(cookie_dict=cookie_dict)
+
 card_type_i = card.card_type
 if card_type_i == "R01":
     request_i = '''I need to study English. Please generate English paragraph on any topic. It can be long'''
     response = bard.get_answer(request_i)
-    card.llmresponse0 = response['content']
+    card.llmresponse0  = myReplaceAll(response['content'])
 
 elif card_type_i == "R02":
     #Pre-reading question
@@ -47,7 +67,7 @@ elif card_type_i == "R02":
     ________
     ''' + card.user_input0
     response = bard.get_answer(request_i)
-    card.llmresponse0 = response['content']
+    card.llmresponse0 = myReplaceAll(response['content'])
     time.sleep(3)
 
     #Backgrond-knowledge
@@ -55,7 +75,7 @@ elif card_type_i == "R02":
     ________
     ''' + card.user_input0
     response = bard.get_answer(request_i)
-    card.llmresponse1 = response['content']
+    card.llmresponse1 = myReplaceAll(response['content'])
     time.sleep(3)
 
     #Post-reading question
@@ -63,51 +83,54 @@ elif card_type_i == "R02":
     _________
     ''' + card.user_input0
     response = bard.get_answer(request_i)
-    card.llmresponse2 = response['content']
+    card.llmresponse2 = myReplaceAll(response['content'])
 
 elif card_type_i == "W01":
     request_i = '''I'm studying English. I'll send you a paragraph, so please evaluate whether the paragraph I sent is appropriate and correct it. Please reply in Korean.
     ________
     ''' + card.user_input0
     response = bard.get_answer(request_i)
-    card.llmresponse0 = response['content']
+    card.llmresponse0 = myReplaceAll(response['content'])
 
 elif card_type_i == "W02":
     request_i = '''I'm studying English. I'll send you a sentence, so please analyze the composition of the sentence. Please reply in Korean.
     ________
     ''' + card.user_input0
     response = bard.get_answer(request_i)
-    card.llmresponse0 = response['content']
+    card.llmresponse0 = myReplaceAll(response['content'])
 elif card_type_i == "V01":
-    request_i = '''I am studying English. I'll send you the words separated by , so please create an English story using the words. Please reply in Korean.
+    request_i = '''I am studying English. I'll send you the words separated by , so please create an English story using the words.
     ________
     words: ''' + card.user_input0
     response = bard.get_answer(request_i)
-    card.llmresponse0 = response['content']
+    card.llmresponse0 = myReplaceAll(response['content'])
     
 elif card_type_i == "V02":
     #동의어
-    request_i = '''I am studying English. I'll send you the sentence, so please find the word in the sentence and let me know the relevant synonyms. Please reply in Korean.
+    request_i = '''I am studying English. I'll send you the word, so please find the relevant synonyms word. Find the word for english. and explain in Korean.
+    단어를 줄테니 relevant synonyms 찾아주세요. 아래는 단어 입니다.
     ________
     ''' + card.user_input0
     response = bard.get_answer(request_i)
-    card.llmresponse0 = response['content']
+    card.llmresponse0 = myReplaceAll(response['content'])
     time.sleep(3)
 
     #반의어
-    request_i = '''I am studying English. I'll send you the sentence, so please find the words in the sentence and tell me the related antonym.Please reply in Korean.
+    request_i = '''I am studying English. I'll send you the sentence, so please find the related antonym word. Find the word for english. and explain in Korean.
+    단어를 줄테니 antonym 찾아주세요. 아래는 단어 입니다.
     ________
     ''' + card.user_input0
     response = bard.get_answer(request_i)
-    card.llmresponse1 = response['content']
+    card.llmresponse1 = myReplaceAll(response['content'])
     time.sleep(3)
 
     #word- family
-    request_i = '''I am studying English. I'll send you the sentence, so please find the word in the sentence and tell me the word-family.Please reply in Korean.
+    request_i = '''I am studying English. I'll send you the sentence, so please find the word-family. Find the word for english. and explain in Korean.
+    단어를 줄테니 Word-family 찾아주세요. 아래는 단어 입니다.
     _________
     ''' + card.user_input0
     response = bard.get_answer(request_i)
-    card.llmresponse2 = response['content']
+    card.llmresponse2 = myReplaceAll(response['content'])
     time.sleep(3)
     
 else:

@@ -1,14 +1,14 @@
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
 <nav th:fragment="nav">
     <div class="grid">
-        <div class="grid-item" id="mainLogo"><a href="/">A startrip</a></div>
-        <div class="grid-item"> <a href="/article">학습 시작</a></div>
-        <div class="grid-item"></div>
-        <div class="grid-item"></div>
-        <div class="grid-item"></div>
-        <div class="grid-item" th:text="${username}">사용자이름</div>
-        <div class="grid-item" th:if="${username == null}"><a href="/login">이메일로 로그인</a></div>
-        <div class="grid-item" th:unless="${username == null}"><a href="/logout">로그아웃</a></div>
+        <div class="grid-item nav1" id="mainLogo"><a href="/">A startrip</a></div>
+        <div class="grid-item nav2"> <a href="/article">학습 시작</a></div>
+        <div class="grid-item nav3"></div>
+        <div class="grid-item nav4"></div>
+        <div class="grid-item nav5"></div>
+        <div class="grid-item nav6"><a href="/my" th:text="${username}">myAccount</a></div>
+        <div class="grid-item nav7" th:if="${username == null}"><a href="/login">로그인</a></div>
+        <div class="grid-item nav7" th:unless="${username == null}"><a href="/logout">로그아웃</a></div>
     </div>
 </nav>
 </html>

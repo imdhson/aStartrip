@@ -8,14 +8,16 @@ const w01 = document.querySelector(".w01").cloneNode(true)
 const w02 = document.querySelector(".w02").cloneNode(true)
 const v01 = document.querySelector(".v01").cloneNode(true)
 const v02 = document.querySelector(".v02").cloneNode(true)
+const p01 = document.querySelector(".p01").cloneNode(true)
+const p02 = document.querySelector(".p02").cloneNode(true)
 
-const title = document.querySelector("#articleTitle")
 const cardsDOM = document.querySelector(".cards")
 const addArticle = document.querySelector(".grid-add")
 
 let cardWS_webSocket_arr = []
 let articleWS_webSocket;
 let last_interaction = 0;
+let keycount = 0;
 let weakmap = new WeakMap();
 
 start(articleNum)
@@ -31,7 +33,7 @@ function start(articleNum) {
         })
         .then(jsonData => {
             // 게시글 json 으로 처리 시작
-
+            const title = document.querySelector("#articleTitle")
             title.value = jsonData.title
             titleWS(jsonData.num, title) //article 관리 웹 소켓
             articleDetailView(jsonData)
@@ -99,12 +101,18 @@ function titleWS(articleNum, dom) {
 
     dom.addEventListener('keyup', function (event) {
         last_interaction = new Date().getTime()
-        sendTitle(event)
+        keycount += 1
+        if (keycount % 10 === 0) {
+            sendTitle(event, dom)
+        }
     })
-    // dom.addEventListener('blur', sendTitle)
+    dom.addEventListener('blur', function (event) {
+        last_interaction = new Date().getTime()
+        sendTitle(event, dom)
+    })
 
 
-    function sendTitle(event) {
+    function sendTitle(event, dom) {
         let jsonMessage = JSON.stringify({ num: articleNum, title: dom.value })
         titleWS_webSocket.send(jsonMessage)
     }
@@ -160,7 +168,7 @@ function cardWS(card, child) {
         //여기서 변경된 카드 받아서 마지막 이벤트 이후 1초 지났을 때에만 대입하도록 수정
         let newCard = JSON.parse(event.data)
         const current_time = new Date().getTime();
-        if (current_time - last_interaction >= 1000 || newCard.llmStatus == "COMPLETED") {
+        if (current_time - last_interaction >= 1000) {
             cardBuild(newCard, child, true)
             console.log("card 재생성됨:: ", newCard)
         } else {
@@ -229,6 +237,21 @@ function cardBuild(card, dom, refresh) { //refresh는 onmessage 수신시 카드
 
             child.style.display = "flex"
             break;
+        case "P01":
+            child = p01.cloneNode(true)
+
+            child.querySelector("#userInput0").value = card.userInput0
+            child.querySelector("#llmresponse0").value = card.llmresponse0
+
+            child.style.display = "flex"
+            break;
+        case "P02":
+            child = p02.cloneNode(true)
+
+            child.querySelector("#userInput0").value = card.userInput0
+
+            child.style.display = "flex"
+            break;
     }//Switch 문 종료
 
     if (refresh) {// 리프레시 시에 prev child삭제 먼저
@@ -254,14 +277,44 @@ function cardBuild(card, dom, refresh) { //refresh는 onmessage 수신시 카드
     });
     child.querySelector('.cardContent').addEventListener('keyup', function (event) {
         last_interaction = new Date().getTime() //상호작용 시간 갱신
-        sendCard(event, child, card)
+        keycount += 1
+        // 입력된 텍스트 길이가 20의 배수일 때만 sendCard 함수 호출
+        if (keycount % 10 == 0) {
+            sendCard(event, child, card)
+        }
+
+        if (event.key == "Enter" || event.key == "." || event.key == "," || event.key == "?" || event.key == "!") {
+            sendCard(event, child, card)
+        }
     })
+
+    const llmStatusDOM = child.querySelector("#llmStatus") //h2 태그에 상태 표시 기능
+    switch (card.llmStatus) {
+        case "NEW":
+            llmStatusDOM.textContent = "입력을 기다리고 있어요"
+            break;
+        case "GENERATING":
+            llmStatusDOM.textContent = "답변을 생성 중. . ."
+            break;
+        case "CANCELED":
+            llmStatusDOM.textContent = "! 생성 중 오류 발생 !"
+            break;
+        case "COMPLETED":
+            llmStatusDOM.textContent = "생성 완료. 한번 확인해보세요"
+            break;
+    }
+
 
     if (card.llmStatus == "GENERATING") {
         const three_container = child.querySelector('.threejs-container')
         three_container.style.display = "block"
-        child.querySelector('.cardContent .reg').classList.add("blur-effect")
-        child.querySelector('.cardContent .response').classList.add("blur-effect")
+        three_container.classList.add("blur-effect")
+        setTimeout(function () {
+            child.querySelector('.cardContent .reg').classList.add("blur-effect")
+            child.querySelector('.cardContent .response').classList.add("blur-effect")
+            three_container.classList.remove("blur-effect")
+        }, 500)
+
         cube_three(child); // Three.js 초기화 및 렌더링
     }
 }
@@ -302,9 +355,16 @@ function sendCard(event, child, card) {
             jsonObj.llmresponse1 = child.querySelector("#llmresponse1").value
             jsonObj.llmresponse2 = child.querySelector("#llmresponse2").value
             break
+        case "P01":
+            jsonObj.userInput0 = child.querySelector("#userInput0").value
+            jsonObj.llmresponse0 = child.querySelector("#llmresponse0").value
+            break
+        case "P02":
+            jsonObj.userInput0 = child.querySelector("#userInput0").value
+            break
     }
     let jsonMessage = JSON.stringify(jsonObj)
-    console.log("jsonMessage", jsonMessage)
+    console.log("sendCard(): ", jsonObj)
     let cardWS_webSocket = weakmap.get(child)
     cardWS_webSocket.send(jsonMessage)
 }

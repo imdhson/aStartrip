@@ -28,7 +28,6 @@ import java.util.Optional;
 @Slf4j
 @RequiredArgsConstructor
 public class ArticleRController {
-    private final ArticleRepository articleRepository;
     private final ArticleService articleService;
     private final CardService cardService;
     private final MemberService memberService; // !
@@ -38,39 +37,20 @@ public class ArticleRController {
     public ResponseEntity<ArticleDTO> articleDetail(@PathVariable("num") long num, @AuthenticationPrincipal MemberDetails memberDetails) {
         HttpHeaders httpheaders = new HttpHeaders();
         httpheaders.setContentType(MediaType.APPLICATION_JSON);
-
+        String memberName = null;
         try {
-            //게시글에 접근 권한 있는지 넣어야함.
-            memberDetails.getMember().getName();
+            memberName = memberDetails.getMember().getName();
         } catch (NullPointerException nullPointerException) {
             //비로그인 사용자 or 접근 권한 없는 사용자
-            return ResponseEntity.badRequest().headers(httpheaders).build();
         }
-        log.debug("00000000000", memberDetails.getMember().getName());
-        log.debug("00000000000   : " + num);
-        Optional<Article> articleOptional = articleRepository.findById(num);
-        if (articleOptional.isPresent()) {
-            Article article = articleOptional.get();
-            ArticleDTO articleDTO = articleService.entityToDto(article);
-            log.debug("toSTRING111111111" + articleDTO.toString());
 
+        //게시글 가져오기
+        ArticleDTO articleDTO = articleService.findArticlebyID(num);
+        if (articleDTO.getWriter().equals(memberName) || articleDTO.isVisibleBoard()) {
+            //게시글의 member와 요청온 member가 같은 경우에만 정상 리턴
+            //or visibleBoard가 true면 리턴
             return ResponseEntity.status(HttpStatus.OK).headers(httpheaders).body(articleDTO);
         }
         return ResponseEntity.badRequest().headers(httpheaders).build();
-    }
-
-    @GetMapping("/api/member")
-    public ResponseEntity<MemberDTO> memberDetail(@AuthenticationPrincipal MemberDetails memberDetails) {
-        HttpHeaders httpheaders = new HttpHeaders();
-        httpheaders.setContentType(MediaType.APPLICATION_JSON);
-
-        String userName = memberDetails.getMember().getEmail();
-        Optional<Member> memberOptional = memberRepository.findById(userName);
-        if (memberOptional.isPresent()) {
-            Member member = memberOptional.get();
-            MemberDTO memberDTO = memberService.entityToDto(member);
-            return ResponseEntity.status(HttpStatus.OK).headers(httpheaders).body(memberDTO);
-        }
-        return null;
     }
 }

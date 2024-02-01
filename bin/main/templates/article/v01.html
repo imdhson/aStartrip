@@ -6,13 +6,14 @@
     <script type="module" src="/js/three.js"></script>
     <div class="cardContent">
         <div class="reg">
-            <form action="">
+            <h1 id="cardTitle">단어로 영어 이야기 생성</h1>
                 <label for="userInput0">단어 입력</label>
-                <input id="userInput0" type="text" placeholder="단어1, 단어2, 단어3" />
+                <textarea name="userInput0" id="userInput0" rows="2" cols="100"
+                placeholder="단어1, 단어2, 단어3"></textarea>
                 <div class="button" id="regButton">단어로 이야기 생성 시작</div> <!-- js 로 처리-->
-            </form>
         </div>
         <div class="response">
+           <h2 id="llmStatus"></h2>
             <!-- 생성 요청 누르면 보이도록 수정 -->
             <textarea id="llmresponse0">LLM API의 답변이 들어가는 곳
                 단어로 만든 이야기 내용 본문</textarea>

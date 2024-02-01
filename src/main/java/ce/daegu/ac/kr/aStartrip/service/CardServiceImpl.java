@@ -30,6 +30,7 @@ public class CardServiceImpl implements CardService {
         if (articleOptional.isPresent()) {
             Article article = articleOptional.get();
             Card card = dtoToEntity(cardDTO);
+            card.setLlmStatus(LLMStatusENUM.NEW);
             card.setArticle(article);
             Card card1 = cardRepository.save(card);
             log.debug("Debug card1::::::::{}", card1.toString());
@@ -82,7 +83,7 @@ public class CardServiceImpl implements CardService {
                 CompletableFuture.runAsync(() -> { //비동기처리
                     boolean pass = llmService.execute(entity);
                     // pass가 false면 canceled로 변경
-                    if (!pass){
+                    if (!pass) {
                         entity.setLlmStatus(LLMStatusENUM.CANCELED);
                     }
                     // 이곳에서 card ws 브로드 캐스트를 수행해야 함. -> true

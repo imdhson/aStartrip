@@ -4,17 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script type="module" src="/js/article.js"></script>
-    <!-- <script type="importmap">
-        {
-          "imports": {
-            "three": "https://unpkg.com/three@v0.160.1/build/three.module.js",
-            "three/addons/": "https://unpkg.com/three@v0.160.1/examples/jsm/"
-          }
-        }
-      </script> -->
     <script>
         const articleNum = [[${ articleNum }]]
     </script>
@@ -22,30 +14,32 @@
         @import url("/css/main.css");
         @import url("/css/article.css");
     </style>
-    <title>새 활동 - A startrip </title>
+    <title>Article - A startrip </title>
 </head>
 
 <body>
-    <header>
-        <div th:replace="~{/fragment/nav :: nav}"></div>
-    </header>
-    <main>
-        <div class="articleTitle">
-            <input id="articleTitle" type="text" placeholder="제목 입니다." required maxlength="30">
-        </div>
-        <div th:replace="~{/article/r01 :: r01}"></div>
-        <div th:replace="~{/article/r02 :: r02}"></div>
-        <div th:replace="~{/article/w01 :: w01}"></div>
-        <div th:replace="~{/article/w02 :: w02}"></div>
-        <div th:replace="~{/article/v01 :: v01}"></div>
-        <div th:replace="~{/article/v02 :: v02}"></div>
-        <div th:replace="~{/article/addArticle :: addArticle(${articleNum})}"></div>
-        <div class="cards"> <!-- 실제 cards가 존재할 곳 -->
+<header>
+    <div th:replace="~{/fragment/nav :: nav}"></div>
+</header>
+<main>
+    <div class="articleTitle">
+        <input id="articleTitle" type="text" placeholder="제목 Title" required maxlength="30">
+        <p class="articleInfo">[[${article.writer}]] 의해 작성되었고 [[${article.hit}]]회 조회됨</p>
+    </div>
+    <div th:replace="~{/article/r01 :: r01}"></div>
+    <div th:replace="~{/article/r02 :: r02}"></div>
+    <div th:replace="~{/article/w01 :: w01}"></div>
+    <div th:replace="~{/article/w02 :: w02}"></div>
+    <div th:replace="~{/article/v01 :: v01}"></div>
+    <div th:replace="~{/article/v02 :: v02}"></div>
+    <div th:replace="~{/article/p01 :: p01}"></div>
+    <div th:replace="~{/article/p02 :: p02}"></div>
+    <div th:replace="~{/article/addArticle :: addArticle(${articleNum})}"></div>
+    <div class="cards"> <!-- 실제 cards가 존재할 곳 -->
 
-        </div>
-    </main>
-    <footer th:replace="~{/fragment/footer :: footer}"></footer>
+    </div>
+</main>
+<footer th:replace="~{/fragment/footer :: footer}"></footer>
 </body>
-
 
 </html>
