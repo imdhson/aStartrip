@@ -17,29 +17,27 @@
     <main>
         <div class="grid">
             <div class="grid-item">
-                <h1>나의 활동</h1>
+                <h1 id="ArticleH1">나의 활동</h1>
                 <div class="grid-article" style="overflow-y:scroll">
                     <!-- 나의 활동 -->
-                    <a href="/article">
-                        <div class="grid-item" id="addArticle">추가 버튼</div>
-                    </a>
+                    <a class="grid-item" id="addArticle" href="/article">새로운 활동 시작하기</a>
 
                     <th:block th:if="${userArticles != null}">
-                        <!-- 게시판 -->
+                        <!-- 나의 글들 -->
                         <th:block th:each="userArticle : ${userArticles}">
-                            <a href="http://www.naver.com">
-                                <div class="grid-item">
-                                    <div class="article-title">
-                                        [<label>[[${userArticle.num}]]</label>]
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                        [[${userArticle.title}]]
-                                    </div>
-                                    <div class="article-writer">
-                                        <label>[[${userArticle.writer}]]</label>
-                                        &nbsp;&nbsp;
-                                        <label>[[${userArticle.hit}]]</label>회
-                                    </div>
+                            <a class="grid-item" th:href="@{/article/{articleNum}(articleNum=${userArticle.num})}">
+
+                                <div class="article-title">
+                                    <!-- [<label>[[${userArticle.num}]]</label>]
+                                    &nbsp;&nbsp;&nbsp; -->
+                                    [[${userArticle.title}]]
                                 </div>
+                                <div class="article-writer">
+                                    <label>✍️ [[${userArticle.writer}]]</label>
+                                    &nbsp;
+                                    <label>👀 [[${userArticle.hit}]]</label>회
+                                </div>
+
                             </a>
                         </th:block>
                     </th:block>
@@ -47,24 +45,24 @@
             </div>
 
             <div class="grid-item">
-                <h1>게시판 (다른사람활동)</h1>
+                <h1 id="ArticleH1">게시판 (다른사람활동)</h1>
                 <div class="grid-article" style="overflow-y:scroll">
                     <th:block th:if="${articles != null}">
                         <!-- 게시판 -->
                         <th:block th:each="article : ${articles}">
-                            <a href="http://www.naver.com">
-                                <div class="grid-item">
-                                    <div class="article-title">
-                                        [<label>[[${article.num}]]</label>]
-                                        &nbsp;&nbsp;&nbsp;&nbsp;
-                                        [[${article.title}]]
-                                    </div>
-                                    <div class="article-writer">
-                                        <label>[[${article.writer}]]</label>
-                                        &nbsp;&nbsp;
-                                        <label>[[${article.hit}]]</label>회
-                                    </div>
+                            <a class="grid-item" th:href="@{/article/{articleNum}(articleNum=${article.num})}">
+
+                                <div class="article-title">
+                                    <!-- [<label>[[${article.num}]]</label>]
+                                    &nbsp;&nbsp;&nbsp;&nbsp; -->
+                                    [[${article.title}]]
                                 </div>
+                                <div class="article-writer">
+                                    <label>✍️ [[${article.writer}]]</label>
+                                    &nbsp;
+                                    <label>👀 [[${article.hit}]]</label>회
+                                </div>
+
                             </a>
                         </th:block>
                     </th:block>

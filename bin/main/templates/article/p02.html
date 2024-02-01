@@ -1,17 +1,16 @@
 <!doctype html>
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
-<div th:fragment="r01" class="r01">
+
+<div class="p02" th:fragment="p02">
 
     <script type="module" src="/js/three.js"></script>
     <div class="cardContent">
         <div class="reg">
-            <h1 id="cardTitle">영어 지문 생성</h1>
+            <h1 id="cardTitle">댓글</h1>
+            <textarea name="userInput0" id="userInput0" rows="2" cols="100" placeholder="댓글 입력"></textarea>
             <div class="button" id="regButton">탭 하여 생성 요청 보내기</div>
         </div>
-        <div class="response">
-            <h2 id="llmStatus"></h2>
-            <textarea id="llmresponse0">LLM API의 답변이 들어가는 곳</textarea>
-        </div>
+        <h2 id="llmStatus"></h2>
         <div class="threejs-container"></div>
     </div>
 </div>

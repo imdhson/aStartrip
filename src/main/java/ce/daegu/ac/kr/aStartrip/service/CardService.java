@@ -10,8 +10,6 @@ public interface CardService {
     CardDTO updateCard(CardDTO cardDTO);
     CardDTO findCardById(long id);
 
-    void changeCard(String email, String writer, CardDTO dto);
-
     long getArticleId(CardDTO cardDTO);
 
     boolean updateCard2(CardDTO cardDTO, long key);

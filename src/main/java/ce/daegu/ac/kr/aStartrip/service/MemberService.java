@@ -18,6 +18,10 @@ public interface MemberService {
     MemberDTO findMemberById(String email);
     List<ArticleDTO> userArticleList(String email);
 
+    void sendCodeToEmail(String toEmail);
+
+    boolean verifiedCode(String email, String authCode);
+
     default Member dtoToEntity(MemberDTO dto) {
         Member entity = Member.builder()
                 .name(dto.getName())
@@ -25,7 +29,9 @@ public interface MemberService {
                 .address(dto.getAddress())
                 .tel(dto.getTel())
                 .email(dto.getEmail())
-                .PW(dto.getPW()).build();
+                .PW(dto.getPW())
+                .authCode(dto.getAuthCode())
+                .activation(dto.isActivation()).build();
         return entity;
     }
 
@@ -52,7 +58,9 @@ public interface MemberService {
                 .regDate(entity.getRegDate())
                 .modDate(entity.getModDate())
                 .grade(entity.getGrade())
-                .articleDTOList(aList).build();
+                .articleDTOList(aList)
+                .authCode(entity.getAuthCode())
+                .activation(entity.isActivation()).build();
         return dto;
     }
 

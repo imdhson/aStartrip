@@ -25,4 +25,5 @@ public class MemberDTO {
     private LocalDateTime regDate;
     private LocalDateTime modDate;
     private char grade;
+    private String authCode;
 }

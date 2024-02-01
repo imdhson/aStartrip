@@ -2,25 +2,34 @@
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
 
 <div class="v02" th:fragment="v02">
-    <div class="reg">
-        <form action="">
-            <label for="userParagraph">문장 입력</label>
-            <textarea name="userParagraph" id="userParagraph" rows="2" cols="100"
-                placeholder="이곳에 sentence 입력"></textarea>
-            <div class="button">동의어, 반의어, word-family 찾기</div> <!-- js 로 처리-->
-        </form>
-    </div>
-    <div class="response">
-        <p>LLM 답변 들어가는 곳</p>
-        <div class="item">동의어 ----- 펼치기/접기
-            <p id="llmresponse0"></p>
+    <script type="module" src="/js/three.js"></script>
+    <div class="cardContent">
+        <div class="reg">
+            <h1 id="cardTitle">단어에서 동의어, 반의어, word-family 찾기</h1>
+                <label for="userInput0">단어 입력</label>
+                <textarea name="userInput0" id="userInput0" rows="2" cols="100"
+                    placeholder="이곳에 단어 입력"></textarea>
+                <div class="button" id="regButton">동의어, 반의어, word-family 찾기</div>
         </div>
-        <div class="item">반의어 ----- 펼치기/접기
-            <p id="llmresponse1"></p>
+        <div class="response">
+            <h2 id="llmStatus"></h2>
+            <div class="item">
+                <h3 id="itemTitle">동의어</h3>
+                <textarea name="llmresponse0" id="llmresponse0" rows="2" cols="100"
+                placeholder=""></textarea>
+            </div>
+            <div class="item">
+                <h3 id="itemTitle">반의어</h3>
+                <textarea name="llmresponse1" id="llmresponse1" rows="2" cols="100"
+                placeholder=""></textarea>
+            </div>
+            <div class="item">
+                <h3 id="itemTitle">word-family</h3>
+                <textarea name="llmresponse2" id="llmresponse2" rows="2" cols="100"
+                placeholder=""></textarea>
+            </div>
         </div>
-        <div class="item">word-family ----- 펼치기/접기
-            <p id="llmresponse2"></p>
-        </div>
+        <div class="threejs-container"></div>
     </div>
 </div>
 

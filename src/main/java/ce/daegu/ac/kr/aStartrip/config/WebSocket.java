@@ -7,7 +7,6 @@ import ce.daegu.ac.kr.aStartrip.handler.CardWSHandler;
 import ce.daegu.ac.kr.aStartrip.interceptor.HttpHandshakeInterceptor;
 import ce.daegu.ac.kr.aStartrip.handler.TitleWSHandler;
 import ce.daegu.ac.kr.aStartrip.repository.ArticleRepository;
-import ce.daegu.ac.kr.aStartrip.repository.CardRepository;
 import ce.daegu.ac.kr.aStartrip.service.ArticleService;
 import ce.daegu.ac.kr.aStartrip.service.MemberService;
 import ce.daegu.ac.kr.aStartrip.service.CardService;

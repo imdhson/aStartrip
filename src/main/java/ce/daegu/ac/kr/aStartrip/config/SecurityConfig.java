@@ -54,7 +54,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/").permitAll()
                         .requestMatchers(HttpMethod.GET, "/register").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/chat").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/user/email").permitAll() // 삭제 예정
+                        .requestMatchers(HttpMethod.POST, "/email/verification-requests").permitAll()
                         .anyRequest().permitAll()
                 )
                 .formLogin(request -> request.loginPage("/login").usernameParameter("email")

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        @import url("/css/main.css");
+    </style>
+    <title>search email</title>
+</head>
+<body>
+<div th:replace="~{/fragment/nav :: nav}"></div>
+<h1>이메일 찾기</h1>
+<form action="/user/email" method="post">
+    <table>
+        <tr>
+            <td><label for="name">이름 : </label></td>
+            <td><input type="text" id="name" name="name" /></td>
+        </tr>
+        <tr>
+            <td><label for="birthDate">생년월일 : </label></td>
+            <td><input type="date" id="birthDate" name="birthDate" /></td>
+        </tr>
+        <tr>
+            <td><label for="tel">전화번호 : </label></td>
+            <td><input type="text" id="tel" name="tel" /></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" class="button" value="전송"/>
+                <div class="button"><a href="/login">취소</a></div>
+            </td>
+        </tr>
+    </table>
+</form>
+<footer th:replace="~{/fragment/footer :: footer}"></footer>
+</body>
+</html>
