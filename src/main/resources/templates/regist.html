@@ -22,7 +22,7 @@
         <tr id="confirmSection">
             <td><label for="confirmValue">인증번호 : </label></td>
             <td><input type="text" id="confirmValue" name="confirmValue" /></td>
-            <td><input type="button" value="인증번호 확인" onclick="" /></td>
+            <td><input type="button" value="인증번호 확인" onclick="nextOn()" /></td>
         </tr>
         <tr>
             <td><label for="name">이름 : </label></td>
@@ -80,6 +80,7 @@
 
     function nextOn() {
         var dataToSend = {
+            email: document.querySelector("#email").value,
             authCode: document.querySelector("#confirmValue").value
         };
 
@@ -92,11 +93,12 @@
         })
         .then(response => response.json())
         .then(data => {
-            var confirm = data.confirm;
+            var confirm = data.confirm
 
             var submitButton = document.getElementById("submitButton")
 
-            if(confirm == "true") {
+            console.log(confirm);
+            if(confirm === true) {
                 submitButton.style.display="block";
             }else{
                 submitButton.style.display="none";

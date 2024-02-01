@@ -51,6 +51,15 @@ public class MemberServiceImpl implements MemberService {
         if(this.checkDuplicatedEmail(toEmail)) {
             String title = "Travel with me 이메일 인증 번호";
             String authCode = this.createCode();
+
+            log.info("authCode : " + authCode);
+            MemberDTO member = new MemberDTO();
+            member.setEmail(toEmail);
+            member.setAuthCode(authCode);
+            member.setActivation(false);
+
+            memberRepository.save(dtoToEntity(member));
+
             mailService.sendEmail(toEmail, title, authCode);
 
             // 이메일 전송 후 인증번호는 DB에 저장하여 기록.
