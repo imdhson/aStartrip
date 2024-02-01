@@ -30,7 +30,8 @@ public interface MemberService {
                 .tel(dto.getTel())
                 .email(dto.getEmail())
                 .PW(dto.getPW())
-                .authCode(dto.getAuthCode()).build();
+                .authCode(dto.getAuthCode())
+                .activation(dto.isActivation()).build();
         return entity;
     }
 
@@ -58,7 +59,8 @@ public interface MemberService {
                 .modDate(entity.getModDate())
                 .grade(entity.getGrade())
                 .articleDTOList(aList)
-                .authCode(entity.getAuthCode()).build();
+                .authCode(entity.getAuthCode())
+                .activation(entity.isActivation()).build();
         return dto;
     }
 
