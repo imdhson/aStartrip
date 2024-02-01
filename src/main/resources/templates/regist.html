@@ -13,37 +13,101 @@
 <form action="/regist" method="post">
     <table>
         <tr>
-            <td><label for="email">이메일 : </label></td>
-            <td><input type="email" id="email" name="email" th:value="${email}"/></td>
+            <td>
+                <label for="email">이메일 : </label>
+                <input type="button" value="이메일 인증" onclick="emailCheck()"/>
+            </td>
+            <td colspan="2"><input type="email" id="email" name="email" th:value="${email}"/></td>
+        </tr>
+        <tr id="confirmSection">
+            <td><label for="confirmValue">인증번호 : </label></td>
+            <td><input type="text" id="confirmValue" name="confirmValue" /></td>
+            <td><input type="button" value="인증번호 확인" onclick="" /></td>
         </tr>
         <tr>
             <td><label for="name">이름 : </label></td>
-            <td><input type="text" id="name" name="name"/></td>
+            <td colspan="2"><input type="text" id="name" name="name"/></td>
         </tr>
         <tr>
             <td><label for="birthDate">생년월일 : </label></td>
-            <td><input type="date" id="birthDate" name="birthDate"/></td>
+            <td colspan="2"><input type="date" id="birthDate" name="birthDate"/></td>
         </tr>
         <tr>
             <td><label for="address">주소 : </label></td>
-            <td><input type="text" id="address" name="address"/></td>
+            <td colspan="2"><input type="text" id="address" name="address"/></td>
         </tr>
         <tr>
             <td><label>전화번호 : </label></td>
-            <td><input type="text" id="tel" name="tel"/></td>
+            <td colspan="2"><input type="text" id="tel" name="tel"/></td>
         </tr>
         <tr>
             <td><label>비밀번호 : </label></td>
-            <td><input type="password" id="PW" name="PW"/></td>
+            <td colspan="2"><input type="password" id="PW" name="PW"/></td>
         </tr>
         <tr>
-            <td colspan="2">
-                <input type="submit" class="button" value="전송"/>
-                <div class="button"><a href="/login">취소</a></div>
-            </td>
+            <td><div class="button"><a href="/login">취소</a></div></td>
+            <td></td>
+            <td><input type="submit" id="submitButton" class="button" value="전송" style="display: none;"/></td>
         </tr>
     </table>
 </form>
 <footer th:replace="~{/fragment/footer :: footer}"></footer>
+<script>
+    function emailCheck() {
+        var dataToSend = {
+            email: document.querySelector("#email").value
+        };
+
+        fetch("/email/verification-requests", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(dataToSend)
+        })
+        .then(response => response.json())
+        .then(data => {
+            // 응답 처리 로직
+            console.log(data);
+        })
+        .catch(error => {
+            // 오류 처리 로직
+            console.error('Error:', error);
+        });
+
+        console.log("수행됨 : ", dataToSend);
+    }
+
+    function nextOn() {
+        var dataToSend = {
+            authCode: document.querySelector("#confirmValue").value
+        };
+
+        fetch("/email/verifications", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(dataToSend)
+        })
+        .then(response => response.json())
+        .then(data => {
+            var confirm = data.confirm;
+
+            var submitButton = document.getElementById("submitButton")
+
+            if(confirm == "true") {
+                submitButton.style.display="block";
+            }else{
+                submitButton.style.display="none";
+            }
+            console.log(data);
+        })
+        .catch(error => {
+            // 오류 처리 로직
+            console.error('Error:', error);
+        });
+    }
+</script>
 </body>
 </html>

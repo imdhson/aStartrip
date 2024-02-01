@@ -6,6 +6,18 @@
     <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script type="module" src="/js/article.js"></script>
+    <!-- <script type="importmap">
+        {
+          "imports": {
+            "three": "https://unpkg.com/three@v0.160.1/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@v0.160.1/examples/jsm/"
+          }
+        }
+      </script> -->
+    <script>
+        const articleNum = [[${ articleNum }]]
+    </script>
     <style>
         @import url("/css/main.css");
         @import url("/css/article.css");
@@ -27,14 +39,13 @@
         <div th:replace="~{/article/w02 :: w02}"></div>
         <div th:replace="~{/article/v01 :: v01}"></div>
         <div th:replace="~{/article/v02 :: v02}"></div>
-        <div th:replace="~{/article/addArticle :: addArticle}"></div>
+        <div th:replace="~{/article/addArticle :: addArticle(${articleNum})}"></div>
+        <div class="cards"> <!-- 실제 cards가 존재할 곳 -->
+
+        </div>
     </main>
     <footer th:replace="~{/fragment/footer :: footer}"></footer>
 </body>
 
-
-
-<script src="/js/article.js"></script>
-<script>jsonR([[${ articleNum }]])</script>
 
 </html>

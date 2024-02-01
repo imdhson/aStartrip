@@ -51,26 +51,6 @@ public class CardServiceImpl implements CardService {
     }
 
     @Override
-    public void changeCard(String email, String writer, CardDTO dto) {
-        if (email.equals(writer)) {
-            Optional<Card> e = cardRepository.findById(dto.getId());
-            Card entity = e.get();
-            if (!dto.getUserInput0().isEmpty()) {
-                entity.setUserInput0(dto.getUserInput0());
-            }
-            if (!dto.getLLMResponse0().isEmpty()) {
-                entity.setLLMResponse0(dto.getLLMResponse0());
-            }
-            if (!dto.getLLMResponse1().isEmpty()) {
-                entity.setLLMResponse1(dto.getLLMResponse1());
-            }
-            if (!dto.getLLMResponse2().isEmpty()) {
-                entity.setLLMResponse2(dto.getLLMResponse2());
-            }
-        }
-    }
-
-    @Override
     public long getArticleId(CardDTO cardDTO) {
         Optional<Card> e = cardRepository.findById(cardDTO.getId());
         return e.get().getArticle().getNum();

@@ -15,6 +15,10 @@ public interface MemberService {
 
     List<ArticleDTO> userArticleList(String email);
 
+    void sendCodeToEmail(String toEmail);
+
+    boolean verifiedCode(String email, String authCode);
+
     default Member dtoToEntity(MemberDTO dto) {
         Member entity = Member.builder()
                 .name(dto.getName())

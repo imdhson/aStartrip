@@ -39,4 +39,5 @@ public class Member extends BaseEntity {
         articleList.add(article);
         article.setMember(this);
     }
+    private String authCode;
 }

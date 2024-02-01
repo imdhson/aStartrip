@@ -2,17 +2,21 @@
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
 
 <div class="w02" th:fragment="w02">
-    <div class="reg">
-        <form action="">
-            <label for="userParagraph">문장 입력</label>
-            <textarea name="userParagraph" id="userParagraph" rows="2" cols="100"
-                placeholder="이곳에 sentence 입력"></textarea>
-            <div class="button">문장 성분 분석 시작</div> <!-- js 로 처리-->
-        </form>
-    </div>
-    <div class="response">
-        <!-- 생성 요청 누르면 보이도록 수정 -->
-        <textarea id="llmresponse0">LLM API의 답변이 들어가는 곳</textarea>
+    <script type="module" src="/js/three.js"></script>
+    <div class="cardContent">
+        <div class="reg">
+            <form action="">
+                <label for="userInput0">문장 입력</label>
+                <textarea name="userInput0" id="userInput0" rows="2" cols="100"
+                    placeholder="이곳에 sentence 입력"></textarea>
+                <div class="button" id="regButton">문장 성분 분석 시작</div> <!-- js 로 처리-->
+            </form>
+        </div>
+        <div class="response">
+            <!-- 생성 요청 누르면 보이도록 수정 -->
+            <textarea id="llmresponse0">LLM API의 답변이 들어가는 곳</textarea>
+        </div>
+        <div class="threejs-container"></div>
     </div>
 </div>
 
