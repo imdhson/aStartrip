@@ -14,7 +14,7 @@ public class ArticleRepositoryTest {
     @Test
     public void articlePermission() {
         Article entity = articleRepository.findById(1L).get();
-        entity.setVisibleBoard(false);
+        entity.setVisibleBoard(true);
         articleRepository.save(entity);
 
     }

@@ -9,17 +9,17 @@
 </head>
 <body>
 <div th:replace="~{/fragment/nav :: nav}"></div>
-<h1>로그인-비밀번호 입력</h1>
+<h1>로그인</h1>
 <form action="/loginProc" method="post">
-    <label for="email">이메일 : </label>
+    <label for="email">E-mail</label>
     <input type="email" id="email" name="email" th:value="${email}"/><br>
-    <label for="PW">비밀번호 : </label>
+    <label for="PW">Password</label>
     <input type="password" id="PW" name="PW" autofocus/><br>
 
     <label for="remember-me">로그인 유지:</label>
     <input type="checkbox" id="remember-me" name="remember-me">
 
-    <input type="submit" class="button" value="전송"/>
+    <input type="submit" class="button" value="시작하기"/>
 </form>
 <footer th:replace="~{/fragment/footer :: footer}"></footer>
 </body>
