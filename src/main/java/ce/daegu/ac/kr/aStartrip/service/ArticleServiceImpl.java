@@ -46,7 +46,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public boolean updateArticle(String email, ArticleDTO articleDTO) {
         Optional<Article> entity = articleRepository.findById(articleDTO.getNum());
-        if(entity.isPresent()) {
+        if (entity.isPresent()) {
             Article article = entity.get();
 
             if (email.equals(article.getMember().getEmail())) {
@@ -62,10 +62,20 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public boolean updateCard1(String username, long articleId, CardDTO cardDTO, long key) {
         Optional<Article> e = articleRepository.findById(articleId);
-        if(username.equals(e.get().getMember().getEmail())) {
+        if (username.equals(e.get().getMember().getEmail())) {
             return cardService.updateCard2(cardDTO, key);
         }
         return false;
+    }
+
+    @Override
+    public ArticleDTO findArticlebyID(long articleNum) {
+        Optional<Article> articleOptional = articleRepository.findById(articleNum);
+        if (articleOptional.isPresent()) {
+            return entityToDto(articleOptional.get());
+        } else{
+            return null;
+        }
     }
 
 }

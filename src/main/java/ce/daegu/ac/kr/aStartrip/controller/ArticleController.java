@@ -38,8 +38,10 @@ public class ArticleController {
 
     @GetMapping("/article/{num}")
     public String articleDetail(@PathVariable("num") String articleNum, Model model) {
-        log.debug("articleDetail({})", articleNum);
+//        log.debug("articleDetail({})", articleNum);
+        ArticleDTO articleDTO = articleService.findArticlebyID(Long.parseLong(articleNum));
         model.addAttribute("articleNum", articleNum);
+        model.addAttribute("article", articleDTO);
         return "article/article";
     }
 

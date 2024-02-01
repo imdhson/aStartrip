@@ -52,6 +52,9 @@
     font-size: 50px;
 }
 
+.articleInfo{
+    text-align: right;
+}
 
 .cards {
     display: flex;
