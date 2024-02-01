@@ -24,7 +24,6 @@ public class Article extends BaseEntity {
     private String title;
     private long hit;
     private boolean visibleBoard = false; // 게시판에 업로드 된지 여부
-    private boolean editable = false; // 다른 이가 수정할 수 있는지 여부
 
     @ManyToOne
     @JoinColumn(name = "member_email")
