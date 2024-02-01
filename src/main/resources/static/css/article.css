@@ -35,7 +35,7 @@
     /* border: 1px solid black; */
     text-align: left;
     border-radius: 20px;
-    background-color:black;
+    background-color: black;
     box-shadow: 0px 4px 8px rgb(141, 177, 209);
     padding: 10px;
     color: white;
@@ -43,7 +43,7 @@
 }
 
 .articleTitle input {
-    background-color:black;
+    background-color: black;
     color: white;
     width: 90%;
     min-height: 60px;
@@ -96,6 +96,8 @@
 .w02,
 .v01,
 .v02,
+.p01,
+.p02,
 .grid-add {
     width: 100%;
     max-width: 1000px;
@@ -169,7 +171,7 @@ textarea {
 
 .r02 .response textarea,
 .v02 .response textarea {
-    height: 100px;
+    height: 250px;
 }
 
 
@@ -182,9 +184,29 @@ textarea {
     text-align: center;
 }
 
-/* vocabulary -------- */
-.v01 .reg textarea {
+.w02 .reg textarea {
     height: 100px;
+}
+
+/* vocabulary -------- */
+.v01 .reg textarea,
+.v02 .reg textarea,
+.p02 .reg textarea {
+    height: 100px;
+}
+
+/* Page */
+.p01,
+.p02 {
+    #regButton {
+        display: none;
+    }
+    #llmStatus{
+        display: none;
+    }
+}
+.p01 .reg textarea {
+ height: 50px;
 }
 
 .addArticle-join {

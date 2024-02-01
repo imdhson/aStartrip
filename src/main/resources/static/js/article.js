@@ -8,6 +8,8 @@ const w01 = document.querySelector(".w01").cloneNode(true)
 const w02 = document.querySelector(".w02").cloneNode(true)
 const v01 = document.querySelector(".v01").cloneNode(true)
 const v02 = document.querySelector(".v02").cloneNode(true)
+const p01 = document.querySelector(".p01").cloneNode(true)
+const p02 = document.querySelector(".p02").cloneNode(true)
 
 const cardsDOM = document.querySelector(".cards")
 const addArticle = document.querySelector(".grid-add")
@@ -235,6 +237,21 @@ function cardBuild(card, dom, refresh) { //refresh는 onmessage 수신시 카드
 
             child.style.display = "flex"
             break;
+        case "P01":
+            child = p01.cloneNode(true)
+
+            child.querySelector("#userInput0").value = card.userInput0
+            child.querySelector("#llmresponse0").value = card.llmresponse0
+
+            child.style.display = "flex"
+            break;
+        case "P02":
+            child = p02.cloneNode(true)
+
+            child.querySelector("#userInput0").value = card.userInput0
+
+            child.style.display = "flex"
+            break;
     }//Switch 문 종료
 
     if (refresh) {// 리프레시 시에 prev child삭제 먼저
@@ -337,6 +354,13 @@ function sendCard(event, child, card) {
             jsonObj.llmresponse0 = child.querySelector("#llmresponse0").value
             jsonObj.llmresponse1 = child.querySelector("#llmresponse1").value
             jsonObj.llmresponse2 = child.querySelector("#llmresponse2").value
+            break
+        case "P01":
+            jsonObj.userInput0 = child.querySelector("#userInput0").value
+            jsonObj.llmresponse0 = child.querySelector("#llmresponse0").value
+            break
+        case "P02":
+            jsonObj.userInput0 = child.querySelector("#userInput0").value
             break
     }
     let jsonMessage = JSON.stringify(jsonObj)

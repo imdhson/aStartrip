@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+
+<div class="p01" th:fragment="p01">
+
+    <script type="module" src="/js/three.js"></script>
+    <div class="cardContent">
+        <div class="reg">
+            <h1 id="cardTitle">사용자 페이지</h1>
+            <textarea name="userInput0" id="userInput0" rows="2" cols="100" placeholder="제목"></textarea>
+            <div class="button" id="regButton">탭 하여 생성 요청 보내기</div>
+        </div>
+        <div class="response">
+            <h2 id="llmStatus"></h2>
+            <h2>본문</h2>
+            <textarea id="llmresponse0"></textarea>
+        </div>
+        <div class="threejs-container"></div>
+    </div>
+</div>
+
+</html>
