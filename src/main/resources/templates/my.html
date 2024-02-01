@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        @import url("/css/main.css");
+    </style>
+    <meta charset="UTF-8">
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <title>[[${member.name}]]의 my - aStartrip</title>
+</head>
+<body>
+<div th:replace="~{/fragment/nav :: nav}"></div>
+<h1 th:text="${member.name}">의 my</h1>
+<footer th:replace="~{/fragment/footer :: footer}"></footer>
+</body>
+</html>
