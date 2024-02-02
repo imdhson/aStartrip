@@ -7,6 +7,7 @@ import ce.daegu.ac.kr.aStartrip.service.MemberService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -86,7 +87,7 @@ public class UserController {
 
     @PostMapping("/user/password")
     public ResponseEntity<Object> updatePassword(@RequestBody MemberDTO dto) {
-        return ResponseEntity.ok(null);
+        return ResponseEntity.status(HttpStatus.OK).body(true);
     }
 
     @GetMapping("/my")
