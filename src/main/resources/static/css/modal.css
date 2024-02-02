@@ -14,6 +14,7 @@
 .modal-content {
     background-color: aliceblue; /* 배경색을 aliceblue로 변경 */
     margin: 15% auto; /* 페이지 중앙에 위치 */
+    min-height: 70px;
     padding: 20px;
     border: 1px solid #888;
     width: 50%; /* 모달 너비 조정 */
