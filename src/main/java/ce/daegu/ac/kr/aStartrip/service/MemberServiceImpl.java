@@ -113,15 +113,15 @@ public class MemberServiceImpl implements MemberService {
 
 
     @Override
-    public boolean register(MemberDTO memberDTO) {
+    public Member register(MemberDTO memberDTO) {
         memberDTO.setPW(passwordEncoder.encode(memberDTO.getPW()));
         memberDTO.setActivation(true);
         Member entity = dtoToEntity(memberDTO);
         entity = memberRepository.save(entity);
         if (entity.getEmail().isEmpty() || entity.getEmail() == null) {
-            return false;
+            return null;
         }
-        return true;
+        return entity;
 
 
     }

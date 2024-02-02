@@ -64,5 +64,5 @@ public interface MemberService {
         return dto;
     }
 
-    boolean register(MemberDTO memberDTO);
+    Member register(MemberDTO memberDTO);
 }

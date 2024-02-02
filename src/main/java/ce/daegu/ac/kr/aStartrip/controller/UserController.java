@@ -7,8 +7,12 @@ import ce.daegu.ac.kr.aStartrip.service.MemberService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -65,13 +69,24 @@ public class UserController {
             model.addAttribute("userEmail", userEmail);
             model.addAttribute("userName", userName);
         }
-
-        if (memberService.register(dto)) {
-            return "redirect:/";
+        Member member = memberService.register(dto); //회원가입 수행
+        if (member != null) {
+            //수행완료
+            return "redirect:/login";
         } else {
             model.addAttribute("email", dto.getEmail());
             return "regist";
         }
+    }
+
+    @GetMapping("/user/password")
+    public String updatePasswordForm() {
+        return "updatePassword";
+    }
+
+    @PostMapping("/user/password")
+    public ResponseEntity<Object> updatePassword(@RequestBody MemberDTO dto) {
+        return ResponseEntity.ok(null);
     }
 
     @GetMapping("/my")
