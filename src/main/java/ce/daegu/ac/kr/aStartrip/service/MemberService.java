@@ -18,7 +18,7 @@ public interface MemberService {
     MemberDTO findMemberById(String email);
     List<ArticleDTO> userArticleList(String email);
 
-    void sendCodeToEmail(String toEmail);
+    boolean sendCodeToEmail(String toEmail);
 
     boolean verifiedCode(String email, String authCode);
 

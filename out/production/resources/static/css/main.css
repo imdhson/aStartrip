@@ -40,6 +40,22 @@ footer .grid-item {
     text-shadow: 0px 4px 8px rgb(141, 177, 209);
 }
 
+#addArticle {
+    background-color: rgb(249, 235, 247);
+}
+
+.loginTitle {
+    text-align: center;
+    text-shadow: 0px 4px 8px rgb(141, 177, 209);
+    font-size: 50px;
+}
+
+@media screen and (max-width: 800px) {
+    .loginTitle {
+        font-size: 30px;
+    }
+}
+
 main {
     width: calc(100% - 10px);
     padding: 5px;
@@ -108,6 +124,53 @@ main .grid .grid-item .grid-article .grid-item .article-writer {
     overflow-x: scroll;
 }
 
+
+/* 컨테이너 스타일 */
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    /* 세로 중앙 정렬 */
+    margin-bottom: 30px;
+}
+
+/* 기본 체크박스 숨기기 */
+input[type="checkbox"] {
+    display: none;
+}
+
+/* 커스텀 체크박스 스타일 */
+.checkbox-custom {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #f2f2f2;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 2px solid #dcdcdc;
+    margin-left: 10px;
+    /* 라벨과 체크박스 사이 간격 */
+    position: relative;
+}
+
+.checkbox-label {
+    margin-left: 20px;
+    /* 레이블과 체크박스 사이의 간격 조정 */
+}
+
+/* 체크박스가 체크됐을 때의 스타일 */
+input[type="checkbox"]:checked+.checkbox-custom:before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 6px;
+    height: 12px;
+    border: solid #4CAF50;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+
 /* 폼 스타일링 */
 .form {
     background-color: #ffffff;
@@ -153,8 +216,10 @@ main .grid .grid-item .grid-article .grid-item .article-writer {
     text-align: center;
     display: inline-block;
     font-size: 16px;
-    margin: 5px; /* 버튼 사이의 간격 조정 */
-    width: calc(50% - 10px); /* 버튼 너비 조정 */
+    margin: 5px;
+    /* 버튼 사이의 간격 조정 */
+    width: calc(50% - 10px);
+    /* 버튼 너비 조정 */
 }
 
 .small-button {
@@ -171,7 +236,8 @@ main .grid .grid-item .grid-article .grid-item .article-writer {
 .form-actions {
     display: flex;
     justify-content: space-between;
-    gap: 10px; /* form-actions 내부 요소 간 간격 추가 */
+    gap: 10px;
+    /* form-actions 내부 요소 간 간격 추가 */
 }
 
 /* 반응형 디자인 */
@@ -179,12 +245,17 @@ main .grid .grid-item .grid-article .grid-item .article-writer {
     .form {
         width: calc(100% - 40px);
     }
+
     .button,
     .small-button {
-        width: 100%; /* 모바일 화면에서 버튼을 전체 너비로 조정 */
-        margin: 5px 0; /* 모바일 화면에서의 버튼 상하 간격 조정 */
+        width: calc(100% - 40px);
+        /* 모바일 화면에서 버튼을 전체 너비로 조정 */
+        margin: 5px 0;
+        /* 모바일 화면에서의 버튼 상하 간격 조정 */
     }
+
     .form-actions {
-        flex-direction: column; /* 모바일 화면에서 버튼을 세로로 배열 */
+        flex-direction: column;
+        /* 모바일 화면에서 버튼을 세로로 배열 */
     }
 }

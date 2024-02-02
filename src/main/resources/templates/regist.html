@@ -9,7 +9,7 @@
 </head>
 <body>
 <div th:replace="~{/fragment/nav :: nav}"></div>
-<h1>회원가입</h1>
+<h1 class="loginTitle">회원가입</h1>
 <form action="/regist" method="post" class="form">
     <div class="form-group">
         <label for="email">이메일</label>
@@ -64,7 +64,14 @@
         .then(response => response.json())
         .then(data => {
             // 응답 처리 로직
-            console.log(data);
+            console.log("이메일 post 응답: ",data);
+            if (data){
+                alert("당신의 이메일로 전송 완료했어요.")
+            } else{
+                let msg = "이메일 전송 실패. 이미 사용 중인 이메일 같아요."
+                location.href='/loginError?msg='+msg
+            }
+            
         })
         .catch(error => {
             // 오류 처리 로직
@@ -95,8 +102,10 @@
 
             console.log(confirm);
             if(confirm === true) {
+                alert("인증 성공했어요.")
                 submitButton.style.display="block";
             }else{
+                alert("인증코드가 일치하지 않아요.")
                 submitButton.style.display="none";
             }
             console.log(data);
