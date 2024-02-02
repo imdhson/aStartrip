@@ -24,6 +24,8 @@ public interface ArticleService {
 
     ArticleDTO findArticlebyID(long articleNum);
 
+    void viewCountAdd(long articleNum);
+
     default Article dtoToEntity(ArticleDTO dto, Member member) {
         Article entity = Article.builder()
                 .num(dto.getNum())

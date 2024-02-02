@@ -1,21 +1,28 @@
 <!DOCTYPE html>
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <style>
         @import url("/css/main.css");
     </style>
-    <meta name="_csrf" content="${_csrf.token}"/>
-    <meta name="_csrf_header" content="${_csrf.headerName}"/>
-    <title>error - A-startrip</title>
+    <meta name="_csrf" content="${_csrf.token}" />
+    <meta name="_csrf_header" content="${_csrf.headerName}" />
+    <title>error - Astartrip</title>
 </head>
+
 <body>
-<div th:replace="~{/fragment/nav :: nav}"></div>
-<h2>Error</h2>
-<h1 th:text="${msg}">error occured.</h1>
-<a href="/"><p>홈으로 가기</p></a>
+    <div th:replace="~{/fragment/nav :: nav}"></div>
+    <main class="error">
+        <h2>Error</h2>
+        <h1 th:text="${msg}"></h1>
+        <h1 th:if="${msg} == null">알 수 없는 오류 발생</h1>
+        <a href="/" class="errorHome">
+            <p>홈으로 가기</p>
+        </a>
+    </main>
 
-
-<footer th:replace="~{/fragment/footer :: footer}"></footer>
+    <footer th:replace="~{/fragment/footer :: footer}"></footer>
 </body>
+
 </html>

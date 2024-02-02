@@ -23,7 +23,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         String errorMsg;
         if (exception instanceof BadCredentialsException) {
-            errorMsg = "아이디, 비밀번호가 올바르지 않음.";
+            errorMsg = "아이디 혹은 비밀번호가 올바르지 않음.";
         } else if (exception instanceof InternalAuthenticationServiceException) {
             errorMsg = "내부 시스템 문제로 로그인 요청 처리 불가";
         } else if (exception instanceof UsernameNotFoundException) {

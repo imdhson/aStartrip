@@ -6,9 +6,9 @@
         <div class="grid-item nav3"></div>
         <div class="grid-item nav4"></div>
         <div class="grid-item nav5"></div>
-        <div class="grid-item nav6"><a href="/my" th:text="${username}">myAccount</a></div>
-        <div class="grid-item nav7" th:if="${username == null}"><a href="/login">로그인</a></div>
-        <div class="grid-item nav7" th:unless="${username == null}"><a href="/logout">로그아웃</a></div>
+        <div class="grid-item nav6"><a href="/my" th:text="${userEmail}">myAccount</a></div>
+        <div class="grid-item nav7" th:if="${userEmail == null}"><a href="/login">로그인</a></div>
+        <div class="grid-item nav7" th:unless="${userEmail == null}"><a href="/logout">로그아웃</a></div>
     </div>
 </nav>
 </html>
