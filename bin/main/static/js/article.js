@@ -370,6 +370,7 @@ function sendCard(event, child, card) {
 }
 
 function addCard(articleNum, cardType1) {
+    last_interaction = 0;
     const articleDTO = {
         num: articleNum,
         cardDTOList: [{ cardType: cardType1 }]

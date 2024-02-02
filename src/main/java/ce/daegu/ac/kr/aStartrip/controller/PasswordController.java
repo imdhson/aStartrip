@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Slf4j
 @Controller
@@ -24,8 +25,8 @@ public class PasswordController {
     }
 
     @PostMapping("/user/password")
-    public ResponseEntity updatePassword(MemberDTO dto, Model model) {
-
+    public ResponseEntity updatePassword(@RequestBody MemberDTO dto, Model model) {
+        log.info("password info : " + dto);
 
         return ResponseEntity.status(HttpStatus.OK).body(true);
     }
