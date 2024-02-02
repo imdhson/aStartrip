@@ -24,14 +24,26 @@ public class UserController {
     private final MemberService memberService;
 
     @GetMapping("/login")
-    public String loginID() {
+    public String loginID(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
+        if (memberDetails != null) { //로그인 한 경우에만 유저이름 표기
+            String userEmail = memberDetails.getUsername();
+            String userName = memberDetails.getMember().getEmail();
+            model.addAttribute("userEmail", userEmail);
+            model.addAttribute("userName", userName);
+        }
         return "loginID";
     }
 
     @PostMapping("/login")
-    public String login(@Validated MemberDTO dto, Model model) {
+    public String login(@Validated MemberDTO dto, Model model, @AuthenticationPrincipal MemberDetails memberDetails) {
         log.info("email: {}", dto.getEmail());
         model.addAttribute("email", dto.getEmail());
+        if (memberDetails != null) { //로그인 한 경우에만 유저이름 표기
+            String userEmail = memberDetails.getUsername();
+            String userName = memberDetails.getMember().getEmail();
+            model.addAttribute("userEmail", userEmail);
+            model.addAttribute("userName", userName);
+        }
         if (memberService.findID(dto.getEmail()) && memberService.findMemberById(dto.getEmail()).isActivation()) {
             return "login";
         } else {
@@ -46,8 +58,14 @@ public class UserController {
     }
 
     @PostMapping("/regist")
-    public String doRegist(MemberDTO dto, Model model) {
-        log.info(dto.toString());
+    public String doRegist(MemberDTO dto, Model model, @AuthenticationPrincipal MemberDetails memberDetails) {
+        if (memberDetails != null) { //로그인 한 경우에만 유저이름 표기
+            String userEmail = memberDetails.getUsername();
+            String userName = memberDetails.getMember().getEmail();
+            model.addAttribute("userEmail", userEmail);
+            model.addAttribute("userName", userName);
+        }
+
         if (memberService.register(dto)) {
             return "redirect:/";
         } else {
@@ -67,6 +85,13 @@ public class UserController {
                 .birthDate(member.getBirthDate())
                 .modDate(member.getModDate())
                 .regDate(member.getRegDate()).build();
+
+        if (memberDetails != null) { //로그인 한 경우에만 유저이름 표기
+            String userEmail = memberDetails.getUsername();
+            String userName = memberDetails.getMember().getEmail();
+            model.addAttribute("userEmail", userEmail);
+            model.addAttribute("userName", userName);
+        }
 
         model.addAttribute("member", memberDTO);
         return "/my";

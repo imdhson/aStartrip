@@ -40,9 +40,9 @@ public class MailController {
         httpheaders.setContentType(MediaType.APPLICATION_JSON);
         log.info("this is email : " + dto.getEmail());
 
-        memberService.sendCodeToEmail(dto.getEmail());
+        boolean result = memberService.sendCodeToEmail(dto.getEmail());
 
-        return ResponseEntity.status(HttpStatus.OK).body(true);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @PostMapping("/email/verifications")

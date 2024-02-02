@@ -58,6 +58,13 @@ public class ArticleController {
         ArticleDTO articleDTO = articleService.findArticlebyID(Long.parseLong(articleNum));
         String memberName = null;
         String errorMsg = null;
+        if (memberDetails != null) { //로그인 한 경우에만 유저이름 표기
+            String userEmail = memberDetails.getUsername();
+            String userName = memberDetails.getMember().getEmail();
+            model.addAttribute("userEmail", userEmail);
+            model.addAttribute("userName", userName);
+        }
+
         try {
             //게시글에 접근 권한 있는지 넣어야함.
             memberName = memberDetails.getMember().getName();
@@ -70,6 +77,7 @@ public class ArticleController {
             //or 게시글이 공개 상태인 경우 리턴
             model.addAttribute("articleNum", articleNum);
             model.addAttribute("article", articleDTO);
+            articleService.viewCountAdd(Long.parseLong(articleNum));
             return "article/article";
         } else {
             errorMsg = "권한이 없는 게시글입니다.";

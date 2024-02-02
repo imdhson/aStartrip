@@ -78,4 +78,13 @@ public class ArticleServiceImpl implements ArticleService {
         }
     }
 
+    @Override
+    public void viewCountAdd(long articleNum) {
+        if (articleRepository.findById(articleNum).isPresent()){
+            Article article = articleRepository.findById(articleNum).get();
+            article.setHit(article.getHit()+1);
+            articleRepository.save(article);
+        }
+    }
+
 }
