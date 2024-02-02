@@ -1,120 +1,138 @@
 <!DOCTYPE html>
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <style>
         @import url("/css/main.css");
+        @import url("/css/modal.css");
     </style>
+
+    <script type="module">
+        import { showModal, closeModal } from '/js/modal.js'
+        function emailCheck() {
+            var dataToSend = {
+                email: document.querySelector("#email").value
+            };
+
+            fetch("/email/verification-requests", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(dataToSend)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    // 응답 처리 로직
+                    console.log("이메일 post 응답: ", data);
+                    if (data) {
+                        showModal("당신의 이메일로 전송 완료했어요.")
+                    } else {
+                        showModal("이메일 전송 실패. 이미 사용 중인 이메일 같아요.")
+                    }
+
+                })
+                .catch(error => {
+                    // 오류 처리 로직
+                    console.error('Error:', error);
+                });
+
+            console.log("수행됨 : ", dataToSend);
+        }
+        window.emailCheck = emailCheck
+
+        function nextOn() {
+            var dataToSend = {
+                email: document.querySelector("#email").value,
+                authCode: document.querySelector("#confirmValue").value
+            };
+
+            fetch("/email/verifications", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(dataToSend)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    var confirm = data.confirm
+
+                    var submitButton = document.getElementById("submitButton")
+
+                    console.log(confirm);
+                    if (confirm === true) {
+                        showModal("인증 성공했어요.")
+                        submitButton.style.display = "block";
+                    } else {
+                        showModal("인증코드가 일치하지 않아요.")
+                        submitButton.style.display = "none";
+                    }
+                    console.log(data);
+                })
+                .catch(error => {
+                    // 오류 처리 로직
+                    console.error('Error:', error);
+                });
+        }
+        window.nextOn = nextOn
+    </script>
+
     <title>회원가입</title>
+
 </head>
+
 <body>
-<div th:replace="~{/fragment/nav :: nav}"></div>
-<h1 class="loginTitle">회원가입</h1>
-<form action="/regist" method="post" class="form">
-    <div class="form-group">
-        <label for="email">이메일</label>
-        <input type="email" id="email" name="email" th:value="${email}" placeholder="이메일 주소 입력"/>
-        <button type="button" class="small-button" onclick="emailCheck()">이메일 인증</button>
-    </div>
-    <div class="form-group" id="confirmSection">
-        <label for="confirmValue">인증번호</label>
-        <input type="text" id="confirmValue" name="confirmValue" placeholder="인증번호 입력"/>
-        <button type="button" class="small-button" onclick="nextOn()">인증번호 확인</button>
-    </div>
-    <div class="form-group">
-        <label for="name">이름</label>
-        <input type="text" id="name" name="name" placeholder="이름 입력"/>
-    </div>
-    <div class="form-group">
-        <label for="birthDate">생년월일</label>
-        <input type="date" id="birthDate" name="birthDate"/>
-    </div>
-    <div class="form-group">
-        <label for="address">주소</label>
-        <input type="text" id="address" name="address" placeholder="주소 입력"/>
-    </div>
-    <div class="form-group">
-        <label for="tel">전화번호</label>
-        <input type="text" id="tel" name="tel" placeholder="전화번호 입력"/>
-    </div>
-    <div class="form-group">
-        <label for="PW">비밀번호</label>
-        <input type="password" id="PW" name="PW" placeholder="비밀번호 입력"/>
-    </div>
-    <div class="form-actions">
-        <button type="button" class="button" onclick="location.href='/login'">취소</button>
-        <input type="submit" id="submitButton" class="button" style="display: none;" value="회원가입"/>
-    </div>
-</form>
+    <div th:replace="~{/fragment/nav :: nav}"></div>
+    <h1 class="loginTitle">회원가입</h1>
+    <form action="/regist" method="post" class="form">
+        <div class="form-group">
+            <label for="email">이메일</label>
+            <input type="email" id="email" name="email" th:value="${email}" placeholder="이메일 주소 입력" />
+            <button type="button" class="small-button" onclick="emailCheck()">이메일 인증</button>
+        </div>
+        <div class="form-group" id="confirmSection">
+            <label for="confirmValue">인증번호</label>
+            <input type="text" id="confirmValue" name="confirmValue" placeholder="인증번호 입력" />
+            <button type="button" class="small-button" onclick="nextOn()">인증번호 확인</button>
+        </div>
+        <div class="form-group">
+            <label for="name">이름</label>
+            <input type="text" id="name" name="name" placeholder="이름 입력" />
+        </div>
+        <div class="form-group">
+            <label for="birthDate">생년월일</label>
+            <input type="date" id="birthDate" name="birthDate" />
+        </div>
+        <div class="form-group">
+            <label for="address">주소</label>
+            <input type="text" id="address" name="address" placeholder="주소 입력" />
+        </div>
+        <div class="form-group">
+            <label for="tel">전화번호</label>
+            <input type="text" id="tel" name="tel" placeholder="전화번호 입력" />
+        </div>
+        <div class="form-group">
+            <label for="PW">비밀번호</label>
+            <input type="password" id="PW" name="PW" placeholder="비밀번호 입력" />
+        </div>
+        <div class="form-actions">
+            <button type="button" class="button" onclick="location.href='/login'">취소</button>
+            <input type="submit" id="submitButton" class="button" style="display: none;" value="회원가입" />
+        </div>
+    </form>
 
-<footer th:replace="~{/fragment/footer :: footer}"></footer>
-<script>
-    function emailCheck() {
-        var dataToSend = {
-            email: document.querySelector("#email").value
-        };
+    <footer th:replace="~{/fragment/footer :: footer}"></footer>
 
-        fetch("/email/verification-requests", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(dataToSend)
-        })
-        .then(response => response.json())
-        .then(data => {
-            // 응답 처리 로직
-            console.log("이메일 post 응답: ",data);
-            if (data){
-                alert("당신의 이메일로 전송 완료했어요.")
-            } else{
-                let msg = "이메일 전송 실패. 이미 사용 중인 이메일 같아요."
-                location.href='/loginError?msg='+msg
-            }
-            
-        })
-        .catch(error => {
-            // 오류 처리 로직
-            console.error('Error:', error);
-        });
+    <!-- 모달 팝업 -->
+    <div id="modal" class="modal">
+        <div class="modal-content" onclick="document.querySelector('.modal').style.display='none'">
+            <span class="close-button">&times;</span>
+            <p id="modal-text">모달 팝업 텍스트</p>
+        </div>
+    </div>
 
-        console.log("수행됨 : ", dataToSend);
-    }
-
-    function nextOn() {
-        var dataToSend = {
-            email: document.querySelector("#email").value,
-            authCode: document.querySelector("#confirmValue").value
-        };
-
-        fetch("/email/verifications", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(dataToSend)
-        })
-        .then(response => response.json())
-        .then(data => {
-            var confirm = data.confirm
-
-            var submitButton = document.getElementById("submitButton")
-
-            console.log(confirm);
-            if(confirm === true) {
-                alert("인증 성공했어요.")
-                submitButton.style.display="block";
-            }else{
-                alert("인증코드가 일치하지 않아요.")
-                submitButton.style.display="none";
-            }
-            console.log(data);
-        })
-        .catch(error => {
-            // 오류 처리 로직
-            console.error('Error:', error);
-        });
-    }
-</script>
 </body>
+
 </html>

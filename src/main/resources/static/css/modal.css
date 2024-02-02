@@ -1,0 +1,36 @@
+
+/* 모달 스타일 */
+.modal {
+    display: none; /* 모달을 기본적으로 숨깁니다 */
+    position: fixed; /* 모달 위치를 고정시킵니다 */
+    z-index: 1; /* 모달을 내용 위에 표시 */
+    left: 0;
+    top: 0;
+    width: 100%; /* 전체 너비 */
+    height: 100%; /* 전체 높이 */
+    overflow: auto; /* 밖으로 넘치는 내용을 스크롤로 처리 */
+    background-color: rgb(0,0,0); /* 배경 색상 */
+    background-color: rgba(0,0,0,0.4); /* 약간의 투명도를 가진 검은색 배경 */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 페이지 중앙에 위치 */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* 대부분의 화면에서 콘텐츠 너비 */
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
