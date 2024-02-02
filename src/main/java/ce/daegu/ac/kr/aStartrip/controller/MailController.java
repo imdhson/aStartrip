@@ -48,6 +48,7 @@ public class MailController {
     @PostMapping("/email/verifications")
     public ResponseEntity verificationEmail(@RequestBody MemberDTO dto, Model model) {
         Map<String, Boolean> map = new HashMap<>();
+        log.info("인증합니다. : " + dto);
         boolean response = memberService.verifiedCode(dto.getEmail(), dto.getAuthCode());
 
         map.put("confirm", response);

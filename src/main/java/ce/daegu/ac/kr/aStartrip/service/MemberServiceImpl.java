@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.Random;
 
 @Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
@@ -62,12 +64,22 @@ public class MemberServiceImpl implements MemberService {
             String authCode = this.createCode();
 
             log.info("authCode : " + authCode);
-            MemberDTO member = new MemberDTO();
-            member.setEmail(toEmail);
-            member.setAuthCode(authCode);
-            member.setActivation(false);
 
-            memberRepository.save(dtoToEntity(member));
+            Optional<Member> e = memberRepository.findById(toEmail);
+            if(e.isPresent()) {
+                Member m = e.get();
+                m.setAuthCode(authCode);
+                m.setActivation(false);
+
+                memberRepository.save(m);
+            }else{
+                Member m = Member.builder()
+                        .email(toEmail)
+                        .authCode(authCode)
+                        .activation(false).build();
+
+                memberRepository.save(m);
+            }
 
             mailService.sendEmail(toEmail, title, authCode);
 
@@ -95,7 +107,7 @@ public class MemberServiceImpl implements MemberService {
 
     private boolean checkUsingEmail(String email) {
         Optional<Member> member = memberRepository.findById(email);
-        if (member.isPresent() && member.get().isActivation()) {
+        if (member.isPresent() && member.get().isActivation() && member.get().getAuthCode() != null) {
             log.debug("MemberServiceImpl.checkUsingEmail exception occur email: {}", email);
             return false;
         }
