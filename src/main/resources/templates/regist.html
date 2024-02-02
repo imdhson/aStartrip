@@ -9,48 +9,44 @@
 </head>
 <body>
 <div th:replace="~{/fragment/nav :: nav}"></div>
-<h1>회원가입 페이지</h1>
-<form action="/regist" method="post">
-    <table>
-        <tr>
-            <td>
-                <label for="email">이메일 : </label>
-                <input type="button" class="small-button" value="이메일 인증" onclick="emailCheck()"/>
-            </td>
-            <td colspan="2"><input type="email" id="email" name="email" th:value="${email}"/></td>
-        </tr>
-        <tr id="confirmSection">
-            <td><label for="confirmValue">인증번호 : </label></td>
-            <td><input type="text" id="confirmValue" name="confirmValue" /></td>
-            <td><input type="button" class="small-button" value="인증번호 확인" onclick="nextOn()" /></td>
-        </tr>
-        <tr>
-            <td><label for="name">이름 : </label></td>
-            <td colspan="2"><input type="text" id="name" name="name"/></td>
-        </tr>
-        <tr>
-            <td><label for="birthDate">생년월일 : </label></td>
-            <td colspan="2"><input type="date" id="birthDate" name="birthDate"/></td>
-        </tr>
-        <tr>
-            <td><label for="address">주소 : </label></td>
-            <td colspan="2"><input type="text" id="address" name="address"/></td>
-        </tr>
-        <tr>
-            <td><label>전화번호 : </label></td>
-            <td colspan="2"><input type="text" id="tel" name="tel"/></td>
-        </tr>
-        <tr>
-            <td><label>비밀번호 : </label></td>
-            <td colspan="2"><input type="password" id="PW" name="PW"/></td>
-        </tr>
-        <tr>
-            <td><div class="button"><a href="/login">취소</a></div></td>
-            <td></td>
-            <td><input type="submit" id="submitButton" class="button" value="전송" style="display: none;"/></td>
-        </tr>
-    </table>
+<h1>회원가입</h1>
+<form action="/regist" method="post" class="form">
+    <div class="form-group">
+        <label for="email">이메일</label>
+        <input type="email" id="email" name="email" th:value="${email}" placeholder="이메일 주소 입력"/>
+        <button type="button" class="small-button" onclick="emailCheck()">이메일 인증</button>
+    </div>
+    <div class="form-group" id="confirmSection">
+        <label for="confirmValue">인증번호</label>
+        <input type="text" id="confirmValue" name="confirmValue" placeholder="인증번호 입력"/>
+        <button type="button" class="small-button" onclick="nextOn()">인증번호 확인</button>
+    </div>
+    <div class="form-group">
+        <label for="name">이름</label>
+        <input type="text" id="name" name="name" placeholder="이름 입력"/>
+    </div>
+    <div class="form-group">
+        <label for="birthDate">생년월일</label>
+        <input type="date" id="birthDate" name="birthDate"/>
+    </div>
+    <div class="form-group">
+        <label for="address">주소</label>
+        <input type="text" id="address" name="address" placeholder="주소 입력"/>
+    </div>
+    <div class="form-group">
+        <label for="tel">전화번호</label>
+        <input type="text" id="tel" name="tel" placeholder="전화번호 입력"/>
+    </div>
+    <div class="form-group">
+        <label for="PW">비밀번호</label>
+        <input type="password" id="PW" name="PW" placeholder="비밀번호 입력"/>
+    </div>
+    <div class="form-actions">
+        <button type="button" class="button" onclick="location.href='/login'">취소</button>
+        <input type="submit" id="submitButton" class="button" style="display: none;" value="회원가입"/>
+    </div>
 </form>
+
 <footer th:replace="~{/fragment/footer :: footer}"></footer>
 <script>
     function emailCheck() {
