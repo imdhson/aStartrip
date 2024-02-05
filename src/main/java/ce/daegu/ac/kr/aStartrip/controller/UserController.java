@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.LocalDate;
+import java.util.Map;
+
 @Controller
 @Slf4j
 @RequiredArgsConstructor
@@ -86,8 +89,18 @@ public class UserController {
     }
 
     @PostMapping("/user/password")
-    public ResponseEntity<Object> updatePassword(@RequestBody MemberDTO dto) {
-        return ResponseEntity.status(HttpStatus.OK).body(true);
+    public ResponseEntity<Object> updatePassword(@RequestBody Map<String, String> map /*@RequestBody MemberDTO dto*/) {
+        MemberDTO dto = MemberDTO.builder()
+                .email(map.get("email"))
+                .name(map.get("name"))
+                .birthDate(LocalDate.parse(map.get("birthDate")))
+                .tel(map.get("tel"))
+                .PW(map.get("PW")).build();
+
+        log.info("비밀번호 변경 정보 : " + dto);
+        boolean pass = memberService.changePassword(dto);
+
+        return ResponseEntity.status(HttpStatus.OK).body(pass);
     }
 
     @GetMapping("/my")

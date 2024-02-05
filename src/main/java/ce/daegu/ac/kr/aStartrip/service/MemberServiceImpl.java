@@ -105,6 +105,22 @@ public class MemberServiceImpl implements MemberService {
         return false;
     }
 
+    @Override
+    public boolean changePassword(MemberDTO dto) {
+        Optional<Member> e = memberRepository.findById(dto.getEmail());
+        // 이미 이메일 인증에서 확인하기에 다시 확인할 필요 X
+        Member entity = e.get(); // 메일 인증번호를 가지고 있다.
+        if(entity.getName().equals(dto.getName()) && entity.getBirthDate().equals(dto.getBirthDate()) &&
+            entity.getTel().equals(dto.getTel())) {
+            entity.setPW(passwordEncoder.encode(dto.getPW()));
+            entity.setActivation(true);
+            entity.setAuthCode(dto.getAuthCode()); // dto는 인증번호를 가지고 있지 않다.
+            memberRepository.save(entity);
+            return true;
+        }
+        return false;
+    }
+
     private boolean checkUsingEmail(String email) {
         Optional<Member> member = memberRepository.findById(email);
         if (member.isPresent() && member.get().isActivation() && member.get().getAuthCode() != null) {
