@@ -4,6 +4,7 @@ import ce.daegu.ac.kr.aStartrip.dto.ArticleDTO;
 import ce.daegu.ac.kr.aStartrip.dto.CardDTO;
 import ce.daegu.ac.kr.aStartrip.dto.MemberDTO;
 import ce.daegu.ac.kr.aStartrip.entity.Member;
+import ce.daegu.ac.kr.aStartrip.entity.Provider;
 import ce.daegu.ac.kr.aStartrip.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -141,16 +142,15 @@ public class MemberServiceImpl implements MemberService {
 
 
     @Override
-    public Member register(MemberDTO memberDTO) {
+    public Member register(MemberDTO memberDTO, Provider provider) {
         memberDTO.setPW(passwordEncoder.encode(memberDTO.getPW()));
         memberDTO.setActivation(true);
         Member entity = dtoToEntity(memberDTO);
+        entity.setProvider(provider);
         entity = memberRepository.save(entity);
         if (entity.getEmail().isEmpty() || entity.getEmail() == null) {
             return null;
         }
         return entity;
-
-
     }
 }
