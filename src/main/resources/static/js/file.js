@@ -26,9 +26,12 @@ export function uploadFile(files, cardId) {
     }
 }
 
-export function loadFile(dom,cardId){
-    fetch('/api/upload', {
-        method: 'POST'
+export function loadFile(dom, cardId) {
+    const formData = new FormData();
+    formData.append('cardId', cardId)
+    fetch('/api/load', {
+        method: 'POST',
+        body: formData
     })
         .then(response => {
             if (response.ok) {
@@ -46,6 +49,4 @@ export function loadFile(dom,cardId){
             console.error("수신 중 오류 발생", error)
             return false
         })
-}
-
 }

@@ -1,6 +1,5 @@
 import { cube_three } from "/js/three.js"
-import { uploadFile } from "/js/file.js"
-import { loadFile } from "./file"
+import { uploadFile , loadFile} from "/js/file.js"
 
 const server_address = 'localhost:8080' //http, ws , / 등 제외해야함
 
@@ -292,6 +291,7 @@ function cardBuild(card, dom, refresh) { //refresh는 onmessage 수신시 카드
         child.querySelector("#userInput0").addEventListener('change', function (event) {
             console.log("file change 감지됨")
             uploadFile(child.querySelector("#userInput0").files, card.id)
+            sendCard(event, child, card)
         })
     }
 
