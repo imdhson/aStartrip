@@ -1,24 +1,44 @@
 package ce.daegu.ac.kr.aStartrip.dto;
 
 import ce.daegu.ac.kr.aStartrip.entity.Member;
+import ce.daegu.ac.kr.aStartrip.info.OAuth2UserInfo;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 @Slf4j
 @Data
-public class MemberDetails implements UserDetails {
+public class MemberDetails implements UserDetails, OAuth2User {
 
     private final Member member;
+    private OAuth2UserInfo oAuth2UserInfo;
 
     public MemberDetails(Member member) {
         this.member = member;
     }
 
+    //OAuth2==================================
+    public MemberDetails(Member member, OAuth2UserInfo oAuth2UserInfo) {
+        this.member = member;
+        this.oAuth2UserInfo = oAuth2UserInfo;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return oAuth2UserInfo.getAttributes();
+    }
+
+    @Override
+    public String getName() {
+        return oAuth2UserInfo.getProviderId();
+    }
+    //=======================================
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collectors = new ArrayList<>();
@@ -59,5 +79,4 @@ public class MemberDetails implements UserDetails {
     public boolean isEnabled() {// 계정이 활성화인지 리턴.
         return member.isActivation();
     }
-
 }

@@ -3,6 +3,7 @@ package ce.daegu.ac.kr.aStartrip.controller;
 import ce.daegu.ac.kr.aStartrip.dto.MemberDTO;
 import ce.daegu.ac.kr.aStartrip.dto.MemberDetails;
 import ce.daegu.ac.kr.aStartrip.entity.Member;
+import ce.daegu.ac.kr.aStartrip.entity.Provider;
 import ce.daegu.ac.kr.aStartrip.service.MemberService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -73,7 +74,8 @@ public class UserController {
             model.addAttribute("userEmail", userEmail);
             model.addAttribute("userName", userName);
         }
-        Member member = memberService.register(dto); //회원가입 수행
+        Member member = memberService.register(dto, Provider.PROVIDER_LOCAL); //회원가입 수행
+        // controller를 통해 수행되는 회원가입은 무조건 local
         if (member != null) {
             //수행완료
             return "redirect:/login";

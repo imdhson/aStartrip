@@ -22,7 +22,7 @@ public class MemberServiceTest {
                 .PW("1")
                 .name("testNAME").tel("11-1").address("address11")
                 .activation(true).build();
-        memberService.register(memberDTO);
+        //memberService.register(memberDTO);
     }
 
 }

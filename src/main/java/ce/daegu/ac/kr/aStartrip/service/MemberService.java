@@ -5,6 +5,7 @@ import ce.daegu.ac.kr.aStartrip.dto.CardDTO;
 import ce.daegu.ac.kr.aStartrip.dto.MemberDTO;
 import ce.daegu.ac.kr.aStartrip.entity.Article;
 import ce.daegu.ac.kr.aStartrip.entity.Member;
+import ce.daegu.ac.kr.aStartrip.entity.Provider;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -66,5 +67,5 @@ public interface MemberService {
         return dto;
     }
 
-    Member register(MemberDTO memberDTO);
+    Member register(MemberDTO memberDTO, Provider provider);
 }

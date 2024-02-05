@@ -2,6 +2,7 @@ package ce.daegu.ac.kr.aStartrip.config;
 
 import ce.daegu.ac.kr.aStartrip.handler.LoginFailureHandler;
 import ce.daegu.ac.kr.aStartrip.handler.LoginSuccessHandler;
+import ce.daegu.ac.kr.aStartrip.service.CustomOAuth2UserService;
 import ce.daegu.ac.kr.aStartrip.service.MemberDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Request;
@@ -29,6 +30,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 
     private final MemberDetailsService memberDetailsService;
+    @Autowired
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
     public LoginSuccessHandler loginSuccessHandler() {
@@ -63,6 +66,9 @@ public class SecurityConfig {
                 .formLogin(request -> request.loginPage("/login").usernameParameter("email")
                         .passwordParameter("PW").loginProcessingUrl("/loginProc").successHandler(loginSuccessHandler())
                         .failureHandler(loginFailureHandler()))
+                .oauth2Login(request1 ->
+                        request1.loginPage("/login").successHandler(loginSuccessHandler()).userInfoEndpoint(request2 ->
+                                        request2.userService(customOAuth2UserService)))
                 .logout(request -> request.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/").invalidateHttpSession(true)
                         .permitAll())

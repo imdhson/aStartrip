@@ -1,6 +1,8 @@
 package ce.daegu.ac.kr.aStartrip.dto;
 
 import ce.daegu.ac.kr.aStartrip.entity.Article;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -26,4 +28,6 @@ public class MemberDTO {
     private LocalDateTime modDate;
     private char grade;
     private String authCode;
+
+    // private Provider provider; -> ?클라이언트에게 까지 전달할 필요가 없다.
 }
