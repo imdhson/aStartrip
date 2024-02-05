@@ -22,6 +22,8 @@ public interface MemberService {
 
     boolean verifiedCode(String email, String authCode);
 
+    boolean changePassword(MemberDTO dto);
+
     default Member dtoToEntity(MemberDTO dto) {
         Member entity = Member.builder()
                 .name(dto.getName())

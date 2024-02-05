@@ -77,6 +77,19 @@
                 });
         }
         window.nextOn = nextOn
+
+        //엔터키 입력시 post 동작 방지
+        document.addEventListener("DOMContentLoaded", function () {
+            // 폼에 이벤트 리스너를 추가합니다.
+            document.querySelector("form").addEventListener("keypress", function (e) {
+                // 엔터키의 키 코드는 13입니다.
+                if (e.keyCode === 13) {
+                    // 엔터키의 기본 동작을 방지합니다.
+                    e.preventDefault();
+                    return false;
+                }
+            });
+        });
     </script>
 
     <title>회원가입</title>
