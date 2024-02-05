@@ -4,6 +4,7 @@ import ce.daegu.ac.kr.aStartrip.dto.ArticleDTO;
 import ce.daegu.ac.kr.aStartrip.dto.CardDTO;
 import ce.daegu.ac.kr.aStartrip.dto.MemberDTO;
 import ce.daegu.ac.kr.aStartrip.entity.Article;
+import ce.daegu.ac.kr.aStartrip.entity.ArticlePermissionENUM;
 import ce.daegu.ac.kr.aStartrip.entity.Card;
 import ce.daegu.ac.kr.aStartrip.entity.Member;
 import ce.daegu.ac.kr.aStartrip.repository.ArticleRepository;
@@ -38,7 +39,7 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public long addArticle(Member member) {
         Article article = Article.builder()
-                .hit(0).visibleBoard(false).member(member).build();
+                .hit(0).articlePermission(ArticlePermissionENUM.ONLYME).member(member).build();
         article = articleRepository.save(article);
         return article.getNum();
     }
@@ -50,11 +51,15 @@ public class ArticleServiceImpl implements ArticleService {
             Article article = entity.get();
 
             if (email.equals(article.getMember().getEmail())) {
-                article.setTitle(articleDTO.getTitle());
-                log.info("@@@@@@@@@@@@@@@@@" + article.toString());
+                if (articleDTO.getTitle() != null) {
+                    article.setTitle(articleDTO.getTitle());
+                } else if (articleDTO.getArticlePermission() != null) {
+                    article.setArticlePermission(articleDTO.getArticlePermission());
+                }
+                log.info("updateArticle" + article.toString());
                 articleRepository.save(article);
+                return true;
             }
-            return true;
         }
         return false;
     }
@@ -73,16 +78,16 @@ public class ArticleServiceImpl implements ArticleService {
         Optional<Article> articleOptional = articleRepository.findById(articleNum);
         if (articleOptional.isPresent()) {
             return entityToDto(articleOptional.get());
-        } else{
+        } else {
             return null;
         }
     }
 
     @Override
     public void viewCountAdd(long articleNum) {
-        if (articleRepository.findById(articleNum).isPresent()){
+        if (articleRepository.findById(articleNum).isPresent()) {
             Article article = articleRepository.findById(articleNum).get();
-            article.setHit(article.getHit()+1);
+            article.setHit(article.getHit() + 1);
             articleRepository.save(article);
         }
     }

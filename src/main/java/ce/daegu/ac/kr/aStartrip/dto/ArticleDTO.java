@@ -1,5 +1,6 @@
 package ce.daegu.ac.kr.aStartrip.dto;
 
+import ce.daegu.ac.kr.aStartrip.entity.ArticlePermissionENUM;
 import jakarta.persistence.Id;
 import lombok.*;
 
@@ -21,7 +22,7 @@ public class ArticleDTO {
     private String title;
     private String writer;
     private long hit;
-    private boolean visibleBoard;
+    private ArticlePermissionENUM articlePermission;
 
     private LocalDateTime regDate;
     private LocalDateTime modDate;
