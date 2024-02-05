@@ -2,6 +2,7 @@ package ce.daegu.ac.kr.aStartrip.controller;
 
 import ce.daegu.ac.kr.aStartrip.dto.ArticleDTO;
 import ce.daegu.ac.kr.aStartrip.dto.MemberDetails;
+import ce.daegu.ac.kr.aStartrip.entity.ArticlePermissionENUM;
 import ce.daegu.ac.kr.aStartrip.entity.Member;
 import ce.daegu.ac.kr.aStartrip.repository.MemberRepository;
 import ce.daegu.ac.kr.aStartrip.service.ArticleService;
@@ -72,7 +73,7 @@ public class ArticleController {
             //비로그인 사용자 or 접근 권한 없는 사용자
             errorMsg = "로그인이 필요합니다.";
         }
-        if (articleDTO.isVisibleBoard() || articleDTO.getWriter().equals(memberName)) {
+        if (articleDTO.getArticlePermission() == ArticlePermissionENUM.OPEN || articleDTO.getWriter().equals(memberName)) {
             //게시글의 member와 요청온 member가 같은 경우에만 정상 리턴
             //or 게시글이 공개 상태인 경우 리턴
             model.addAttribute("articleNum", articleNum);

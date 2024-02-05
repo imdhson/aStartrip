@@ -371,7 +371,7 @@ function sendCard(event, child, card) {
 
 function addCard(articleNum, cardType1) {
     last_interaction = 0;
-    const articleDTO = {
+    let articleDTO = {
         num: articleNum,
         cardDTOList: [{ cardType: cardType1 }]
     }
@@ -382,3 +382,17 @@ function addCard(articleNum, cardType1) {
     }
 }
 window.addCard = addCard
+
+function articlePermission(articleNum){
+    last_interaction = 0;
+    let articlePermission = document.querySelector("#articlePermission").checked ? 'OPEN': 'ONLYME'
+    let articleDTO = {
+        num:articleNum,
+        articlePermission: articlePermission
+    } 
+    let jsonMessage = JSON.stringify(articleDTO)
+    if(articleWS_webSocket.readyState === WebSocket.OPEN){
+        articleWS_webSocket.send(jsonMessage)
+    }
+}
+window.articlePermission = articlePermission

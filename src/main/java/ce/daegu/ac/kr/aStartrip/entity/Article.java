@@ -23,7 +23,8 @@ public class Article extends BaseEntity {
     private Long num;
     private String title;
     private long hit;
-    private boolean visibleBoard = false; // 게시판에 업로드 된지 여부
+    @Enumerated(EnumType.STRING)
+    private ArticlePermissionENUM articlePermission;
 
     @ManyToOne
     @JoinColumn(name = "member_email")

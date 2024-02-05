@@ -43,7 +43,7 @@ public interface MemberService {
                     .title(a.getTitle())
                     .writer(a.getMember().getName())
                     .hit(a.getHit())
-                    .visibleBoard(a.isVisibleBoard())
+                    .articlePermission(a.getArticlePermission())
                     .regDate(a.getRegDate())
                     .modDate(a.getModDate()).build();
             aList.add(aa);

@@ -1,6 +1,7 @@
 package ce.daegu.ac.kr.aStartrip.handler;
 
 import ce.daegu.ac.kr.aStartrip.dto.ArticleDTO;
+import ce.daegu.ac.kr.aStartrip.dto.MemberDetails;
 import ce.daegu.ac.kr.aStartrip.entity.Article;
 import ce.daegu.ac.kr.aStartrip.repository.ArticleRepository;
 import ce.daegu.ac.kr.aStartrip.service.ArticleService;
@@ -35,26 +36,25 @@ public class ArticleWSHandler extends TextWebSocketHandler {
         ArticleDTO articleDTO = objectMapper.readValue(jsonPayload, ArticleDTO.class);
         log.info("WS 수신 : " + articleDTO);
 
-        if(!session.getAttributes().containsKey("key")) {
+        if (!session.getAttributes().containsKey("key")) {
             session.getAttributes().put("key", articleDTO.getNum());
         }
 
-        long key = (long)session.getAttributes().get("key");
+        long key = (long) session.getAttributes().get("key");
 
         log.info("Article before === key :  " + key + ", map : " + sessionListArticle);
-        if(!sessionListArticle.containsKey(key)){
+        if (!sessionListArticle.containsKey(key)) {
             sessionListArticle.put(key, new ArrayList<WebSocketSession>());
         }
-        if(!sessionListArticle.get(key).contains(session)){
+        if (!sessionListArticle.get(key).contains(session)) {
             sessionListArticle.get(key).add(session);
         }
         log.info("Article after === key :  " + key + ", map : " + sessionListArticle);
 
-        if(articleDTO.getCardDTOList() != null) { // 맨 처음 게시글에 접근할 때 list가 없는 articleDTO를 받아 오류 발생
+        if (articleDTO.getCardDTOList() != null) { // 맨 처음 게시글에 접근할 때 list가 없는 articleDTO를 받아 오류 발생
             boolean pass = cardService.addCard(articleDTO.getNum(), articleDTO.getCardDTOList().get(0)); // 추가되는 카드의 갯수는 언제나 하나
 
             if (pass) {
-                //card add 시에
                 // 브로드캐스트로 sendMessage 수행하여 js 에서 데이터 갱신하기
                 Optional<Article> articleOptional = articleRepository.findById(articleDTO.getNum());
                 ArticleDTO articleDTO1 = articleService.entityToDto(articleOptional.get());
@@ -65,13 +65,25 @@ public class ArticleWSHandler extends TextWebSocketHandler {
 
             }
         }
+        if (articleDTO.getArticlePermission() != null) {
+            MemberDetails memberDetails = (MemberDetails) session.getAttributes().get("memberDetails");
+            boolean pass = articleService.updateArticle(memberDetails.getUsername(), articleDTO);
+            if (pass) {
+                // 브로드캐스트로 sendMessage 수행하여 js 에서 데이터 갱신하기
+                Optional<Article> articleOptional = articleRepository.findById(articleDTO.getNum());
+                ArticleDTO articleDTO1 = articleService.entityToDto(articleOptional.get());
+                for (WebSocketSession s : sessionListArticle.get(key)) {
+                    s.sendMessage(new TextMessage(objectMapper.writeValueAsBytes(articleDTO1)));
+                }
+            }
+        }
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        long key = (long)session.getAttributes().get("key");
+        long key = (long) session.getAttributes().get("key");
         sessionListArticle.get(key).remove(session);
-        if(sessionListArticle.get(key).isEmpty() || sessionListArticle.get(key) == null) {
+        if (sessionListArticle.get(key).isEmpty() || sessionListArticle.get(key) == null) {
             sessionListArticle.remove(key);
         }
         log.info("session remove === key :  " + key + ", map : " + sessionListArticle);

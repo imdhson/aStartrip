@@ -5,6 +5,7 @@ import ce.daegu.ac.kr.aStartrip.dto.CardDTO;
 import ce.daegu.ac.kr.aStartrip.dto.MemberDTO;
 import ce.daegu.ac.kr.aStartrip.dto.MemberDetails;
 import ce.daegu.ac.kr.aStartrip.entity.Article;
+import ce.daegu.ac.kr.aStartrip.entity.ArticlePermissionENUM;
 import ce.daegu.ac.kr.aStartrip.entity.Member;
 import ce.daegu.ac.kr.aStartrip.repository.ArticleRepository;
 import ce.daegu.ac.kr.aStartrip.repository.MemberRepository;
@@ -46,7 +47,7 @@ public class ArticleRController {
 
         //게시글 가져오기
         ArticleDTO articleDTO = articleService.findArticlebyID(num);
-        if (articleDTO.getWriter().equals(memberName) || articleDTO.isVisibleBoard()) {
+        if (articleDTO.getWriter().equals(memberName) || articleDTO.getArticlePermission() == ArticlePermissionENUM.OPEN) {
             //게시글의 member와 요청온 member가 같은 경우에만 정상 리턴
             //or visibleBoard가 true면 리턴
             return ResponseEntity.status(HttpStatus.OK).headers(httpheaders).body(articleDTO);

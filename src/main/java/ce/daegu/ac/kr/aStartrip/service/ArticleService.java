@@ -32,7 +32,7 @@ public interface ArticleService {
                 .title(dto.getTitle())
                 .member(member)
                 .hit(dto.getHit())
-                .visibleBoard(dto.isVisibleBoard())
+                .articlePermission(dto.getArticlePermission())
                 .member(member)
                 .build();
         return entity;
@@ -58,7 +58,7 @@ public interface ArticleService {
                 .title(entity.getTitle())
                 .writer(entity.getMember().getName())
                 .hit(entity.getHit())
-                .visibleBoard(entity.isVisibleBoard())
+                .articlePermission(entity.getArticlePermission())
                 .regDate(entity.getRegDate())
                 .modDate(entity.getModDate())
                 .cardDTOList(cList)

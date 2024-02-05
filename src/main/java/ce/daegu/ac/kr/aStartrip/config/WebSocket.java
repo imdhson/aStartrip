@@ -35,7 +35,8 @@ public class WebSocket implements WebSocketConfigurer {
                 .addInterceptors(new HttpHandshakeInterceptor()).setAllowedOrigins("*");
         registry.addHandler(cardWSHandler(), "/card-ws")
                 .addInterceptors(new HttpHandshakeInterceptor()).setAllowedOrigins("*");
-        registry.addHandler(articleWSHandler(), "/article-ws").setAllowedOrigins("*");
+        registry.addHandler(articleWSHandler(), "/article-ws").setAllowedOrigins("*")
+                .addInterceptors(new HttpHandshakeInterceptor()).setAllowedOrigins("*");
     }
 
     public WebSocketHandler titleWSHandler() {
