@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+
+<div class="p03" th:fragment="p03">
+
+    <script type="module" src="/js/three.js"></script>
+    <div class="cardContent">
+        <div class="reg">
+            <h1 id="cardTitle">파일</h1>
+            <input type="file" name="userInput0" id="userInput0">
+            <div class="button" id="regButton">regButton none</div> <!-- css에 의해 none 처리됨-->
+            <!-- <div class="button" id="uploadButton" onclick="uploadFile()">파일 업로드하기</div> -->
+        </div>
+        <div class="response">
+            <h2 id="llmStatus"></h2>
+            <!-- <h2>파일 보기</h2> -->
+            <img id="llmresponse0" />
+        </div>
+        <div class="threejs-container"></div>
+    </div>
+</div>
+
+</html>

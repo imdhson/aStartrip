@@ -1,4 +1,6 @@
 import { cube_three } from "/js/three.js"
+import { uploadFile } from "/js/file.js"
+import { loadFile } from "./file"
 
 const server_address = 'localhost:8080' //http, ws , / 등 제외해야함
 
@@ -10,6 +12,7 @@ const v01 = document.querySelector(".v01").cloneNode(true)
 const v02 = document.querySelector(".v02").cloneNode(true)
 const p01 = document.querySelector(".p01").cloneNode(true)
 const p02 = document.querySelector(".p02").cloneNode(true)
+const p03 = document.querySelector(".p03").cloneNode(true)
 
 const cardsDOM = document.querySelector(".cards")
 const addArticle = document.querySelector(".grid-add")
@@ -252,6 +255,11 @@ function cardBuild(card, dom, refresh) { //refresh는 onmessage 수신시 카드
 
             child.style.display = "flex"
             break;
+        case "P03":
+            child = p03.cloneNode(true)
+            loadFile(child, card.id)
+            child.style.display = "flex"
+            break;
     }//Switch 문 종료
 
     if (refresh) {// 리프레시 시에 prev child삭제 먼저
@@ -275,6 +283,18 @@ function cardBuild(card, dom, refresh) { //refresh는 onmessage 수신시 카드
         last_interaction = 0; //무조건 바로 갱신되도록
         sendCard(event, child, card)
     });
+
+    if (card.cardType == 'P03') { //파일의 경우에만 처리해야하는 것 
+        // child.querySelector("#uploadButton").addEventListener('click', function(event){
+        //     last_interaction = 0;
+        //     sendCard(event, child, card);
+        // })
+        child.querySelector("#userInput0").addEventListener('change', function (event) {
+            console.log("file change 감지됨")
+            uploadFile(child.querySelector("#userInput0").files, card.id)
+        })
+    }
+
     child.querySelector('.cardContent').addEventListener('keyup', function (event) {
         last_interaction = new Date().getTime() //상호작용 시간 갱신
         keycount += 1
@@ -383,15 +403,15 @@ function addCard(articleNum, cardType1) {
 }
 window.addCard = addCard
 
-function articlePermission(articleNum){
+function articlePermission(articleNum) {
     last_interaction = 0;
-    let articlePermission = document.querySelector("#articlePermission").checked ? 'OPEN': 'ONLYME'
+    let articlePermission = document.querySelector("#articlePermission").checked ? 'OPEN' : 'ONLYME'
     let articleDTO = {
-        num:articleNum,
+        num: articleNum,
         articlePermission: articlePermission
-    } 
+    }
     let jsonMessage = JSON.stringify(articleDTO)
-    if(articleWS_webSocket.readyState === WebSocket.OPEN){
+    if (articleWS_webSocket.readyState === WebSocket.OPEN) {
         articleWS_webSocket.send(jsonMessage)
     }
 }
