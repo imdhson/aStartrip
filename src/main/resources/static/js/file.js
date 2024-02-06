@@ -51,10 +51,21 @@ export function loadFile(dom, cardId) {
                 )
             } else { //이미지가 아닐 경우
                 const blob = res.blob().then(blob => { //blob 호출 후 프로미스 종료 시 실행
-                    const fileUrl = URL.createObjectURL(blob)
-                    dom.querySelector('#llmresponse0 a').href = fileUrl
-                    dom.querySelector('#llmresponse0 a').style.display = "block"
-                    dom.querySelector('.response').style.minHeight= "100px"
+                    const contentDisposition = res.headers.get("Content-Disposition");
+            let fileName = "downloaded_file";
+            if (contentDisposition) {
+                const fileNameMatch = contentDisposition.match(/filename\*?=['"]?(?:UTF-8'')?([^"';]*)['"]?;?/i);
+                if (fileNameMatch.length > 1) {
+                    fileName = decodeURIComponent(fileNameMatch[1]);
+                }
+            }
+
+            const fileUrl = URL.createObjectURL(blob);
+            const downloadLink = dom.querySelector('#llmresponse0 a');
+            downloadLink.href = fileUrl;
+            downloadLink.download = fileName; // 파일 이름과 확장자 지정
+            downloadLink.style.display = "block";
+            dom.querySelector('.response').style.minHeight = "100px";
                 }
                 )
             }
