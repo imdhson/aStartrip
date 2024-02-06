@@ -61,9 +61,10 @@ public class ArticleRController {
         try {
             member = memberDetails.getMember();
         } catch (Exception e) {
+            log.debug(e.toString());
             return ResponseEntity.badRequest().build();
         }
-        if (articleService.deleteArticle(articleNum, memberDetails.getMember())) {
+        if (articleService.deleteArticle(articleNum, member)) {
             return ResponseEntity.ok().body("true");
         }
         return ResponseEntity.badRequest().build();
@@ -71,6 +72,16 @@ public class ArticleRController {
 
     @DeleteMapping("/api/card/{num}")
     public ResponseEntity<String> deleteCard(@PathVariable("num") long cardId, @AuthenticationPrincipal MemberDetails memberDetails) {
-        return ResponseEntity.ok().body("true");
+        Member member;
+        try {
+            member = memberDetails.getMember();
+        } catch (Exception e) {
+            log.debug(e.toString());
+            return ResponseEntity.badRequest().build();
+        }
+        if (cardService.delCard(cardId, member)) {
+            return ResponseEntity.ok().body("true");
+        }
+        return ResponseEntity.badRequest().build();
     }
 }

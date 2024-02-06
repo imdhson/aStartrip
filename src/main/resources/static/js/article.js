@@ -47,7 +47,7 @@ function start(articleNum) {
         });
 
 
-    editPermission ? false : showModal("편집 권한이 없어서 열람만 가능해요")
+    editPermission ? true : showModal("편집 권한이 없어서 열람만 가능해요")
 }
 
 // ____ articleDTO JSON ____
@@ -281,7 +281,13 @@ function cardBuild(card, dom, refresh) { //refresh는 onmessage 수신시 카드
         let cardWS_webSocket = cardWS(card, child)
         weakmap.set(child, cardWS_webSocket)
     }
-
+    if (editPermission){
+        //편집 권한이 있는 경우에 card 삭제 표기
+        child.querySelector('.cardDelButton').style.display = "block"
+        child.querySelector('.cardDelButton').addEventListener('click' , function() {
+            delCard(card.id)
+        })
+    }
     dom.appendChild(child)
 
     child.querySelector('#regButton').addEventListener('click', function (event) {
@@ -467,3 +473,26 @@ function delArticle(articleNum) {
         )
 }
 window.delArticle = delArticle
+
+function delCard(cardId) {
+    fetch('/api/card/' + cardId, {
+        method: 'DELETE', // HTTP DELETE 요청 메소드 지정
+    })
+        .then(response => {
+            if (response.ok) {
+                let articleDTO = {
+                    num: articleNum,
+                    modDate: new Date() //modDate를 보낸다는 것은 articleWS에게 브로드캐스팅을 요청하는 행위임.
+                }
+                jsonMessage = JSON.stringify(articleDTO)
+                articleWS_webSocket.send(jsonMessage)
+            } else {
+                showModal("삭제를 실패했어요")
+                throw new Error("삭제 실패")
+            }
+        }
+        ).catch((error) =>
+            console.log(error)
+        )
+}
+window.delCard = delCard

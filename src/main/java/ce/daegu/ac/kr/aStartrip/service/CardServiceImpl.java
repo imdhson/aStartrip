@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -46,13 +48,29 @@ public class CardServiceImpl implements CardService {
     @Override
     public boolean delCard(long cardId, Member member) {
         Optional<Card> cardOptional = cardRepository.findById(cardId);
+        Card card = null;
         if (cardOptional.isPresent()) {
-            Card card = cardOptional.get();
-            if (member.getEmail().equals(card.getArticle().getMember().getEmail())) {
-                //작성자인 경우만 삭제 수행
-                cardRepository.delete(card);
-                return true;
-            }
+            card = cardOptional.get();
+        }
+
+        Article article = card.getArticle();
+        ArrayList<Card> articleCardList = new ArrayList<>(article.getCardList());
+        articleCardList.remove(card);
+        article.setCardList(articleCardList);
+
+
+//        for (int i = 0; i < articleCardList.size(); i++) {
+//            if (articleCardList.get(i).getId() == cardId) {
+//                articleCardList.remove(i);
+//            }
+//        }
+
+
+        if (member.getEmail().equals(card.getArticle().getMember().getEmail())) {
+            //작성자인 경우만 삭제 수행
+            log.debug("card 삭제 중 : {}", card.toString());
+            cardRepository.delete(card);
+            return true;
         }
         return false;
     }

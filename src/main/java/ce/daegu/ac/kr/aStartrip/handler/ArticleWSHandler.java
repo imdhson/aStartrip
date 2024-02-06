@@ -79,6 +79,13 @@ public class ArticleWSHandler extends TextWebSocketHandler {
                 }
             }
         }
+        if (articleDTO.getModDate() != null) { //업데이트는 다른곳에서 수행하였고 단지 브로드캐스팅을 요청하는 행위
+            Optional<Article> articleOptional2 = articleRepository.findById(articleDTO.getNum());
+            ArticleDTO articleDTO2 = articleService.entityToDto(articleOptional2.get());
+            for (WebSocketSession s : sessionListArticle.get(key)) {
+                s.sendMessage(new TextMessage(objectMapper.writeValueAsBytes(articleDTO2)));
+            }
+        }
     }
 
     @Override
