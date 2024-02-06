@@ -42,30 +42,41 @@ export function loadFile(dom, cardId) {
         .then(res => {
             console.log("파일 수신 성공", res)
             let isImage = res.headers.get("CardFile-isImage")
-            if (isImage == "true") {
+            let videoType = res.headers.get("CardFile-videoType")
+            console.log(isImage)
+            if (isImage === "true") {
                 const blob = res.blob().then(blob => { //blob 호출 후 프로미스 종료 시 실행
                     const imageUrl = URL.createObjectURL(blob)
                     dom.querySelector('#llmresponse0 img').src = imageUrl
                     dom.querySelector('#llmresponse0 img').style.display = "block"
                 }
                 )
-            } else { //이미지가 아닐 경우
+            } else if (isImage === "false") { //이미지가 아닐 경우
                 const blob = res.blob().then(blob => { //blob 호출 후 프로미스 종료 시 실행
                     const contentDisposition = res.headers.get("Content-Disposition");
-            let fileName = "downloaded_file";
-            if (contentDisposition) {
-                const fileNameMatch = contentDisposition.match(/filename\*?=['"]?(?:UTF-8'')?([^"';]*)['"]?;?/i);
-                if (fileNameMatch.length > 1) {
-                    fileName = decodeURIComponent(fileNameMatch[1]);
-                }
-            }
+                    let fileName = "downloaded_file";
+                    if (contentDisposition) {
+                        const fileNameMatch = contentDisposition.match(/filename\*?=['"]?(?:UTF-8'')?([^"';]*)['"]?;?/i);
+                        if (fileNameMatch.length > 1) {
+                            fileName = decodeURIComponent(fileNameMatch[1]);
+                        }
+                    }
 
-            const fileUrl = URL.createObjectURL(blob);
-            const downloadLink = dom.querySelector('#llmresponse0 a');
-            downloadLink.href = fileUrl;
-            downloadLink.download = fileName; // 파일 이름과 확장자 지정
-            downloadLink.style.display = "block";
-            dom.querySelector('.response').style.minHeight = "100px";
+                    const fileUrl = URL.createObjectURL(blob);
+                    const downloadLink = dom.querySelector('#llmresponse0 a');
+                    downloadLink.href = fileUrl;
+                    downloadLink.download = fileName; // 파일 이름과 확장자 지정
+                    downloadLink.innerText = fileName
+                    downloadLink.style.display = "block";
+                    dom.querySelector('.response').style.minHeight = "100px";
+                }
+                )
+            } else if (isImage === "video") { //video일 경우
+                const blob = res.blob().then(blob => { //blob 호출 후 프로미스 종료 시 실행
+                    const videoUrl = URL.createObjectURL(blob)
+                    dom.querySelector('#llmresponse0 video').src = videoUrl
+                    dom.querySelector('#llmresponse0 video').style.display = "block"
+                    dom.querySelector('#llmresponse0 video').type = "video/" + videoType
                 }
                 )
             }

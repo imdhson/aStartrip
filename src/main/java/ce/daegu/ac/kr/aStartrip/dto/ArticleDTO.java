@@ -21,6 +21,7 @@ public class ArticleDTO {
     private Long num;
     private String title;
     private String writer;
+    private String writer_email;
     private long hit;
     private ArticlePermissionENUM articlePermission;
 

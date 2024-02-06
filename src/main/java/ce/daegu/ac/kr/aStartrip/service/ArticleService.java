@@ -33,7 +33,6 @@ public interface ArticleService {
                 .member(member)
                 .hit(dto.getHit())
                 .articlePermission(dto.getArticlePermission())
-                .member(member)
                 .build();
         return entity;
     }
@@ -57,6 +56,7 @@ public interface ArticleService {
                 .num(entity.getNum())
                 .title(entity.getTitle())
                 .writer(entity.getMember().getName())
+                .writer_email(entity.getMember().getEmail())
                 .hit(entity.getHit())
                 .articlePermission(entity.getArticlePermission())
                 .regDate(entity.getRegDate())

@@ -50,10 +50,9 @@ public class ArticleWSHandler extends TextWebSocketHandler {
             sessionListArticle.get(key).add(session);
         }
         log.info("Article after === key :  " + key + ", map : " + sessionListArticle);
-
-        if (articleDTO.getCardDTOList() != null) { // 맨 처음 게시글에 접근할 때 list가 없는 articleDTO를 받아 오류 발생
+        MemberDetails memberDetails = (MemberDetails) session.getAttributes().get("memberDetails");
+        if (articleDTO.getCardDTOList() != null && articleDTO.getWriter_email().equals(memberDetails.getUsername())) { // 맨 처음 게시글에 접근할 때 list가 없는 articleDTO를 받아 오류 발생
             boolean pass = cardService.addCard(articleDTO.getNum(), articleDTO.getCardDTOList().get(0)); // 추가되는 카드의 갯수는 언제나 하나
-
             if (pass) {
                 // 브로드캐스트로 sendMessage 수행하여 js 에서 데이터 갱신하기
                 Optional<Article> articleOptional = articleRepository.findById(articleDTO.getNum());
@@ -66,7 +65,6 @@ public class ArticleWSHandler extends TextWebSocketHandler {
             }
         }
         if (articleDTO.getArticlePermission() != null) {
-            MemberDetails memberDetails = (MemberDetails) session.getAttributes().get("memberDetails");
             boolean pass = articleService.updateArticle(memberDetails.getUsername(), articleDTO);
             if (pass) {
                 // 브로드캐스트로 sendMessage 수행하여 js 에서 데이터 갱신하기

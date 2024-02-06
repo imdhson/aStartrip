@@ -1,5 +1,6 @@
 import { cube_three } from "/js/three.js"
-import { uploadFile , loadFile} from "/js/file.js"
+import { uploadFile, loadFile } from "/js/file.js"
+import { showModal, closeModal } from "/js/modal.js"
 
 const server_address = 'localhost:8080' //http, ws , / 등 제외해야함
 
@@ -45,6 +46,8 @@ function start(articleNum) {
             console.error('There was a problem with your fetch operation:', error);
         });
 
+
+    editPermission ? false : showModal("편집 권한이 없어서 열람만 가능해요")
 }
 
 // ____ articleDTO JSON ____
@@ -284,15 +287,27 @@ function cardBuild(card, dom, refresh) { //refresh는 onmessage 수신시 카드
     });
 
     if (card.cardType == 'P03') { //파일의 경우에만 처리해야하는 것 
-        // child.querySelector("#uploadButton").addEventListener('click', function(event){
-        //     last_interaction = 0;
-        //     sendCard(event, child, card);
-        // })
-        child.querySelector("#userInput0").addEventListener('change', function (event) {
+        child.querySelector("#userInput0").onchange = function (event) {
             console.log("file change 감지됨")
+
+            const three_container = child.querySelector('.threejs-container')
+            three_container.style.display = "block"
+            three_container.classList.add("blur-effect")
+            setTimeout(function () {
+                child.querySelector('.cardContent .reg').classList.add("blur-effect")
+                child.querySelector('.cardContent .response').classList.add("blur-effect")
+                three_container.classList.remove("blur-effect")
+            }, 500)
+
+            cube_three(child); // Three.js 초기화 및 렌더링
+
             uploadFile(child.querySelector("#userInput0").files, card.id)
-            sendCard(event, child, card)
-        })
+            setTimeout(function () {
+                last_interaction = 0
+                sendCard(event, child, card)
+            }, 2000)
+
+        }
     }
 
     child.querySelector('.cardContent').addEventListener('keyup', function (event) {

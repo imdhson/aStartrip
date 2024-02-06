@@ -9,10 +9,12 @@
     <script type="module" src="/js/article.js"></script>
     <script>
         const articleNum = [[${ articleNum }]]
+        const editPermission = [[${ editPermission }]]
     </script>
     <style>
         @import url("/css/main.css");
         @import url("/css/article.css");
+        @import url("/css/modal.css");
     </style>
     <title>Article - A startrip </title>
 </head>
@@ -50,6 +52,14 @@
         </div>
     </main>
     <footer th:replace="~{/fragment/footer :: footer}"></footer>
+
+     <!-- 모달 팝업 -->
+     <div id="modal" class="modal">
+        <div class="modal-content" onclick="document.querySelector('.modal').style.display='none'">
+            <span class="close-button">&times;</span>
+            <p id="modal-text">모달 팝업 텍스트</p>
+        </div>
+    </div>
 </body>
 
 </html>

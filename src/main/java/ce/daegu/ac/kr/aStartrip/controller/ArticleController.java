@@ -57,7 +57,7 @@ public class ArticleController {
     @GetMapping("/article/{num}")
     public String articleDetail(@PathVariable("num") String articleNum, Model model, @AuthenticationPrincipal MemberDetails memberDetails) {
         ArticleDTO articleDTO = articleService.findArticlebyID(Long.parseLong(articleNum));
-        String memberName = null;
+        String memberEmail = null;
         String errorMsg = null;
         if (memberDetails != null) { //로그인 한 경우에만 유저이름 표기
             String userEmail = memberDetails.getUsername();
@@ -68,17 +68,24 @@ public class ArticleController {
 
         try {
             //게시글에 접근 권한 있는지 넣어야함.
-            memberName = memberDetails.getMember().getName();
+            memberEmail = memberDetails.getMember().getEmail();
         } catch (NullPointerException nullPointerException) {
             //비로그인 사용자 or 접근 권한 없는 사용자
             errorMsg = "로그인이 필요합니다.";
         }
-        if (articleDTO.getArticlePermission() == ArticlePermissionENUM.OPEN || articleDTO.getWriter().equals(memberName)) {
+        if (articleDTO.getArticlePermission() == ArticlePermissionENUM.OPEN || articleDTO.getWriter_email().equals(memberEmail)) {
             //게시글의 member와 요청온 member가 같은 경우에만 정상 리턴
             //or 게시글이 공개 상태인 경우 리턴
             model.addAttribute("articleNum", articleNum);
             model.addAttribute("article", articleDTO);
             articleService.viewCountAdd(Long.parseLong(articleNum));
+            if (articleDTO.getWriter_email().equals(memberEmail)){
+                //클라이언트에게 수정할 수 있는지 알리는 변수
+                // 글쓴이만 수정하도록 되어있음.
+                model.addAttribute("editPermission", true);
+            }else{
+                model.addAttribute("editPermission", false);
+            }
             return "article/article";
         } else {
             errorMsg = "권한이 없는 게시글입니다.";

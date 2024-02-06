@@ -73,16 +73,23 @@ public class FileRController {
                 //파일을 찾았을 떄
                 String extension = fileService.getExtension(resource.getFilename()).toLowerCase().trim();
                 String isImage = "false";
+                String videoType = "";
                 if (extension.equals("jpg") || extension.equals("heif") || extension.equals("png") ||
                         extension.equals("jpeg") || extension.equals("bmp") ||
                         extension.equals(("gif")) || extension.equals("webp") ||
                         extension.equals("svg")) { //이미지 파일인지 확인
                     isImage = "true";
+                } else if (extension.equals("mp4") || extension.equals("heic") || extension.equals("mov") ||
+                        extension.equals("webm") || extension.equals("ogg") ||
+                        extension.equals(("ogv")) || extension.equals("av1")) { //비디오 파일인지 확인
+                    isImage = "video";
+                    videoType = extension;
                 }
 
                 return ResponseEntity.ok().contentType(MediaType.APPLICATION_OCTET_STREAM)
                         .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
                         .header("CardFile-isImage", isImage)
+                        .header("CardFile-videoType", videoType)
                         .body(resource);
 
             } else {
