@@ -74,6 +74,19 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public boolean deleteArticle(long articleNum, Member member) {
+        Optional<Article> articleOptional = articleRepository.findById(articleNum);
+        if (articleOptional.isPresent()) {
+            Article article = articleOptional.get();
+            if (article.getMember().getEmail().equals(member.getEmail())) {
+                articleRepository.delete(article);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public ArticleDTO findArticlebyID(long articleNum) {
         Optional<Article> articleOptional = articleRepository.findById(articleNum);
         if (articleOptional.isPresent()) {

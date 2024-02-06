@@ -5,6 +5,7 @@ import ce.daegu.ac.kr.aStartrip.dto.CardDTO;
 import ce.daegu.ac.kr.aStartrip.entity.Article;
 import ce.daegu.ac.kr.aStartrip.entity.Card;
 import ce.daegu.ac.kr.aStartrip.entity.LLMStatusENUM;
+import ce.daegu.ac.kr.aStartrip.entity.Member;
 import ce.daegu.ac.kr.aStartrip.repository.ArticleRepository;
 import ce.daegu.ac.kr.aStartrip.repository.CardRepository;
 import jakarta.transaction.Transactional;
@@ -36,6 +37,20 @@ public class CardServiceImpl implements CardService {
             log.debug("Debug card1::::::::{}", card1.toString());
             log.debug("Debug getID::::::::{}", card1.getId());
             if (card1.getId() != null && card1.getId() >= 0L) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean delCard(long cardId, Member member) {
+        Optional<Card> cardOptional = cardRepository.findById(cardId);
+        if (cardOptional.isPresent()) {
+            Card card = cardOptional.get();
+            if (member.getEmail().equals(card.getArticle().getMember().getEmail())) {
+                //작성자인 경우만 삭제 수행
+                cardRepository.delete(card);
                 return true;
             }
         }

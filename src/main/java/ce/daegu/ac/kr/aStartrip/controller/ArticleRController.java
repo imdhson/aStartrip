@@ -54,4 +54,23 @@ public class ArticleRController {
         }
         return ResponseEntity.badRequest().headers(httpheaders).build();
     }
+
+    @DeleteMapping("/api/article/{num}")
+    public ResponseEntity<String> deleteArticle(@PathVariable("num") long articleNum, @AuthenticationPrincipal MemberDetails memberDetails) {
+        Member member;
+        try {
+            member = memberDetails.getMember();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+        if (articleService.deleteArticle(articleNum, memberDetails.getMember())) {
+            return ResponseEntity.ok().body("true");
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @DeleteMapping("/api/card/{num}")
+    public ResponseEntity<String> deleteCard(@PathVariable("num") long cardId, @AuthenticationPrincipal MemberDetails memberDetails) {
+        return ResponseEntity.ok().body("true");
+    }
 }

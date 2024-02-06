@@ -449,3 +449,21 @@ function articlePermission(articleNum) {
 
 }
 window.articlePermission = articlePermission
+
+function delArticle(articleNum) {
+    fetch('/api/article/' + articleNum, {
+        method: 'DELETE', // HTTP DELETE 요청 메소드 지정
+    })
+        .then(response => {
+            if (response.ok) {
+                window.location.href = '/'
+            } else {
+                showModal("삭제를 실패했어요")
+                throw new Error("삭제 실패")
+            }
+        }
+        ).catch((error) =>
+            console.log(error)
+        )
+}
+window.delArticle = delArticle

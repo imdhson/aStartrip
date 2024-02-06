@@ -4,9 +4,11 @@ import ce.daegu.ac.kr.aStartrip.dto.ArticleDTO;
 import ce.daegu.ac.kr.aStartrip.dto.CardDTO;
 import ce.daegu.ac.kr.aStartrip.entity.Article;
 import ce.daegu.ac.kr.aStartrip.entity.Card;
+import ce.daegu.ac.kr.aStartrip.entity.Member;
 
 public interface CardService {
     boolean addCard(long articleNum, CardDTO cardDTO);
+    boolean delCard(long cardId, Member member);
     CardDTO updateCard(CardDTO cardDTO);
     CardDTO findCardById(long id);
 

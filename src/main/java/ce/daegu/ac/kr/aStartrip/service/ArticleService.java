@@ -21,6 +21,7 @@ public interface ArticleService {
     // member와 articleDTO의 writer가 동일할 경우에만 articleDTO로 save(UPDATE) 동작 수행
 
     boolean updateCard1(String username, long articleId, CardDTO cardDTO, long key);
+    boolean deleteArticle(long articleNum, Member member);
 
     ArticleDTO findArticlebyID(long articleNum);
 
