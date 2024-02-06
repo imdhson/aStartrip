@@ -50,15 +50,19 @@ public class ArticleWSHandler extends TextWebSocketHandler {
             sessionListArticle.get(key).add(session);
         }
         log.info("Article after === key :  " + key + ", map : " + sessionListArticle);
+
         MemberDetails memberDetails = (MemberDetails) session.getAttributes().get("memberDetails");
-        if (articleDTO.getCardDTOList() != null && articleDTO.getWriter_email().equals(memberDetails.getUsername())) { // 맨 처음 게시글에 접근할 때 list가 없는 articleDTO를 받아 오류 발생
+        Optional<Article> articleOptional1 = articleRepository.findById(articleDTO.getNum());
+        ArticleDTO articleDTO1 = articleService.entityToDto(articleOptional1.get());
+
+        if (articleDTO.getCardDTOList() != null && articleDTO1.getWriter_email().equals(memberDetails.getUsername())) { // 맨 처음 게시글에 접근할 때 list가 없는 articleDTO를 받아 오류 발생
             boolean pass = cardService.addCard(articleDTO.getNum(), articleDTO.getCardDTOList().get(0)); // 추가되는 카드의 갯수는 언제나 하나
             if (pass) {
                 // 브로드캐스트로 sendMessage 수행하여 js 에서 데이터 갱신하기
-                Optional<Article> articleOptional = articleRepository.findById(articleDTO.getNum());
-                ArticleDTO articleDTO1 = articleService.entityToDto(articleOptional.get());
                 for (WebSocketSession s : sessionListArticle.get(key)) {
-                    s.sendMessage(new TextMessage(objectMapper.writeValueAsBytes(articleDTO1)));
+                    Optional<Article> articleOptional2 = articleRepository.findById(articleDTO.getNum());
+                    ArticleDTO articleDTO2 = articleService.entityToDto(articleOptional2.get());
+                    s.sendMessage(new TextMessage(objectMapper.writeValueAsBytes(articleDTO2)));
                 }
                 // articleDTO 내에 cardDTOList가 존재하므로 가능.
 
@@ -68,10 +72,10 @@ public class ArticleWSHandler extends TextWebSocketHandler {
             boolean pass = articleService.updateArticle(memberDetails.getUsername(), articleDTO);
             if (pass) {
                 // 브로드캐스트로 sendMessage 수행하여 js 에서 데이터 갱신하기
-                Optional<Article> articleOptional = articleRepository.findById(articleDTO.getNum());
-                ArticleDTO articleDTO1 = articleService.entityToDto(articleOptional.get());
+                Optional<Article> articleOptional2 = articleRepository.findById(articleDTO.getNum());
+                ArticleDTO articleDTO2 = articleService.entityToDto(articleOptional2.get());
                 for (WebSocketSession s : sessionListArticle.get(key)) {
-                    s.sendMessage(new TextMessage(objectMapper.writeValueAsBytes(articleDTO1)));
+                    s.sendMessage(new TextMessage(objectMapper.writeValueAsBytes(articleDTO2)));
                 }
             }
         }

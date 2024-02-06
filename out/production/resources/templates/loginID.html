@@ -20,7 +20,12 @@
             <button type="button" class="small-button" onclick="location.href='/'">취소</button>
             <input type="submit" class="button" value="계속하기"/>
         </div>
-        <a href="/oauth2/authorization/naver" role="button">네이버 로그인</a>
+        
+        <div class="form-actions">
+            <a class="small-button" href="/oauth2/authorization/naver" role="button">NAVER 로그인</a>
+            <a class="small-button" href="/oauth2/authorization/naver" role="button">카카오 로그인</a>
+        </div>
+        
     </form>
 </div>
 <footer th:replace="~{/fragment/footer :: footer}"></footer>

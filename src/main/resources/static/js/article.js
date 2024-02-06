@@ -78,9 +78,10 @@ function articleDetailView(jsonData) {
         cardBuild(card, cardsDOM, false); //card 받아와서 카드 하나씩 그리기
     });
 
-    addArticle.style.display = "grid"
-    cardsDOM.appendChild(addArticle)
-
+    if (editPermission) {
+        addArticle.style.display = "grid"
+        cardsDOM.appendChild(addArticle)
+    }
 }
 
 function titleWS(articleNum, dom) {
@@ -108,7 +109,11 @@ function titleWS(articleNum, dom) {
         last_interaction = new Date().getTime()
         keycount += 1
         if (keycount % 10 === 0) {
-            sendTitle(event, dom)
+            if (editPermission) {
+                sendTitle(event, dom)
+            } else {
+                showModal("편집 권한이 없어요. 제목 변경 실패")
+            }
         }
     })
     dom.addEventListener('blur', function (event) {
@@ -281,32 +286,39 @@ function cardBuild(card, dom, refresh) { //refresh는 onmessage 수신시 카드
 
     child.querySelector('#regButton').addEventListener('click', function (event) {
         console.log("card regButton clicked!", card)
-        card.llmStatus = 'GENERATING'
-        last_interaction = 0; //무조건 바로 갱신되도록
-        sendCard(event, child, card)
+        if (editPermission) {
+            card.llmStatus = 'GENERATING'
+            last_interaction = 0; //무조건 바로 갱신되도록
+            sendCard(event, child, card)
+        } else {
+            showModal("편집 권한이 없어요. 생성형 AI에게 요청 실패했어요")
+        }
+
     });
 
     if (card.cardType == 'P03') { //파일의 경우에만 처리해야하는 것 
         child.querySelector("#userInput0").onchange = function (event) {
             console.log("file change 감지됨")
+            if (editPermission) {
+                const three_container = child.querySelector('.threejs-container')
+                three_container.style.display = "block"
+                three_container.classList.add("blur-effect")
+                setTimeout(function () {
+                    child.querySelector('.cardContent .reg').classList.add("blur-effect")
+                    child.querySelector('.cardContent .response').classList.add("blur-effect")
+                    three_container.classList.remove("blur-effect")
+                }, 500)
 
-            const three_container = child.querySelector('.threejs-container')
-            three_container.style.display = "block"
-            three_container.classList.add("blur-effect")
-            setTimeout(function () {
-                child.querySelector('.cardContent .reg').classList.add("blur-effect")
-                child.querySelector('.cardContent .response').classList.add("blur-effect")
-                three_container.classList.remove("blur-effect")
-            }, 500)
+                cube_three(child); // Three.js 초기화 및 렌더링
 
-            cube_three(child); // Three.js 초기화 및 렌더링
-
-            uploadFile(child.querySelector("#userInput0").files, card.id)
-            setTimeout(function () {
-                last_interaction = 0
-                sendCard(event, child, card)
-            }, 2000)
-
+                uploadFile(child.querySelector("#userInput0").files, card.id)
+                setTimeout(function () {
+                    last_interaction = 0
+                    sendCard(event, child, card)
+                }, 2000)
+            } else {
+                showModal("편집 권한이 없어요. 파일 업로드 실패")
+            }
         }
     }
 
@@ -317,7 +329,6 @@ function cardBuild(card, dom, refresh) { //refresh는 onmessage 수신시 카드
         if (keycount % 10 == 0) {
             sendCard(event, child, card)
         }
-
         if (event.key == "Enter" || event.key == "." || event.key == "," || event.key == "?" || event.key == "!") {
             sendCard(event, child, card)
         }
@@ -421,13 +432,20 @@ window.addCard = addCard
 function articlePermission(articleNum) {
     last_interaction = 0;
     let articlePermission = document.querySelector("#articlePermission").checked ? 'OPEN' : 'ONLYME'
-    let articleDTO = {
-        num: articleNum,
-        articlePermission: articlePermission
+    if (editPermission) {
+        let articleDTO = {
+            num: articleNum,
+            articlePermission: articlePermission
+        }
+        let jsonMessage = JSON.stringify(articleDTO)
+        if (articleWS_webSocket.readyState === WebSocket.OPEN) {
+            articleWS_webSocket.send(jsonMessage)
+        }
+    } else {
+        showModal("편집 권한이 없어요. 따라서 게시판 공개 여부를 수정할 수 없어요")
+        document.querySelector("#articlePermission").checked = !document.querySelector("#articlePermission").checked
+        //다시 반대로
     }
-    let jsonMessage = JSON.stringify(articleDTO)
-    if (articleWS_webSocket.readyState === WebSocket.OPEN) {
-        articleWS_webSocket.send(jsonMessage)
-    }
+
 }
 window.articlePermission = articlePermission
