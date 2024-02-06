@@ -35,15 +35,29 @@ export function loadFile(dom, cardId) {
     })
         .then(response => {
             if (response.ok) {
-                return response.blob()
+                return response
             }
             throw new Error("파일 수신 중 오류")
         })
-        .then(blob => {
-            console.log("파일 수신 성공", blob)
-            const imageUrl = URL.createObjectURL(blob)
-            dom.querySelector('#llmresponse0').src = imageUrl
-            return blob
+        .then(res => {
+            console.log("파일 수신 성공", res)
+            let isImage = res.headers.get("CardFile-isImage")
+            if (isImage == "true") {
+                const blob = res.blob().then(blob => { //blob 호출 후 프로미스 종료 시 실행
+                    const imageUrl = URL.createObjectURL(blob)
+                    dom.querySelector('#llmresponse0 img').src = imageUrl
+                    dom.querySelector('#llmresponse0 img').style.display = "block"
+                }
+                )
+            } else { //이미지가 아닐 경우
+                const blob = res.blob().then(blob => { //blob 호출 후 프로미스 종료 시 실행
+                    const fileUrl = URL.createObjectURL(blob)
+                    dom.querySelector('#llmresponse0 a').href = fileUrl
+                    dom.querySelector('#llmresponse0 a').style.display = "block"
+                    dom.querySelector('.response').style.minHeight= "100px"
+                }
+                )
+            }
         })
         .catch(error => {
             console.error("수신 중 오류 발생", error)

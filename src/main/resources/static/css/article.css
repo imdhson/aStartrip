@@ -212,6 +212,22 @@ textarea {
     }
 }
 
+.p03 #llmresponse0 img {
+    display: none;
+    max-width: 100%;
+    height: auto;
+    border-radius: 20px;
+}
+
+.p03 #llmresponse0 a {
+    display: none;
+    width: calc(100% - 40px);
+    height: auto;
+    border-radius: 20px;
+    background-color: white;
+    color: black;
+}
+
 .p01 .reg textarea {
     height: 50px;
 }
