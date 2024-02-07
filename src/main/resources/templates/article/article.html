@@ -7,6 +7,7 @@
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script type="module" src="/js/article.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
     <script>
         const articleNum = [[${ articleNum }]]
         const editPermission = [[${ editPermission }]]
@@ -26,6 +27,13 @@
     <main>
         <div class="articleTitle">
             <input id="articleTitle" type="text" placeholder="제목 Title" required maxlength="30">
+            <div id="qrcode" onclick="qrcodeToggle()"></div>
+            <script>  let qrcode = new QRCode(document.getElementById("qrcode"), {
+                    text: window.location.href,
+                    width: 1024,
+                    height: 1024
+                })
+            </script>
             <div class="articleInfo">[[${article.writer}]]에 의해 작성되었고 [[${article.hit}]]회 조회됨</div>
             <div class="articleInfo">
                 <div class="checkbox-container">
@@ -53,8 +61,8 @@
     </main>
     <footer th:replace="~{/fragment/footer :: footer}"></footer>
 
-     <!-- 모달 팝업 -->
-     <div id="modal" class="modal">
+    <!-- 모달 팝업 -->
+    <div id="modal" class="modal">
         <div class="modal-content" onclick="document.querySelector('.modal').style.display='none'">
             <span class="close-button">&times;</span>
             <p id="modal-text">모달 팝업 텍스트</p>

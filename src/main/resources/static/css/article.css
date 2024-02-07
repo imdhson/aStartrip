@@ -33,6 +33,7 @@
 }
 
 
+
 @media screen and (max-width: 700px) {
 
     /* 반응형 웹 */
@@ -55,10 +56,19 @@
     padding: 10px;
     color: white;
     margin-bottom: 30px;
+    
 }
 
+.articleTitle #qrcode {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-
+.articleTitle  #qrcode img{
+    width: 50px;
+    height: auto;
+}
 .articleTitle input {
     background-color: black;
     color: white;

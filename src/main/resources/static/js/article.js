@@ -22,6 +22,7 @@ let articleWS_webSocket;
 let last_interaction = 0;
 let keycount = 0;
 let weakmap = new WeakMap();
+let qrToggle_bool = false;
 
 start(articleNum)
 function start(articleNum) {
@@ -497,3 +498,13 @@ function delCard(cardId) {
             console.log(error)
         )
 }
+
+function qrcodeToggle(){
+    if (!qrToggle_bool) {
+        document.querySelector(".articleTitle  #qrcode img").style.width = "500px";
+    } else{
+        document.querySelector(".articleTitle  #qrcode img").style.width = "50px";
+    }
+    qrToggle_bool = !qrToggle_bool
+}
+window.qrcodeToggle = qrcodeToggle
