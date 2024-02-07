@@ -11,12 +11,15 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @Transactional
 @Service
 public interface MemberService {
 
     boolean findID(String email);
+
     MemberDTO findMemberById(String email);
+
     List<ArticleDTO> userArticleList(String email);
 
     boolean sendCodeToEmail(String toEmail);
@@ -24,6 +27,8 @@ public interface MemberService {
     boolean verifiedCode(String email, String authCode);
 
     boolean changePassword(MemberDTO dto);
+
+    MemberDTO updateMember(MemberDTO memberDTO, Member member);
 
     default Member dtoToEntity(MemberDTO dto) {
         Member entity = Member.builder()
@@ -34,13 +39,14 @@ public interface MemberService {
                 .email(dto.getEmail())
                 .PW(dto.getPW())
                 .authCode(dto.getAuthCode())
-                .activation(dto.isActivation()).build();
+                .activation(dto.isActivation())
+                .build();
         return entity;
     }
 
     default MemberDTO entityToDto(Member entity) {
         List<ArticleDTO> aList = new ArrayList<>();
-        for(Article a : entity.getArticleList()){
+        for (Article a : entity.getArticleList()) {
             ArticleDTO aa = ArticleDTO.builder()
                     .num(a.getNum())
                     .title(a.getTitle())

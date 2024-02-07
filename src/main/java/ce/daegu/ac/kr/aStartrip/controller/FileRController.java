@@ -32,15 +32,15 @@ public class FileRController {
     public boolean uploadFile(@RequestParam("file") MultipartFile file, @RequestParam("cardId") long cardId, @AuthenticationPrincipal MemberDetails memberDetails) {
         CardDTO cardDTO = cardService.findCardById(cardId);
         ArticleDTO articleDTO = articleService.findArticlebyID(cardDTO.getArticleNum());
-        String memberName;
+        String memberEmail = "";
         try {
             //게시글에 접근 권한 있는지 넣어야함.
-            memberName = memberDetails.getMember().getName();
+            memberEmail = memberDetails.getMember().getEmail();
         } catch (NullPointerException nullPointerException) {
             //비로그인 사용자 or 접근 권한 없는 사용자
             return false;
         }
-        if (articleDTO.getWriter().equals(memberName)) {
+        if (articleDTO.getWriter_email().equals(memberEmail)) {
             //게시글 작성자와 로그인 사용자의 email이 같은 경우에만 저장
             String filename = fileService.saveFile(file, cardId);
             if (filename != null) {
@@ -55,17 +55,17 @@ public class FileRController {
     public ResponseEntity<Resource> loadFile(@RequestParam("cardId") long cardId, @AuthenticationPrincipal MemberDetails memberDetails) {
         CardDTO cardDTO = cardService.findCardById(cardId);
         ArticleDTO articleDTO = articleService.findArticlebyID(cardDTO.getArticleNum());
-        String memberName = "";
+        String memberEmail = "";
         try {
             //게시글에 접근 권한 있는지 넣어야함.
-            memberName = memberDetails.getMember().getName();
+            memberEmail = memberDetails.getMember().getEmail();
         } catch (NullPointerException nullPointerException) {
             //비로그인 사용자 or 접근 권한 없는 사용자
 
         }
 
 //   파일을 리턴하기 전에 아티클에 대한 권한이 있는지 체크하고 접근 시작 !
-        if (articleDTO.getArticlePermission() == ArticlePermissionENUM.OPEN || articleDTO.getWriter().equals(memberName)) {
+        if (articleDTO.getArticlePermission() == ArticlePermissionENUM.OPEN || articleDTO.getWriter_email().equals(memberEmail)) {
             //게시글의 member와 요청온 member가 같은 경우에만 정상 리턴
             //or 게시글이 공개 상태인 경우 리턴
             Resource resource = fileService.loadFile(cardId);

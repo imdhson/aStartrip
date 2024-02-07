@@ -67,13 +67,13 @@ public class MemberServiceImpl implements MemberService {
             log.info("authCode : " + authCode);
 
             Optional<Member> e = memberRepository.findById(toEmail);
-            if(e.isPresent()) {
+            if (e.isPresent()) {
                 Member m = e.get();
                 m.setAuthCode(authCode);
                 m.setActivation(false);
 
                 memberRepository.save(m);
-            }else{
+            } else {
                 Member m = Member.builder()
                         .email(toEmail)
                         .authCode(authCode)
@@ -88,7 +88,7 @@ public class MemberServiceImpl implements MemberService {
             // 이메일 전송 후 인증번호는 DB에 저장하여 기록.
             // 새로운 인증번호를 받기 전까지 재사용하며,
             // 비밀번호 변경 등 개인정보 변경이 일어날 때마다 인증번호도 수정된다.
-        } else{
+        } else {
             return false;
         }
     }
@@ -111,8 +111,8 @@ public class MemberServiceImpl implements MemberService {
         Optional<Member> e = memberRepository.findById(dto.getEmail());
         // 이미 이메일 인증에서 확인하기에 다시 확인할 필요 X
         Member entity = e.get(); // 메일 인증번호를 가지고 있다.
-        if(entity.getName().equals(dto.getName()) && entity.getBirthDate().equals(dto.getBirthDate()) &&
-            entity.getTel().equals(dto.getTel())) {
+        if (entity.getName().equals(dto.getName()) && entity.getBirthDate().equals(dto.getBirthDate()) &&
+                entity.getTel().equals(dto.getTel())) {
             entity.setPW(passwordEncoder.encode(dto.getPW()));
             entity.setActivation(true);
             entity.setAuthCode(dto.getAuthCode()); // dto는 인증번호를 가지고 있지 않다.
@@ -120,6 +120,25 @@ public class MemberServiceImpl implements MemberService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public MemberDTO updateMember(MemberDTO memberDTO, Member member) {
+        Member memberReceivedEntity = dtoToEntity(memberDTO);
+        memberReceivedEntity.setEmail(member.getEmail());
+        memberReceivedEntity.setActivation(true);
+        if (memberDTO.getPW().isBlank() || memberDTO.getPW().isEmpty() || memberDTO.getPW() == null) {
+            //비밀번호 안친 경우
+            memberReceivedEntity.setPW(member.getPW());
+        }
+
+        Member memberEntity_new = memberRepository.save(memberReceivedEntity);
+
+        if (memberEntity_new != null) {
+            Member memberEntity_reload = memberRepository.findById(member.getEmail()).get();
+            return entityToDto(memberEntity_reload);
+        }
+        return null;
     }
 
     private boolean checkUsingEmail(String email) {

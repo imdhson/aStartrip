@@ -1,17 +1,79 @@
 <!DOCTYPE html>
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <style>
         @import url("/css/main.css");
+        @import url("/css/modal.css");
     </style>
     <meta charset="UTF-8">
-    <meta name="_csrf" content="${_csrf.token}"/>
-    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <meta name="_csrf" content="${_csrf.token}" />
+    <meta name="_csrf_header" content="${_csrf.headerName}" />
     <title>[[${member.name}]]의 my - aStartrip</title>
+    <script type="module">
+        import { showModal, closeModal } from "/js/modal.js"
+        if ([[${updateSuccess}]]){
+            showModal("계정 정보 변경을 완료했어요. 일부 데이터는 다시 로그인해야 갱신될 수 있어요.")
+        }
+    </script>
 </head>
+
 <body>
-<div th:replace="~{/fragment/nav :: nav}"></div>
-<h1 th:text="${member.name}">의 my</h1>
-<footer th:replace="~{/fragment/footer :: footer}"></footer>
+
+    <div th:replace="~{/fragment/nav :: nav}"></div>
+    <div class="articleTitle">
+        <h1 th:text="${member.name} + '의 my'">my</h1>
+    </div>
+
+
+    <form action="/my" method="post" class="form">
+        <div class="form-group">
+            <label for="name">이름</label>
+            <input type="text" id="name" name="name" placeholder="이름 입력" th:value="${member.name}" />
+        </div>
+        <div class="form-group">
+            <label for="birthDate">생년월일</label>
+            <input type="date" id="birthDate" name="birthDate" th:value="${member.birthDate}" />
+        </div>
+        <div class="form-group">
+            <label for="address">주소</label>
+            <input type="text" id="address" name="address" placeholder="주소 입력" th:value="${member.address}" />
+        </div>
+        <div class="form-group">
+            <label for="tel">전화번호</label>
+            <input type="text" id="tel" name="tel" placeholder="전화번호 입력" th:value="${member.tel}" />
+        </div>
+        <div class="form-group">
+            <label for="PW">비밀번호 - 입력하면 수정됨.</label>
+            <input type="text" id="PW" name="PW" placeholder="입력하면 수정됩니다." />
+        </div>
+        <div class="form-group">
+            <label>가입한 날</label>
+            <input type="text" th:value="${member.regDate}" readonly />
+        </div>
+        <div class="form-group">
+            <label>마지막 수정한 날</label>
+            <input type="text" th:value="${member.modDate}" readonly />
+        </div>
+        <div class="form-group">
+            <label>계정 활성화 여부</label>
+            <input type="text" th:value="${member.activation}" readonly />
+        </div>
+        <div class="form-actions">
+            <button type="button" class="button" onclick="location.href='/my'">취소</button>
+            <input type="submit" id="submitButton" class="button" value="my 수정하기" />
+        </div>
+    </form>
+
+
+    <footer th:replace="~{/fragment/footer :: footer}"></footer>
+    <!-- 모달 팝업 -->
+    <div id="modal" class="modal">
+        <div class="modal-content" onclick="document.querySelector('.modal').style.display='none'">
+            <span class="close-button">&times;</span>
+            <p id="modal-text">모달 팝업 텍스트</p>
+        </div>
+    </div>
 </body>
+
 </html>

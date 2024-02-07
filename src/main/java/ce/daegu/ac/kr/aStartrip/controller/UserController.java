@@ -7,6 +7,7 @@ import ce.daegu.ac.kr.aStartrip.entity.Provider;
 import ce.daegu.ac.kr.aStartrip.service.MemberService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.util.Map;
 
@@ -105,9 +107,30 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(pass);
     }
 
+    @SneakyThrows
     @GetMapping("/my")
     public String my(@AuthenticationPrincipal MemberDetails memberDetails, Model model) {
-        Member member = memberDetails.getMember();
+        Member member = null;
+
+        //post 측에서 /my로 뷰페이지 쓸때는 updateSuccess: true로 설정되어있음.
+        model.addAttribute("updateSuccess", false);
+
+        try {
+            member = memberDetails.getMember();
+
+        } catch (Exception e) {
+            String errorMsg = "로그인이 필요합니다.";
+            errorMsg = URLEncoder.encode(errorMsg, "utf-8");
+            return "redirect:/loginError?msg=" + errorMsg;
+        }
+
+        if (memberDetails != null) { //로그인 한 경우에만 유저이름 표기
+            String userEmail = memberDetails.getUsername();
+            String userName = memberDetails.getMember().getEmail();
+            model.addAttribute("userEmail", userEmail);
+            model.addAttribute("userName", userName);
+        }
+
         MemberDTO memberDTO = MemberDTO.builder()
                 .name(member.getName())
                 .email(member.getEmail())
@@ -117,6 +140,24 @@ public class UserController {
                 .modDate(member.getModDate())
                 .regDate(member.getRegDate()).build();
 
+        model.addAttribute("member", memberDTO);
+
+        return "/my";
+    }
+
+    @PostMapping("/my")
+    @SneakyThrows
+    public String doPostMy(MemberDTO memberDTO, @AuthenticationPrincipal MemberDetails memberDetails, Model model) {
+        Member member = null;
+        try {
+            member = memberDetails.getMember();
+
+        } catch (Exception e) {
+            String errorMsg = "로그인이 필요합니다.";
+            errorMsg = URLEncoder.encode(errorMsg, "utf-8");
+            return "redirect:/loginError?msg=" + errorMsg;
+        }
+
         if (memberDetails != null) { //로그인 한 경우에만 유저이름 표기
             String userEmail = memberDetails.getUsername();
             String userName = memberDetails.getMember().getEmail();
@@ -124,8 +165,17 @@ public class UserController {
             model.addAttribute("userName", userName);
         }
 
-        model.addAttribute("member", memberDTO);
-        return "/my";
+        MemberDTO memberDTO_new = memberService.updateMember(memberDTO, member);
+        log.debug(memberDTO_new.toString());
+        if (memberDTO_new != null) {
+            model.addAttribute("member", memberDTO_new);
+            model.addAttribute("updateSuccess", true);
+            return "/my";
+        }
+
+        String errorMsg = "계정에 오류 발생.";
+        errorMsg = URLEncoder.encode(errorMsg, "utf-8");
+        return "redirect:/loginError?msg=" + errorMsg;
     }
 }
 

@@ -38,16 +38,16 @@ public class ArticleRController {
     public ResponseEntity<ArticleDTO> articleDetail(@PathVariable("num") long num, @AuthenticationPrincipal MemberDetails memberDetails) {
         HttpHeaders httpheaders = new HttpHeaders();
         httpheaders.setContentType(MediaType.APPLICATION_JSON);
-        String memberName = null;
+        String memberEmail = null;
         try {
-            memberName = memberDetails.getMember().getName();
+            memberEmail = memberDetails.getMember().getEmail();
         } catch (NullPointerException nullPointerException) {
             //비로그인 사용자 or 접근 권한 없는 사용자
         }
 
         //게시글 가져오기
         ArticleDTO articleDTO = articleService.findArticlebyID(num);
-        if (articleDTO.getWriter().equals(memberName) || articleDTO.getArticlePermission() == ArticlePermissionENUM.OPEN) {
+        if (articleDTO.getWriter_email().equals(memberEmail) || articleDTO.getArticlePermission() == ArticlePermissionENUM.OPEN) {
             //게시글의 member와 요청온 member가 같은 경우에만 정상 리턴
             //or visibleBoard가 true면 리턴
             return ResponseEntity.status(HttpStatus.OK).headers(httpheaders).body(articleDTO);
