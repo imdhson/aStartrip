@@ -130,6 +130,10 @@ public class MemberServiceImpl implements MemberService {
         if (memberDTO.getPW().isBlank() || memberDTO.getPW().isEmpty() || memberDTO.getPW() == null) {
             //비밀번호 안친 경우
             memberReceivedEntity.setPW(member.getPW());
+//            passwordEncoder.encode(member.getPW());
+        } else{
+            memberReceivedEntity.setPW(passwordEncoder.encode(memberDTO.getPW()));
+
         }
 
         Member memberEntity_new = memberRepository.save(memberReceivedEntity);
