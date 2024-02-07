@@ -482,9 +482,11 @@ function delCard(cardId) {
             if (response.ok) {
                 let articleDTO = {
                     num: articleNum,
-                    modDate: new Date() //modDate를 보낸다는 것은 articleWS에게 브로드캐스팅을 요청하는 행위임.
+                    modDate: new Date().toISOString() //modDate를 보낸다는 것은 articleWS에게 브로드캐스팅을 요청하는 행위임.
                 }
-                jsonMessage = JSON.stringify(articleDTO)
+                let jsonMessage = JSON.stringify(articleDTO)
+                console.log("삭제 jsonmessage", jsonMessage)
+                last_interaction = 0;
                 articleWS_webSocket.send(jsonMessage)
             } else {
                 showModal("삭제를 실패했어요")
@@ -495,4 +497,3 @@ function delCard(cardId) {
             console.log(error)
         )
 }
-window.delCard = delCard

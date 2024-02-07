@@ -26,6 +26,7 @@ public class CardServiceImpl implements CardService {
     private final ArticleRepository articleRepository;
     private final CardRepository cardRepository;
     private final LLMService llmService;
+    private final FileService fileService;
 
     @Override
     public boolean addCard(long num, CardDTO cardDTO) {
@@ -58,18 +59,11 @@ public class CardServiceImpl implements CardService {
         articleCardList.remove(card);
         article.setCardList(articleCardList);
 
-
-//        for (int i = 0; i < articleCardList.size(); i++) {
-//            if (articleCardList.get(i).getId() == cardId) {
-//                articleCardList.remove(i);
-//            }
-//        }
-
-
         if (member.getEmail().equals(card.getArticle().getMember().getEmail())) {
             //작성자인 경우만 삭제 수행
             log.debug("card 삭제 중 : {}", card.toString());
             cardRepository.delete(card);
+            fileService.deleteFile(cardId);
             return true;
         }
         return false;

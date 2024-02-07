@@ -8,6 +8,7 @@ import ce.daegu.ac.kr.aStartrip.entity.ArticlePermissionENUM;
 import ce.daegu.ac.kr.aStartrip.entity.Card;
 import ce.daegu.ac.kr.aStartrip.entity.Member;
 import ce.daegu.ac.kr.aStartrip.repository.ArticleRepository;
+import ce.daegu.ac.kr.aStartrip.repository.CardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleRepository articleRepository;
     private final CardService cardService;
+    private final CardRepository cardRepository;
+    private final FileService fileService;
 
     @Override
     public List<ArticleDTO> getAllArticleList() {
@@ -79,7 +82,17 @@ public class ArticleServiceImpl implements ArticleService {
         if (articleOptional.isPresent()) {
             Article article = articleOptional.get();
             if (article.getMember().getEmail().equals(member.getEmail())) {
-                articleRepository.delete(article);
+
+                ArrayList<Card> articleCardList = new ArrayList<>(article.getCardList());
+                articleCardList.forEach(card_e -> { //카드리스트 순회하며 파일 제거
+                    log.debug("card 삭제 중 : {}", card_e.toString());
+                    fileService.deleteFile(card_e.getId());
+                });
+
+                article.setCardList(new ArrayList<Card>()); //카드리스트 비우기 (외래키 연결 제거)
+                cardRepository.deleteAll(articleCardList); //카드리스트를 대입하여 거기 들어간 카드들을 제거하도록 함.
+
+                articleRepository.delete(article); //게시글 제거
                 return true;
             }
         }

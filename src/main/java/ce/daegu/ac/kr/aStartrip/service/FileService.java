@@ -95,4 +95,18 @@ public class FileService {
 
         return filename.substring(0, dotIndex);
     }
+
+
+    public void deleteFile(Long cardId) {
+        //같은 cardId 이전 업로드 확장자가 다를 경우 파일이 두개가 될 수 있음으로 제거 시도
+        try {
+            String search = cardId + ".*";
+            DirectoryStream<Path> stream = Files.newDirectoryStream(fileLocation, search);
+            for (Path entry : stream) {
+                Files.delete(entry);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
