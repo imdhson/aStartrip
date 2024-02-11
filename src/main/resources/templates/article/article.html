@@ -28,12 +28,6 @@
         <div class="articleTitle">
             <input id="articleTitle" type="text" placeholder="제목 Title" required maxlength="30">
             <div id="qrcode" onclick="qrcodeToggle()"></div>
-            <script>  let qrcode = new QRCode(document.getElementById("qrcode"), {
-                    text: window.location.href,
-                    width: 1024,
-                    height: 1024
-                })
-            </script>
             <div class="articleInfo">[[${article.writer}]]에 의해 작성되었고 [[${article.hit}]]회 조회됨</div>
             <div class="articleInfo">
                 <div class="checkbox-container">
@@ -68,6 +62,15 @@
             <p id="modal-text">모달 팝업 텍스트</p>
         </div>
     </div>
+
+
+    <!-- QR코드 생성 -->
+    <script>  let qrcode = new QRCode(document.getElementById("qrcode"), {
+            text: window.location.href,
+            width: 1024,
+            height: 1024
+        })
+    </script>
 </body>
 
 </html>
