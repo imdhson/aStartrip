@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/main.css">
+    <meta name="_csrf" content="${_csrf.token}" />
+    <meta name="_csrf_header" content="${_csrf.headerName}" />
+    <title>search - A-startrip</title>
+    <script type="module">
+        let page = parseInt([[${ page }]])
+        function search() {
+            let inputQuery = document.querySelector("#inputQuery").value
+            if (inputQuery == "") {
+                inputQuery = "board"
+            }
+            inputQuery = encodeURIComponent(inputQuery)
+            location.href = "/search/" + inputQuery
+        }
+        window.search = search
+
+        document.querySelector("form").addEventListener('submit', function (event) {
+            event.preventDefault();
+        })
+
+        function nextpage() {
+            let inputQuery = document.querySelector("#inputQuery").value
+            inputQuery = encodeURIComponent(inputQuery)
+            page = page + 1
+            location.href = "/search/" + inputQuery + "/" + page
+        }
+        window.nextpage = nextpage
+    </script>
+</head>
+
+<body>
+    <div th:replace="~{/fragment/nav :: nav}"></div>
+    <div class="form-container">
+        <h1 class="loginTitle">검색</h1>
+        <form class="form">
+            <div class="form-group">
+                <label for="inputQuery">검색어 입력</label>
+                <input type="text" id="inputQuery" name="inputQuery" class="form-control" autofocus placeholder="검색어..."
+                    th:value="${inputQuery}" />
+            </div>
+            <div class="form-actions">
+                <button type="button" class="small-button" onclick="location.href='/'">취소</button>
+                <button type="button" class="button" onclick="search()">검색</button>
+            </div>
+
+        </form>
+    </div>
+    <main>
+        <div class="grid" style="
+    grid-template-columns: repeat(1, 1fr);
+    ">
+            <div class="grid-item" style="max-width: 700px;">
+                <h1 id="ArticleH1">검색 결과</h1>
+                <div class="grid-article" style="overflow-y:scroll">
+                    <th:block th:if="${articles != null}">
+                        <!-- 게시판 -->
+                        <th:block th:each="article : ${articles}">
+                            <a class="grid-item" th:href="@{/article/{articleNum}(articleNum=${article.num})}">
+
+                                <div class="article-title">
+                                    <!-- [<label>[[${article.num}]]</label>]
+                                &nbsp;&nbsp;&nbsp;&nbsp; -->
+                                    [[${article.title}]]
+                                </div>
+                                <div class="article-writer">
+                                    <label>✍️ [[${article.writer}]]</label>
+                                    &nbsp;
+                                    <label>👀 [[${article.hit}]]</label>회
+                                </div>
+
+                            </a>
+                        </th:block>
+                        <!-- 다음 페이지 버튼-->
+                        <a class="grid-item" onclick="nextpage()">
+
+                            <div class="article-title">다음 페이지</div>
+
+                        </a>
+                    </th:block>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer th:replace="~{/fragment/footer :: footer}"></footer>
+</body>
+
+</html>

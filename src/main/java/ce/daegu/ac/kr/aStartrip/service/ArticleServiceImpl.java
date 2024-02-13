@@ -12,6 +12,8 @@ import ce.daegu.ac.kr.aStartrip.repository.CardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -29,15 +31,30 @@ public class ArticleServiceImpl implements ArticleService {
     private final FileService fileService;
 
     @Override
-    public List<ArticleDTO> getAllArticleList() {
+    public List<ArticleDTO> getBoardArticleList(int page, int size) {
         List<ArticleDTO> articleDTOList = new ArrayList<>();
-        List<Article> entities = articleRepository.findAll();
+//        List<Article> entities = articleRepository.findAll();
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Article> entities = articleRepository.findByArticlePermissionOrderByHitDesc(ArticlePermissionENUM.OPEN, pageRequest);
         for (Article entity : entities) {
             ArticleDTO dto = entityToDto(entity);
             articleDTOList.add(dto);
         }
         return articleDTOList;
     }
+
+    @Override
+    public List<ArticleDTO> getBoardArticleSearch(String input, int page, int size) {
+        List<ArticleDTO> articleDTOList = new ArrayList<>();
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Page<Article> articles = articleRepository.findByTitleContainingOrMemberEmailContaining(input, pageRequest);
+        for (Article entity: articles){
+            ArticleDTO articleDTO = entityToDto(entity);
+            articleDTOList.add(articleDTO);
+        }
+        return articleDTOList;
+    }
+
 
     @Override
     public long addArticle(Member member) {

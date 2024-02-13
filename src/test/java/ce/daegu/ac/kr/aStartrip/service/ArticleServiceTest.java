@@ -1,12 +1,10 @@
 package ce.daegu.ac.kr.aStartrip.service;
 
 import ce.daegu.ac.kr.aStartrip.dto.CardDTO;
-import ce.daegu.ac.kr.aStartrip.entity.Article;
-import ce.daegu.ac.kr.aStartrip.entity.Card;
-import ce.daegu.ac.kr.aStartrip.entity.CardTypeENUM;
-import ce.daegu.ac.kr.aStartrip.entity.LLMStatusENUM;
+import ce.daegu.ac.kr.aStartrip.entity.*;
 import ce.daegu.ac.kr.aStartrip.repository.ArticleRepository;
 import ce.daegu.ac.kr.aStartrip.repository.CardRepository;
+import ce.daegu.ac.kr.aStartrip.repository.MemberRepository;
 import jakarta.persistence.Entity;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +28,8 @@ public class ArticleServiceTest {
     private CardService cardService;
     @Autowired
     private CardRepository cardRepository;
+    @Autowired
+    private MemberRepository memberRepository;
 
     @Test
     public void articleViewTest() {
@@ -42,5 +42,19 @@ public class ArticleServiceTest {
                 log.debug("articleCardList - {} {} ", c.getId(), c.getUserInput0());
             }
         }
+    }
+
+    @Test
+    public void articleInsertTest() {
+        Member member = memberRepository.findById(("1@1.com")).get();
+        for (int i = 0; i < 30; i++) {
+            Article article = Article.builder().articlePermission(ArticlePermissionENUM.OPEN).
+                    member(member).
+                    hit(10).
+                    title(String.valueOf(i) + "test added")
+                    .build();
+            articleRepository.save(article);
+        }
+
     }
 }

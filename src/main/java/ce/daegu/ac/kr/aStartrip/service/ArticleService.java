@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface ArticleService {
-    List<ArticleDTO> getAllArticleList();
+    List<ArticleDTO> getBoardArticleList(int page, int size);
+    List<ArticleDTO> getBoardArticleSearch(String input, int page, int size);
 
     long addArticle(Member member);
 
