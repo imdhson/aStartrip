@@ -21,5 +21,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
             "OR LOWER(a.member.email) LIKE LOWER(CONCAT('%', :inputQuery, '%'))) " +
             "AND a.articlePermission = 'OPEN'")
     Page<Article> findByTitleContainingOrMemberEmailContaining(@Param("inputQuery") String inputQuery, Pageable pageable);
-    //제목 OR 작성자 OR 이메일로 검색 AND 게시글권한open 인 상태만 검색, concat은 문자열 이어붙이는 역할임. LOWER는 lowercase임.
+    //제목 OR 작성자 OR 이메일로 검색
+    // AND 게시글권한open 인 상태만 검색,
+    // concat은 문자열 이어붙이는 역할임. LOWER는 lowercase임.
 }
