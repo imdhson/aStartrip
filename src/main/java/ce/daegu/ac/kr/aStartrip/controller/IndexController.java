@@ -32,7 +32,7 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(Model model, Authentication authentication) {
-        List<ArticleDTO> articleDTOList = articleService.getBoardArticleList(0, 10);
+        List<ArticleDTO> articleDTOList = articleService.getBoardArticleList(0, 6);
         model.addAttribute("articles", articleDTOList);
 
         if (authentication == null) { //로그인 안한 경우 model 빈 상태로 바로 인덱스 페이지 호출

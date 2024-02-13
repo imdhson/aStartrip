@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <style>
         @import url("/css/main.css");
@@ -13,64 +13,70 @@
 </head>
 
 <body>
-<div th:replace="~{/fragment/nav :: nav}"></div>
-<main>
-    <div class="grid">
-        <div class="grid-item">
-            <h1 id="ArticleH1">나의 활동</h1>
-            <div class="grid-article" style="overflow-y:scroll">
-                <!-- 나의 활동 -->
-                <a class="grid-item" id="addArticle" href="/article">새로운 활동 시작하기</a>
+    <div th:replace="~{/fragment/nav :: nav}"></div>
+    <main>
+        <div class="grid">
+            <div class="grid-item">
+                <h1 id="ArticleH1">나의 활동</h1>
+                <div class="grid-article" style="overflow-y:scroll">
+                    <!-- 나의 활동 -->
+                    <a class="grid-item" id="addArticle" href="/article">새로운 활동 시작하기</a>
 
-                <th:block th:if="${userArticles != null}">
-                    <!-- 나의 글들 -->
-                    <th:block th:each="userArticle : ${userArticles}">
-                        <a class="grid-item" th:href="@{/article/{articleNum}(articleNum=${userArticle.num})}">
+                    <th:block th:if="${userArticles != null}">
+                        <!-- 나의 글들 -->
+                        <th:block th:each="userArticle : ${userArticles}">
+                            <a class="grid-item" th:href="@{/article/{articleNum}(articleNum=${userArticle.num})}">
 
-                            <div class="article-title">
-                                <!-- [<label>[[${userArticle.num}]]</label>]
+                                <div class="article-title">
+                                    <!-- [<label>[[${userArticle.num}]]</label>]
                                 &nbsp;&nbsp;&nbsp; -->
-                                [[${userArticle.title}]]
-                            </div>
-                            <div class="article-writer">
-                                <label>✍️ [[${userArticle.writer}]]</label>
-                                &nbsp;
-                                <label>👀 [[${userArticle.hit}]]</label>회
-                            </div>
+                                    [[${userArticle.title}]]
+                                </div>
+                                <div class="article-writer">
+                                    <label>✍️ [[${userArticle.writer}]]</label>
+                                    &nbsp;
+                                    <label>👀 [[${userArticle.hit}]]</label>회
+                                </div>
 
-                        </a>
+                            </a>
+                        </th:block>
                     </th:block>
-                </th:block>
+                </div>
             </div>
-        </div>
 
-        <div class="grid-item">
-            <h1 id="ArticleH1">다른이의 활동</h1>
-            <div class="grid-article" style="overflow-y:scroll">
-                <th:block th:if="${articles != null}">
-                    <!-- 게시판 -->
-                    <th:block th:each="article : ${articles}">
-                        <a class="grid-item" th:href="@{/article/{articleNum}(articleNum=${article.num})}">
+            <div class="grid-item">
+                <h1 id="ArticleH1">게시판</h1>
+                <div class="grid-article" style="overflow-y:scroll">
+                    <th:block th:if="${articles != null}">
+                        <!-- 게시판 -->
+                        <th:block th:each="article : ${articles}">
+                            <a class="grid-item" th:href="@{/article/{articleNum}(articleNum=${article.num})}">
 
-                            <div class="article-title">
-                                <!-- [<label>[[${article.num}]]</label>]
+                                <div class="article-title">
+                                    <!-- [<label>[[${article.num}]]</label>]
                                 &nbsp;&nbsp;&nbsp;&nbsp; -->
-                                [[${article.title}]]
-                            </div>
-                            <div class="article-writer">
-                                <label>✍️ [[${article.writer}]]</label>
-                                &nbsp;
-                                <label>👀 [[${article.hit}]]</label>회
-                            </div>
+                                    [[${article.title}]]
+                                </div>
+                                <div class="article-writer">
+                                    <label>✍️ [[${article.writer}]]</label>
+                                    &nbsp;
+                                    <label>👀 [[${article.hit}]]</label>회
+                                </div>
+
+                            </a>
+                        </th:block>
+                        <!-- 다음 페이지 버튼-->
+                        <a class="grid-item" href="/search/board/1">
+
+                            <div class="article-title">다음 >></div>
 
                         </a>
                     </th:block>
-                </th:block>
+                </div>
             </div>
         </div>
-    </div>
-</main>
-<footer th:replace="~{/fragment/footer :: footer}"></footer>
+    </main>
+    <footer th:replace="~{/fragment/footer :: footer}"></footer>
 </body>
 
 </html>
