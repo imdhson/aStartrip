@@ -41,7 +41,6 @@
     box-shadow: 0px 4px 8px rgb(141, 177, 209);
     padding: 10px;
     color: white;
-    margin-bottom: 30px;
 
 }
 
@@ -49,6 +48,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 30px;
 }
 
 .articleTitle #qrcode img {
@@ -64,10 +64,12 @@
     border: none;
     font-weight: bold;
     font-size: 30px;
+    margin-bottom: 10px;
 }
 
 .articleInfo {
     text-align: right;
+    margin-bottom: 10px;
 }
 
 .cards {
@@ -282,5 +284,8 @@ textarea {
     #llmStatus {
         font-size: 10px;
         font-weight: normal;
+    }
+    textarea {
+        font-size: 15px;
     }
 }
