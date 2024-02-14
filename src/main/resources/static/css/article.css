@@ -41,7 +41,10 @@
         grid-template-columns: repeat(1, 1fr);
     }
 
-    .articleTitle {
+    .articleTitle input{
+        font-size: 15px;
+    }
+    #cardTitle {
         font-size: 15px;
     }
 }
@@ -72,7 +75,7 @@
 .articleTitle input {
     background-color: black;
     color: white;
-    width: 90%;
+    width: calc(100% - 40px);
     min-height: 60px;
     border: none;
     font-weight: bold;
