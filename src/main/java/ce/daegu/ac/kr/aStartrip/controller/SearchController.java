@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -42,17 +43,35 @@ public class SearchController {
 
     @GetMapping("/search/{input}/{page}")
     public String doSearch(@PathVariable(name = "input") String input,
-                           @PathVariable(name = "page") long page,
+                           @PathVariable(name = "page") int page,
                            @AuthenticationPrincipal MemberDetails memberDetails, Model model) {
 
+        log.debug("search: {} {}", input, page);
+        long num = -1;
+        List<ArticleDTO> articleDTOList = new ArrayList<>();
+        try {
+            num = Long.parseLong(input);
+        } catch (NumberFormatException e) {
+            num = -1;
+        }
         if (input.equals("board")) {
-            List<ArticleDTO> articleDTOList = articleService.getBoardArticleList((int) page, 6);
-            model.addAttribute("articles", articleDTOList);
-        } else {
-            List<ArticleDTO> articleDTOList = articleService.getBoardArticleSearch(input, (int) page, 6);
+            List<ArticleDTO> articleDTOList_get = articleService.getBoardArticleList(page, 6);
+            articleDTOList.addAll(articleDTOList_get);
+        } else { // board 목록 반환이 아닌 문자열 검색을 수행
+            // 작성자이름, 작성자이메일, 제목
+            List<ArticleDTO> articleDTOList_get = articleService.getBoardArticleSearch(input, page, 6);
+            articleDTOList.addAll(articleDTOList_get);
+        }
+        if (num >= 0) { // 0~n : parseLong 성공시 = input이 숫자일 때
+            //articleNum을 찾아서 추가함
+            ArticleDTO articleDTO = articleService.findArticlebyID(num);
+            articleDTOList.add(articleDTO);
+        }
+        if (articleDTOList.size() > 0) {
             model.addAttribute("articles", articleDTOList);
         }
-        log.debug("search: {} {}", input, page);
+
+
 
         if (memberDetails != null) { //로그인 한 경우에만 유저이름 표기
             String userEmail = memberDetails.getUsername();

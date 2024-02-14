@@ -17,7 +17,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Query("SELECT a FROM Article a " +
             "WHERE (LOWER(a.title) LIKE LOWER(CONCAT('%', :inputQuery, '%')) " +
             "OR LOWER(a.member.name) LIKE LOWER(CONCAT('%', :inputQuery, '%')) " +
-            "OR a.num = :inputQuery " +
             "OR LOWER(a.member.email) LIKE LOWER(CONCAT('%', :inputQuery, '%'))) " +
             "AND a.articlePermission = 'OPEN'")
     Page<Article> findByTitleContainingOrMemberEmailContaining(@Param("inputQuery") String inputQuery, Pageable pageable);

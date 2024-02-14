@@ -55,12 +55,6 @@ public class LLMServiceBard implements LLMService {
                     log.debug("Bard 성공");
                     running = false;
                     return true;
-                } else {
-                    log.debug("Bard 실패");
-                    entity.setLlmStatus(LLMStatusENUM.CANCELED);
-                    cardRepository.save(entity);
-                    running = false;
-                    return false;
                 }
             }
         } catch (IOException e) {
@@ -68,6 +62,7 @@ public class LLMServiceBard implements LLMService {
             cardRepository.save(entity);
             throw new RuntimeException(e);
         }
+        log.debug("Bard 실패");
         entity.setLlmStatus(LLMStatusENUM.CANCELED);
         cardRepository.save(entity);
         running = false;

@@ -1,7 +1,8 @@
-import sys, os
+import sys
+import os
 
-#bard api -> gemini 호환 버전으로 수정
-sys.path.append("/bardapi")
+# bard api -> gemini 호환 버전으로 수정
+# sys.path.append("/bardapi")
 
 import time
 from dotenv import load_dotenv
@@ -15,12 +16,13 @@ from sqlalchemy.exc import SQLAlchemyError
 def myReplaceAll(str):
     str = str.replace("**", "")
     str = str.replace("##", "")
-    if "|---|---|" in str: # llm이 표로 답변하면 그냥 에러 상태로 남겨둠
+    if "|---|---|" in str:  # llm이 표로 답변하면 그냥 에러 상태로 남겨둠
         card.llm_status = "CANCELED"
         session.commit()
         print('false: table detected on llm response')
         sys.exit()
     return str
+
 
 load_dotenv()
 # DB 연결
@@ -42,11 +44,13 @@ class Card(Base):
     llmresponse1 = Column(String)
     llmresponse2 = Column(String)
 
-#card_id 를 argv에서 불러옴
+
+# card_id 를 argv에서 불러옴
 card_id = sys.argv[1]
 # print("cardID:", card_id)
 
-card = session.query(Card).filter_by(id=card_id, llm_status='GENERATING').first()
+card = session.query(Card).filter_by(
+    id=card_id, llm_status='GENERATING').first()
 if (card == None):
     print('false: cannot find card')
     sys.exit()
@@ -56,19 +60,20 @@ cookie_dict = {
     "__Secure-1PSIDTS": os.getenv("BARD__Secure-1PSIDTS"),
     "__Secure-1PSIDCC": os.getenv("BARD__Secure-1PSIDCC"),
     "NID": os.getenv("BARD__NID"),
-    "GOOGLE_ABUSE_EXEMPTION":os.getenv("BARD__GOOGLE_ABUSE_EXEMPTION")
+    "GOOGLE_ABUSE_EXEMPTION": os.getenv("BARD__GOOGLE_ABUSE_EXEMPTION")
 }
 
-bard = BardCookies(cookie_dict=cookie_dict)
+token = os.getenv("BARD__Secure-1PSID")
+bard = Bard(token=token, cookie_dict=cookie_dict, multi_cookies_bool=True)
 
 card_type_i = card.card_type
 if card_type_i == "R01":
     request_i = '''I need to study English. Please generate English paragraph on any topic. It can be long'''
     response = bard.get_answer(request_i)
-    card.llmresponse0  = myReplaceAll(response['content'])
+    card.llmresponse0 = myReplaceAll(response['content'])
 
 elif card_type_i == "R02":
-    #Pre-reading question
+    # Pre-reading question
     request_i = '''Please create a pre-reading question for the paragraph below. Please provide answers in English and Korean.
     ________
     ''' + card.user_input0
@@ -76,7 +81,7 @@ elif card_type_i == "R02":
     card.llmresponse0 = myReplaceAll(response['content'])
     time.sleep(3)
 
-    #Backgrond-knowledge
+    # Backgrond-knowledge
     request_i = '''Please create a background-knowledge for the paragraph below. Please provide answers in English and Korean.
     ________
     ''' + card.user_input0
@@ -84,7 +89,7 @@ elif card_type_i == "R02":
     card.llmresponse1 = myReplaceAll(response['content'])
     time.sleep(3)
 
-    #Post-reading question
+    # Post-reading question
     request_i = '''Please create a post-reading question for the paragraph below. Please provide answers in English and Korean.
     _________
     ''' + card.user_input0
@@ -110,9 +115,9 @@ elif card_type_i == "V01":
     words: ''' + card.user_input0
     response = bard.get_answer(request_i)
     card.llmresponse0 = myReplaceAll(response['content'])
-    
+
 elif card_type_i == "V02":
-    #동의어
+    # 동의어
     request_i = '''I am studying English. I'll send you the word, so please find the relevant synonyms word. Find the word for english. and explain in Korean.
     단어를 줄테니 relevant synonyms 찾아주세요. 아래는 단어 입니다.
     ________
@@ -121,7 +126,7 @@ elif card_type_i == "V02":
     card.llmresponse0 = myReplaceAll(response['content'])
     time.sleep(3)
 
-    #반의어
+    # 반의어
     request_i = '''I am studying English. I'll send you the sentence, so please find the related antonym word. Find the word for english. and explain in Korean.
     단어를 줄테니 antonym 찾아주세요. 아래는 단어 입니다.
     ________
@@ -130,7 +135,7 @@ elif card_type_i == "V02":
     card.llmresponse1 = myReplaceAll(response['content'])
     time.sleep(3)
 
-    #word- family
+    # word- family
     request_i = '''I am studying English. I'll send you the sentence, so please find the word-family. Find the word for english. and explain in Korean.
     단어를 줄테니 Word-family 찾아주세요. 아래는 단어 입니다.
     _________
@@ -138,7 +143,7 @@ elif card_type_i == "V02":
     response = bard.get_answer(request_i)
     card.llmresponse2 = myReplaceAll(response['content'])
     time.sleep(3)
-    
+
 else:
     card.llm_status = "CANCELED"
 
