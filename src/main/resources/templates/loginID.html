@@ -1,33 +1,39 @@
 <!DOCTYPE html>
 <html lang="kr" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/css/main.css">
-    <meta name="_csrf" content="${_csrf.token}"/>
-    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="_csrf" content="${_csrf.token}" />
+    <meta name="_csrf_header" content="${_csrf.headerName}" />
     <title>login - A-startrip</title>
 </head>
+
 <body>
-<div th:replace="~{/fragment/nav :: nav}"></div>
-<div class="form-container">
-    <h1 class="loginTitle">E-mail 입력해서 서비스 이용 시작하기</h1>
-    <form action="/login" method="post" class="form">
-        <div class="form-group">
-            <label for="email">E-mail</label>
-            <input type="email" id="email" name="email" class="form-control"/>
-        </div>
-        <div class="form-actions">
-            <button type="button" class="small-button" onclick="location.href='/'">취소</button>
-            <input type="submit" class="button" value="계속하기"/>
-        </div>
-        
-        <div class="form-actions">
-            <a class="small-button" href="/oauth2/authorization/naver" role="button">NAVER 로그인</a>
-            <a class="small-button" href="/oauth2/authorization/naver" role="button">카카오 로그인</a>
-        </div>
-        
-    </form>
-</div>
-<footer th:replace="~{/fragment/footer :: footer}"></footer>
+    <div th:replace="~{/fragment/nav :: nav}"></div>
+    <div class="form-container">
+        <h1 class="loginTitle">E-mail 입력해서 서비스 이용 시작하기</h1>
+        <form action="/login" method="post" class="form">
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" class="form-control" />
+            </div>
+            <div class="form-actions">
+                <button type="button" class="small-button" onclick="location.href='/'">취소</button>
+                <input type="submit" class="button" value="계속하기" />
+            </div>
+
+            <div class="form-actions">
+                <a class="small-button" href="/oauth2/authorization/naver" role="button">NAVER 로그인</a>
+                <a class="small-button" href="/oauth2/authorization/naver" role="button">카카오 로그인</a>
+            </div>
+
+        </form>
+    </div>
+    <footer th:replace="~{/fragment/footer :: footer}"></footer>
 </body>
+
 </html>

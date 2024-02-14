@@ -162,7 +162,7 @@ textarea {
 }
 
 #llmStatus {
-    width: 500px;
+    max-width: 500px;
     display: block;
     margin: 0 auto;
     text-align: center;

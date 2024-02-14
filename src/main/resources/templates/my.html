@@ -7,12 +7,15 @@
         @import url("/css/modal.css");
     </style>
     <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="_csrf" content="${_csrf.token}" />
     <meta name="_csrf_header" content="${_csrf.headerName}" />
     <title>[[${member.name}]]의 my - aStartrip</title>
     <script type="module">
         import { showModal, closeModal } from "/js/modal.js"
-        if ([[${updateSuccess}]]){
+        if ([[${ updateSuccess }]]) {
             showModal("계정 정보 변경을 완료했어요. 일부 데이터는 다시 로그인해야 갱신될 수 있어요.")
         }
     </script>
