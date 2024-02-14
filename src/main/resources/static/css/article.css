@@ -33,34 +33,6 @@
     right: 10px;
 }
 
-
-
-@media screen and (max-width: 700px) {
-
-    /* 반응형 웹 */
-    .grid-add {
-        grid-template-columns: repeat(1, 1fr);
-    }
-
-    .articleTitle #qrcode {
-        display: none;
-    }
-
-    #articleTitle {
-        font-size: 15px;
-    }
-
-    #cardTitle {
-        font-size: 15px;
-    }
-
-    #llmStatus {
-        font-size: 10px;
-        font-weight: light;
-    }
-}
-
-
 .articleTitle {
     /* border: 1px solid black; */
     text-align: left;
@@ -286,4 +258,29 @@ textarea {
     margin-top: 20px;
     margin-bottom: 20px;
     text-align: center;
+}
+
+@media screen and (max-width: 700px) {
+
+    /* 반응형 웹 */
+    .grid-add {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .articleTitle #qrcode {
+        display: none;
+    }
+
+    #articleTitle {
+        font-size: 20px;
+    }
+
+    #cardTitle {
+        font-size: 15px;
+    }
+
+    #llmStatus {
+        font-size: 10px;
+        font-weight: normal;
+    }
 }
