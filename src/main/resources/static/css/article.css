@@ -22,7 +22,8 @@
 }
 
 .cardDelButton {
-    display: none; /* 편집 권한 있는 사람만 block 처리 */
+    display: none;
+    /* 편집 권한 있는 사람만 block 처리 */
     width: auto;
     font-size: small;
     height: auto;
@@ -41,11 +42,21 @@
         grid-template-columns: repeat(1, 1fr);
     }
 
-    .articleTitle input{
+    .articleTitle #qrcode {
+        display: none;
+    }
+
+    #articleTitle {
         font-size: 15px;
     }
+
     #cardTitle {
         font-size: 15px;
+    }
+
+    #llmStatus {
+        font-size: 10px;
+        font-weight: light;
     }
 }
 
@@ -59,7 +70,7 @@
     padding: 10px;
     color: white;
     margin-bottom: 30px;
-    
+
 }
 
 .articleTitle #qrcode {
@@ -68,18 +79,19 @@
     align-items: center;
 }
 
-.articleTitle  #qrcode img{
+.articleTitle #qrcode img {
     width: 50px;
     height: auto;
 }
-.articleTitle input {
+
+#articleTitle {
     background-color: black;
     color: white;
     width: calc(100% - 40px);
     min-height: 60px;
     border: none;
     font-weight: bold;
-    font-size: 50px;
+    font-size: 30px;
 }
 
 .articleInfo {

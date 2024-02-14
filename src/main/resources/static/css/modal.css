@@ -13,11 +13,11 @@
 
 .modal-content {
     background-color: aliceblue; /* 배경색을 aliceblue로 변경 */
-    margin: 15% auto; /* 페이지 중앙에 위치 */
+    margin: 30px auto; /* 페이지 중앙에 위치 */
     min-height: 70px;
     padding: 20px;
     border: 1px solid #888;
-    width: 50%; /* 모달 너비 조정 */
+    min-width: 50%; /* 모달 너비 조정 */
     border-radius: 30px; /* 모달의 모서리를 더욱 둥글게 처리 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 모달에 그림자 효과 추가 */
     position: relative; /* 닫기 버튼을 위한 위치 기준 */
