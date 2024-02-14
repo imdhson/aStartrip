@@ -3,6 +3,7 @@ package ce.daegu.ac.kr.aStartrip.controller;
 import ce.daegu.ac.kr.aStartrip.dto.ArticleDTO;
 import ce.daegu.ac.kr.aStartrip.dto.MemberDetails;
 import ce.daegu.ac.kr.aStartrip.service.ArticleService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -10,8 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -35,10 +39,20 @@ public class SearchController {
     }
 
     @GetMapping("/search/{input}")
-    public String searchRedirect(@PathVariable("input") String input) throws UnsupportedEncodingException {
-        // 원래 URL 부분에서 한글이 포함된 부분을 인코딩
-        String encoded_input = URLEncoder.encode(input, "utf-8");
-        return "redirect:/search/" + encoded_input + "/0";
+    public String searchRedirect(@PathVariable("input") String input, HttpServletRequest request) {
+        String uri = request.getRequestURI();
+        try {
+            String uri_encoded =URLEncoder.encode(uri, "utf-8");
+            String redirectUrl = UriComponentsBuilder.fromUriString(uri_encoded)
+                    .path("/0")
+                    .build()
+                    .toString();
+            String redirectUrl_decoded = URLDecoder.decode(redirectUrl);
+            return "redirect:" +redirectUrl_decoded;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return "error";
+        }
     }
 
     @GetMapping("/search/{input}/{page}")
@@ -65,12 +79,13 @@ public class SearchController {
         if (num >= 0) { // 0~n : parseLong 성공시 = input이 숫자일 때
             //articleNum을 찾아서 추가함
             ArticleDTO articleDTO = articleService.findArticlebyID(num);
-            articleDTOList.add(articleDTO);
+            if (articleDTO != null) {
+                articleDTOList.add(articleDTO);
+            }
         }
         if (articleDTOList.size() > 0) {
             model.addAttribute("articles", articleDTOList);
         }
-
 
 
         if (memberDetails != null) { //로그인 한 경우에만 유저이름 표기
