@@ -21,15 +21,14 @@
                 <label for="email">E-mail</label>
                 <input type="email" id="email" name="email" class="form-control" />
             </div>
-            <div class="form-actions">
+            <div class="form-actions" style="margin-bottom: 40px;">
                 <button type="button" class="small-button" onclick="location.href='/'">취소</button>
-                <input type="submit" class="button" value="계속하기" style="margin-bottom: 40px;" />
-                <div>
-                    <a class="small-button" href="/oauth2/authorization/naver" role="button">NAVER 로그인</a>
-                    <a class="small-button" href="/oauth2/authorization/naver" role="button">카카오 로그인</a>
-                </div>
+                <input type="submit" class="button" value="계속하기" />
             </div>
-
+            <div class="form-actions">
+                <a class="small-button" href="/oauth2/authorization/naver" role="button">NAVER 로그인</a>
+                <a class="small-button" href="/oauth2/authorization/naver" role="button">카카오 로그인</a>
+            </div>
         </form>
     </div>
     <footer th:replace="~{/fragment/footer :: footer}"></footer>
