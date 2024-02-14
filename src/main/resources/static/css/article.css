@@ -42,7 +42,7 @@
     }
 
     .articleTitle {
-        font-size: medium;
+        font-size: 15px;
     }
 }
 
@@ -183,7 +183,6 @@ textarea {
 .r02 .response,
 .v02 .response {
     display: flex;
-    min-width: 500px;
     flex-direction: column;
     /* border: 1px solid orange; */
     border-radius: 20px;
