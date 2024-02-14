@@ -2,7 +2,8 @@ import { cube_three } from "/js/three.js"
 import { uploadFile, loadFile } from "/js/file.js"
 import { showModal, closeModal } from "/js/modal.js"
 
-const server_address = 'localhost:8080' //http, ws , / 등 제외해야함
+let server_port_dot = window.location.port > 0 ? ":" : ""
+const server_address = window.location.hostname + server_port_dot + window.location.port   // http, ws , / 등 제외해야함, 포트를 포함시키도록 작성해둠
 
 const r01 = document.querySelector(".r01").cloneNode(true)
 const r02 = document.querySelector(".r02").cloneNode(true)
@@ -282,10 +283,10 @@ function cardBuild(card, dom, refresh) { //refresh는 onmessage 수신시 카드
         let cardWS_webSocket = cardWS(card, child)
         weakmap.set(child, cardWS_webSocket)
     }
-    if (editPermission){
+    if (editPermission) {
         //편집 권한이 있는 경우에 card 삭제 표기
         child.querySelector('.cardDelButton').style.display = "block"
-        child.querySelector('.cardDelButton').addEventListener('click' , function() {
+        child.querySelector('.cardDelButton').addEventListener('click', function () {
             delCard(card.id)
         })
     }
@@ -499,10 +500,10 @@ function delCard(cardId) {
         )
 }
 
-function qrcodeToggle(){
+function qrcodeToggle() {
     if (!qrToggle_bool) {
         document.querySelector(".articleTitle  #qrcode img").style.width = "500px";
-    } else{
+    } else {
         document.querySelector(".articleTitle  #qrcode img").style.width = "50px";
     }
     qrToggle_bool = !qrToggle_bool
