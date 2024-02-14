@@ -7,6 +7,8 @@ import ce.daegu.ac.kr.aStartrip.entity.LLMStatusENUM;
 import ce.daegu.ac.kr.aStartrip.repository.CardRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -17,9 +19,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 @Slf4j
+@Component
 public class LLMServiceBard implements LLMService {
     private final CardRepository cardRepository;
     private final BroadcastService broadcastService;
+
+    @Value("${python.path}")
+    private String pythonPath;
 
     public static boolean running = false;
 
@@ -44,7 +50,7 @@ public class LLMServiceBard implements LLMService {
         try {
             running = true;
             Process process = new ProcessBuilder
-                    ("python", "./src/main/bard.py",
+                    (pythonPath, "./src/main/bard.py",
                             String.valueOf(entity.getId())).start();
             // $ python ./src/main/bard.py 카드ID
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
