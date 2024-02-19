@@ -1,19 +1,3 @@
-
-```
-pip install bardapi
-pip install sqlalchemy
-pip install mysqlclient
-pip install pymysql
-pip install python-dotenv
-three.js
-qrcode.js
-```
-<br>
-<br>
-src/main/.env에서 DB, 바드 주소 설정해야함.<br>
-src/main/resources/application.properties 에서 DB, python venv 경로 설정해야함<br>
-
-
 # A Startrip
 
 프로젝트의 간단한 한 줄 설명
@@ -45,6 +29,19 @@ A Startrip이 제공하는 주요 기능들을 나열하고 설명합니다.
 ### A Startrip 설치 방법
 
 프로젝트를 설치하기 위한 단계별 명령어를 제공합니다.
+
+```
+pip install bardapi
+pip install sqlalchemy
+pip install mysqlclient
+pip install pymysql
+pip install python-dotenv
+three.js
+qrcode.js
+```
+#### Python 환경 설정
+src/main/.env에서 DB, 바드 주소 설정해야함.<br>
+src/main/resources/application.properties 에서 DB, python venv 경로 설정해야함<br>
 
 
 ## A Startrip 사용 예시
