@@ -1,13 +1,11 @@
 import sys
 import os
 
-# bard api -> gemini 호환 버전으로 수정
-# sys.path.append("/bardapi")
+# bard api -> gemini -> Perplexity 호환 버전으로 수정
 
 import time
+import requests
 from dotenv import load_dotenv
-from bardapi import Bard
-from bardapi import BardCookies
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.exc import SQLAlchemyError
@@ -33,7 +31,12 @@ session = Session()
 # Card
 Base = declarative_base()
 
-
+#Perplexity
+pplx_url = "https://api.perplexity.ai/chat/completions"
+pplx_headers = {
+    "Authorization": "Bearer "+os.getenv("PPLX_API_TOKEN"),
+    "Content-Type": "application/json"
+}
 class Card(Base):
     __tablename__ = 'card'
     id = Column(Integer, primary_key=True)
@@ -55,16 +58,7 @@ if (card == None):
     print('false: cannot find card')
     sys.exit()
 
-cookie_dict = {
-    "__Secure-1PSID": os.getenv("BARD__Secure-1PSID"),
-    "__Secure-1PSIDTS": os.getenv("BARD__Secure-1PSIDTS"),
-    "__Secure-1PSIDCC": os.getenv("BARD__Secure-1PSIDCC"),
-    "NID": os.getenv("BARD__NID"),
-    "GOOGLE_ABUSE_EXEMPTION": os.getenv("BARD__GOOGLE_ABUSE_EXEMPTION")
-}
 
-token = os.getenv("BARD__Secure-1PSID")
-bard = Bard(token=token, cookie_dict=cookie_dict, multi_cookies_bool=True)
 
 card_type_i = card.card_type
 if card_type_i == "R01":
@@ -82,8 +76,8 @@ elif card_type_i == "R02":
     time.sleep(3)
 
     # Backgrond-knowledge
-    request_i = '''Please create a background-knowledge for the paragraph below. Please provide answers in English and Korean.
-    ________
+
+    ________request_i = '''Please create a background-knowledge for the paragraph below. Please provide answers in English and Korean.
     ''' + card.user_input0
     response = bard.get_answer(request_i)
     card.llmresponse1 = myReplaceAll(response['content'])
