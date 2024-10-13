@@ -103,6 +103,7 @@ public class LLMServicePPLX implements LLMService {
                         __________
                         
                         """ + entity.getUserInput0();
+                entity.setLLMResponse0(requestToAPI(request_i));
                 entity.setLlmStatus(LLMStatusENUM.COMPLETED);
                 break;
             case V01:
