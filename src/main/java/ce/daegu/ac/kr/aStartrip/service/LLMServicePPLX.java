@@ -155,7 +155,7 @@ public class LLMServicePPLX implements LLMService {
     }
 
     @Override
-    public void completeWating(CardDTO dto, long key) {
+    public void completeWaiting(CardDTO dto, long key) {
         while (true) {
             try {
                 Thread.sleep(3000); //3초 대기

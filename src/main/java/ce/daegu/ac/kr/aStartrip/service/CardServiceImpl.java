@@ -117,7 +117,7 @@ public class CardServiceImpl implements CardService {
                     Optional<Card> e1 = cardRepository.findById(cardDTO.getId());
                     CardDTO dto = entityToDto(e1.get());
 
-                    llmService.completeWating(dto, key);
+                    llmService.completeWaiting(dto, key);
                 });
             }
             return true;
