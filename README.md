@@ -19,7 +19,8 @@ A-Startrip은 Large Language Model(LLM)을 활용한 혁신적인 영어 학습 
 
 ### 2. 환경 변수 수정하기
 - MariaDB 서버를 구축하고 [application.properties](src/main/resources/application.properties)에서 DB 주소와 DB의 ID, Password를 설정합니다.
-<br>최소한 MariaDB가 구성되어야 서버가 정상적으로 실행됩니다.
+
+최소한 MariaDB가 구성되어야 서버가 정상적으로 실행됩니다.
 - LLM API 응답 ,OAuth, 회원가입 시에 email 발송 기능을 활용하려면 [application.properties](src/main/resources/application.properties) / [application-oauth.properties](src/main/resources/application-oauth.properties) / [.env](src/main/.env) 를 적절히 수정합니다.
 ### 3. 서버 실행하기
 아래 명령어를 사용하여 프로젝트를 설치하고 실행합니다:
@@ -52,9 +53,10 @@ cd aStartrip ;
 이 프로젝트는 [MIT LICENSE](LICENSE.md) 하에 배포됩니다.
 
 ## 연락처
-```
 개발자: 손동휘, 이백승
-손동휘 이메일: mail@imdhson.com
+
+손동휘의 이메일: mail@imdhson.com
+
 Instagram: @imdhson
+
 GitHub: [https://github.com/imdhson](https://github.com/imdhson)
-```
