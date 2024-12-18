@@ -1,4 +1,4 @@
-# LLM AI활용 영어 학습 도우미 - AStartrip
+# LLM AI활용 영어 학습 도우미 | AStartrip
 
 ## 소개
 
