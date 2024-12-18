@@ -51,5 +51,6 @@ cd aStartrip ;
 ```
 개발자: 손동휘
 이메일: mail@imdhson.com
+Instagram: @imdhson
 GitHub: [https://github.com/imdhson](https://github.com/imdhson)
 ```
