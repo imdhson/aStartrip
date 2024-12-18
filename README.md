@@ -43,6 +43,10 @@ cd aStartrip ;
 - **게시글 통합 검색**: 제목, 내용, 작성자 등 다양한 필드에 대한 전문 검색 기능 구현.
 - **유동적 카드 추가**: 하나의 게시글에 다양한 유형의 학습 카드를 동적으로 추가할 수 있는 기능.
 
+## 발표, 구동 영상
+### Youtube:
+[![Video Title](https://img.youtube.com/vi/1JL8JOrhCmU/0.jpg)](https://www.youtube.com/watch?v=1JL8JOrhCmU)
+
 ## 라이선스
 
 이 프로젝트는 [MIT LICENSE](LICENSE.md) 하에 배포됩니다.
